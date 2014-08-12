@@ -1,0 +1,4 @@
+*.pyc
+tmp_for_test/
+working/
+build/

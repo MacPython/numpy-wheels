@@ -1,0 +1,6 @@
+[submodule "numpy-atlas-binaries"]
+	path = numpy-atlas-binaries
+	url = git://github.com/MacPython/numpy-atlas-binaries.git
+[submodule "terryfy"]
+	path = terryfy
+	url = git://github.com/matthew-brett/terryfy.git
