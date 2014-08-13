@@ -2,30 +2,23 @@ language:
 - objective-c
 env:
   global:
-  - LATEST_TAG=1 # comment out to build version in submodule
+  - NP_TAG=v1.8.2 # version of numpy to build
   matrix:
   - VERSION=2.7.8
   - VERSION=3.3.5
   - VERSION=3.4.1
 install:
-  - source terryfy/travis_tools.sh
-  - get_python_environment macpython $VERSION venv
-  - pip install delocate
-  - if [ -n "$LATEST_TAG" ]; then checkout_closest_tag numpy-atlas-binaries; fi
   - cd numpy-atlas-binaries
-  - python setup.py bdist_wheel
-  - delocate-listdeps dist/*.whl # lists library dependencies
-  - delocate-wheel dist/*.whl # copies library dependencies into wheel
-  - rename_wheels dist
-  - pip install dist/*.whl
-  - cd ..
+  - git submodule update --init
+  - cd numpy && git fetch --tags && cd ..
+  - source travis_install.sh
 script:
-  # install dependencies for tests e.g - pip install nose
-  - mkdir tmp_for_test
-  - cd tmp_for_test
-  # Run the tests
-  - cd ..
-before_deploy: cd numpy-atlas-binaries/dist
+  - sudo rm -rf /usr/local/gfortran
+  - mkdir tmp_test_dir
+  - cd tmp_test_dir
+  - source ../travis_test.sh
+  - cd ../..
+before_deploy: cd numpy-atlas-binaries/build/wheelhouse
 deploy:
   provider: cloudfiles
   username: travis-worker
