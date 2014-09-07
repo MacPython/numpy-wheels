@@ -2,7 +2,7 @@ language:
 - objective-c
 env:
   global:
-  - NP_TAG=v1.8.2 # version of numpy to build
+  - NP_TAG=v1.9.0 # version of numpy to build
   - PACKAGES=numpy
   matrix:
   - VERSION=2.7.8
