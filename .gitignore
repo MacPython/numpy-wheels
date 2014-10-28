@@ -1,4 +1,7 @@
 *.pyc
 tmp_for_test/
 working/
+downloads/
+venv/
+.travis.sh
 build/
