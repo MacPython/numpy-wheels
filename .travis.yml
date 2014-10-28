@@ -2,24 +2,35 @@ language:
 - objective-c
 env:
   global:
-  - NP_TAG=v1.9.0 # version of numpy to build
-  - PACKAGES=numpy
+  - LATEST_TAG=1 # comment out to build version in submodule
   matrix:
   - VERSION=2.7.8
   - VERSION=3.3.5
-  - VERSION=3.4.1
+  - VERSION=3.4.2
 install:
-  - cd numpy-atlas-binaries
-  - git submodule update --init
-  - cd numpy && git fetch --tags && cd ..
-  - source travis_install.sh
+  - source terryfy/travis_tools.sh
+  - get_python_environment macpython $VERSION venv
+  - pip install delocate
+  - pip install cython wheel
+  - if [ -n "$LATEST_TAG" ]; then checkout_closest_tag numpy; fi
+  - cd numpy
+  - python setup.py bdist_wheel
+  - delocate-listdeps dist/*.whl # lists library dependencies
+  - delocate-wheel dist/*.whl # copies library dependencies into wheel
+  - delocate-add-platforms --rm-orig -x 10_9 -x 10_10 dist/*.whl
+  - pip install dist/*.whl
+  - cd ..
 script:
-  - sudo rm -rf /usr/local/gfortran
+  - pip install nose
   - mkdir tmp_test_dir
   - cd tmp_test_dir
-  - source ../travis_test.sh
-  - cd ../..
-before_deploy: cd numpy-atlas-binaries/build/wheelhouse
+  - python -c "import sys; import numpy; sys.exit(not numpy.test().wasSuccessful())"
+  # Set gfortran flags for i386 compile
+  - export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -m32"
+  - export FARCH='-m32'
+  - arch -i386 python -c "import sys; import numpy; sys.exit(not numpy.test().wasSuccessful())"
+  - cd ..
+before_deploy: cd numpy/dist
 deploy:
   provider: cloudfiles
   username: travis-worker
