@@ -29,6 +29,9 @@ script:
   - export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -m32"
   - export FARCH='-m32'
   - arch -i386 python -c "import sys; import numpy; sys.exit(not numpy.test().wasSuccessful())"
+  # Clean up funny flags after compilation
+  - unset LDFLAGS
+  - unset FARCH
   - cd ..
 before_deploy: cd numpy/dist
 deploy:
