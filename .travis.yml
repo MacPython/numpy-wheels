@@ -2,7 +2,7 @@ language:
 - objective-c
 env:
   global:
-  - LATEST_TAG=1 # comment out to build version in submodule
+  - NP_COMMIT=latest-tag  # comment out to build version in submodule
   matrix:
   - VERSION=2.7.8
   - VERSION=3.3.5
@@ -12,7 +12,9 @@ install:
   - get_python_environment macpython $VERSION venv
   - pip install delocate
   - pip install cython
-  - if [ -n "$LATEST_TAG" ]; then checkout_closest_tag numpy; fi
+  - if [ -n "$NP_COMMIT" ]; then
+        checkout_commit numpy $NP_COMMIT;
+    fi
   - cd numpy
   - python setup.py bdist_wheel
   - delocate-listdeps dist/*.whl # lists library dependencies
