@@ -4,9 +4,9 @@ env:
   global:
   - NP_COMMIT=latest-tag  # comment out to build version in submodule
   matrix:
-  - VERSION=2.7.8
+  - VERSION=2.7.9
   - VERSION=3.3.5
-  - VERSION=3.4.2
+  - VERSION=3.4.3
 install:
   - source terryfy/travis_tools.sh
   - get_python_environment macpython $VERSION venv
