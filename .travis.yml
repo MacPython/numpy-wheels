@@ -2,20 +2,22 @@ language:
 - objective-c
 env:
   global:
-  - NP_COMMIT=latest-tag  # comment out to build version in submodule
+  - BUILD_COMMIT=latest-tag  # comment out to build version in submodule
+  - REPO_DIR=numpy
   matrix:
   - VERSION=2.7.9
   - VERSION=3.3.5
   - VERSION=3.4.3
+  - VERSION=3.5.0
 install:
   - source terryfy/travis_tools.sh
   - get_python_environment macpython $VERSION venv
   - pip install delocate
   - pip install cython
-  - if [ -n "$NP_COMMIT" ]; then
-        checkout_commit numpy $NP_COMMIT;
+  - if [ -n "$BUILD_COMMIT" ]; then
+        checkout_commit $REPO_DIR $BUILD_COMMIT;
     fi
-  - cd numpy
+  - cd $REPO_DIR
   - python setup.py bdist_wheel
   - delocate-listdeps dist/*.whl # lists library dependencies
   - delocate-wheel dist/*.whl # copies library dependencies into wheel
@@ -35,7 +37,10 @@ script:
   - unset LDFLAGS
   - unset FARCH
   - cd ..
-before_deploy: cd numpy/dist
+before_deploy: cd $REPO_DIR/dist
+  - cd $REPO_DIR/dist
+  # Fix for https://github.com/travis-ci/travis-ci/issues/4635
+  - rvm 1.9.3 do gem install net-ssh -v 2.9.2
 deploy:
   provider: cloudfiles
   username: travis-worker
