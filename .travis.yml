@@ -2,7 +2,7 @@ language:
 - objective-c
 env:
   global:
-  - BUILD_COMMIT=latest-tag  # comment out to build version in submodule
+  - BUILD_COMMIT=v1.9.2  # comment out to build version in submodule
   - REPO_DIR=numpy
   matrix:
   - VERSION=2.7.9
