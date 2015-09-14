@@ -23,7 +23,7 @@ install:
     fi
   - cd $REPO_DIR
   # Cherry-pick Python 3.5 fix
-  - if [ "${TRAVIS_PYTHON_VERSION}" == "3.5" ]; then
+  - if [ "${TRAVIS_PYTHON_VERSION:0:3}" == "3.5" ]; then
         git cherry-pick 7d6aa8c;
     fi
   - python setup.py bdist_wheel
