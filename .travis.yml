@@ -11,7 +11,11 @@ env:
   - VERSION=3.5.0
 install:
   - source terryfy/travis_tools.sh
+  - export CC=clang
+  - export CXX=clang++
   - get_python_environment macpython $VERSION venv
+  # Install patched version of wheel (patched for 3.5)
+  - pip install --ignore-installed --no-index -f https://nipy.bic.berkeley.edu/scipy_installers wheel
   - pip install delocate
   - pip install cython
   - if [ -n "$BUILD_COMMIT" ]; then
