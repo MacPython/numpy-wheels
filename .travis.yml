@@ -5,9 +5,9 @@ env:
   - BUILD_COMMIT=v1.9.2  # comment out to build version in submodule
   - REPO_DIR=numpy
   matrix:
-  - VERSION=2.7.9
-  - VERSION=3.3.5
-  - VERSION=3.4.3
+  #- VERSION=2.7.9
+  #- VERSION=3.3.5
+  #- VERSION=3.4.3
   - VERSION=3.5.0
 install:
   - source terryfy/travis_tools.sh
@@ -22,6 +22,10 @@ install:
         checkout_commit $REPO_DIR $BUILD_COMMIT;
     fi
   - cd $REPO_DIR
+  # Cherry-pick Python 3.5 fix
+  - if [ "${TRAVIS_PYTHON_VERSION}" == "3.5" ]; then
+        git cherry-pick 7d6aa8c;
+    fi
   - python setup.py bdist_wheel
   - delocate-listdeps dist/*.whl # lists library dependencies
   - delocate-wheel dist/*.whl # copies library dependencies into wheel
