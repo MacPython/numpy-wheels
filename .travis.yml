@@ -2,7 +2,7 @@ language:
 - objective-c
 env:
   global:
-  - BUILD_COMMIT=v1.9.2  # comment out to build version in submodule
+  - BUILD_COMMIT=v1.7.1  # comment out to build version in submodule
   - REPO_DIR=numpy
   matrix:
   #- VERSION=2.7.9
@@ -36,14 +36,6 @@ script:
   - pip install nose
   - mkdir tmp_test_dir
   - cd tmp_test_dir
-  - python -c "import sys; import numpy; sys.exit(not numpy.test().wasSuccessful())"
-  # Set gfortran flags for i386 compile
-  - export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -m32"
-  - export FARCH='-m32'
-  - arch -i386 python -c "import sys; import numpy; sys.exit(not numpy.test().wasSuccessful())"
-  # Clean up funny flags after compilation
-  - unset LDFLAGS
-  - unset FARCH
   - cd ..
 before_deploy:
   - cd $REPO_DIR/dist
