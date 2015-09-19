@@ -14,18 +14,14 @@ install:
   - export CC=clang
   - export CXX=clang++
   - get_python_environment macpython $VERSION venv
-  # Install patched version of wheel (patched for 3.5)
-  - pip install --ignore-installed --no-index -f https://nipy.bic.berkeley.edu/scipy_installers wheel
+  # Update to latest wheel package for Python 3.5
+  - pip install -U wheel
   - pip install delocate
   - pip install cython
   - if [ -n "$BUILD_COMMIT" ]; then
         checkout_commit $REPO_DIR $BUILD_COMMIT;
     fi
   - cd $REPO_DIR
-  # Cherry-pick Python 3.5 fix
-  - if [ "${VERSION:0:3}" == "3.5" ]; then
-        git cherry-pick 7d6aa8c;
-    fi
   - python setup.py bdist_wheel
   - delocate-listdeps dist/*.whl # lists library dependencies
   - delocate-wheel dist/*.whl # copies library dependencies into wheel
