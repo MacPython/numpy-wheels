@@ -2,12 +2,12 @@ language:
 - objective-c
 env:
   global:
-  - BUILD_COMMIT=v1.7.1  # comment out to build version in submodule
+  #- BUILD_COMMIT=latest-tag  # comment out to build version in submodule
   - REPO_DIR=numpy
   matrix:
-  #- VERSION=2.7.9
-  #- VERSION=3.3.5
-  #- VERSION=3.4.3
+  - VERSION=2.7.10
+  - VERSION=3.3.5
+  - VERSION=3.4.3
   - VERSION=3.5.0
 install:
   - source terryfy/travis_tools.sh
