@@ -2,7 +2,7 @@ language:
 - objective-c
 env:
   global:
-  #- BUILD_COMMIT=latest-tag  # comment out to build version in submodule
+  - BUILD_COMMIT=latest-tag  # comment out to build version in submodule
   - REPO_DIR=numpy
   matrix:
   - VERSION=2.7.10
@@ -35,8 +35,6 @@ script:
   - cd ..
 before_deploy:
   - cd $REPO_DIR/dist
-  # Fix for https://github.com/travis-ci/travis-ci/issues/4635
-  - rvm 1.9.3 do gem install net-ssh -v 2.9.2
 deploy:
   provider: cloudfiles
   username: travis-worker
