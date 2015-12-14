@@ -14,8 +14,8 @@ install:
   - export CC=clang
   - export CXX=clang++
   - get_python_environment macpython $VERSION venv
-  # Update to latest wheel package for Python 3.5
-  - pip install -U wheel
+  # Update to latest pip and wheel package for Python 3.5
+  - pip install -U pip wheel
   - pip install delocate
   - pip install cython
   - if [ -n "$BUILD_COMMIT" ]; then
