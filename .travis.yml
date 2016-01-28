@@ -5,10 +5,10 @@ env:
   - BUILD_COMMIT=latest-tag  # comment out to build version in submodule
   - REPO_DIR=numpy
   matrix:
-  - VERSION=2.7.10
+  - VERSION=2.7.11
   - VERSION=3.3.5
   - VERSION=3.4.3
-  - VERSION=3.5.0
+  - VERSION=3.5.1
 install:
   - source terryfy/travis_tools.sh
   - export CC=clang
@@ -22,7 +22,7 @@ install:
         checkout_commit $REPO_DIR $BUILD_COMMIT;
     fi
   - cd $REPO_DIR
-  - python setupegg.py bdist_wheel
+  - python setup.py bdist_wheel
   - delocate-listdeps dist/*.whl # lists library dependencies
   - delocate-wheel dist/*.whl # copies library dependencies into wheel
   - delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
