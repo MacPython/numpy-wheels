@@ -1,45 +1,84 @@
-language:
-- objective-c
 env:
-  global:
-  - BUILD_COMMIT=latest-tag  # comment out to build version in submodule
-  - REPO_DIR=numpy
-  matrix:
-  - VERSION=2.7.11
-  - VERSION=3.3.5
-  - VERSION=3.4.3
-  - VERSION=3.5.1
+    global:
+env:
+    global:
+        - REPO_DIR=numpy
+        - BUILD_COMMIT=v1.11.0
+        - BUILD_DEPENDS=Cython
+        - TEST_DEPENDS=nose
+        - PLAT=x86_64
+        - UNICODE_WIDTH=32
+        - MANYLINUX_URL=https://nipy.bic.berkeley.edu/manylinux
+        - WHEELHOUSE_UPLOADER_USERNAME=travis-worker
+        # Following generated with
+        # travis encrypt -r MacPython/numpy-wheels WHEELHOUSE_UPLOADER_SECRET=<the api key>
+        - secure:
+            "FEFwGNflXOjuNjv4f2oOq0m8I3b6OvG5AVV/tH9Fsr6jtPNwQOx7PMOVzISBrWfAueeFubz/IapXBeDP8fRio9RVOcEHBhVJQYeJ46VubOx4X/4pRUD7ehGLxjYK30BGVdNh7z/tL6Xr5+iCuxxmOBgirG0pQVeBZXDchPJaUK0="
+
+language: python
+sudo: required
+dist: trusty
+services: docker
+
+matrix:
+  include:
+    - os: linux
+      python: 2.7
+    - os: linux
+      python: 2.7
+      env:
+        - UNICODE_WIDTH=16
+    - os: linux
+      python: 2.7
+      env:
+        - PLAT=i686
+    - os: linux
+      python: 2.7
+      env:
+        - PLAT=i686
+        - UNICODE_WIDTH=16
+    - os: linux
+      python: 3.4
+    - os: linux
+      python: 3.4
+      env:
+        - PLAT=i686
+    - os: linux
+      python: 3.5
+    - os: linux
+      python: 3.5
+      env:
+        - PLAT=i686
+    - os: osx
+      language: objective-c
+      env:
+        - TRAVIS_PYTHON_VERSION=2.7
+    - os: osx
+      language: objective-c
+      env:
+        - TRAVIS_PYTHON_VERSION=3.4
+    - os: osx
+      language: objective-c
+      env:
+        - TRAVIS_PYTHON_VERSION=3.5
+
+before_install:
+    - source multibuild/common_utils.sh
+    - source multibuild/travis_steps.sh
+    - before_install
+
 install:
-  - source terryfy/travis_tools.sh
-  - export CC=clang
-  - export CXX=clang++
-  - get_python_environment macpython $VERSION venv
-  # Update to latest pip and wheel package for Python 3.5
-  - pip install -U pip wheel
-  - pip install delocate
-  - pip install cython
-  - if [ -n "$BUILD_COMMIT" ]; then
-        checkout_commit $REPO_DIR $BUILD_COMMIT;
-    fi
-  - cd $REPO_DIR
-  - python setup.py bdist_wheel
-  - delocate-listdeps dist/*.whl # lists library dependencies
-  - delocate-wheel dist/*.whl # copies library dependencies into wheel
-  - delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
-  - pip install dist/*.whl
-  - cd ..
+    # Maybe get and clean and patch source
+    - clean_code $REPO_DIR $BUILD_COMMIT
+    - build_wheel $REPO_DIR $PLAT
+
 script:
-  - pip install nose
-  - mkdir tmp_test_dir
-  - cd tmp_test_dir
-  - cd ..
-before_deploy:
-  - cd $REPO_DIR/dist
-deploy:
-  provider: cloudfiles
-  username: travis-worker
-  api_key:
-    secure: "cihGM6hRwKIyd66zGCYLz4S1R1V/ubHEF5CZZ1oWKbO9ztDM/9Gjea2dnMMG7bCHoPMGj5ARMXwpwNnlpZyZgBTuJ/vV9CXKOyoCx+E6oixForAfK2QCikyBQaw7iUZYyM24FFlC4xw92I5sRi8kv6m0YiVCLfVWldmUXEj6nOo="
-  region: ORD
-  container: wheels
-  skip_cleanup: true
+    - install_run $PLAT
+
+after_success:
+    # Upload wheels to Rackspace container
+    - pip install wheelhouse-uploader
+    - python -m wheelhouse_uploader upload --local-folder
+          ${TRAVIS_BUILD_DIR}/wheelhouse/
+          --no-update-index
+          wheels
