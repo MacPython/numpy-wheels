@@ -12,4 +12,6 @@ function pre_build {
 function run_tests {
     # Runs tests on installed distribution from an empty directory
     python -c 'import numpy; numpy.test("full")'
+    # Show BLAS / LAPACK used
+    python -c 'import numpy; numpy.show_config()'
 }
