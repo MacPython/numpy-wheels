@@ -1,12 +1,20 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
+OPENBLAS_VERSION=0.2.18
+source gfortran-install/gfortran_utils.sh
 
-function pre_build {
-    # Any stuff that you need to do before you start building the wheels
-    # Runs in the root directory of this repository.
+function build_wheel {
+    # Only use openblas for manylinux
     if [ -z "$IS_OSX" ]; then
-        build_openblas
+        build_libs $PLAT
     fi
+    build_pip_wheel $@
+}
+
+function build_libs {
+    local plat=${1:-$PLAT}
+    local tar_path=$(abspath $(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat"))
+    (cd / && tar zxf $tar_path)
 }
 
 function run_tests {

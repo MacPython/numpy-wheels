@@ -4,3 +4,6 @@
 [submodule "multibuild"]
 	path = multibuild
 	url = https://github.com/matthew-brett/multibuild
+[submodule "gfortran-install"]
+	path = gfortran-install
+	url = https://github.com/MacPython/gfortran-install.git
