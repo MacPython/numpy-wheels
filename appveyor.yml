@@ -60,8 +60,12 @@ install:
   - python --version
   - python -c "import struct; print(struct.calcsize('P') * 8)"
 
-  - python -m pip install --upgrade pip
+  # Get needed submodules
+  - git submodule update --init
+
+  # Install requirements
   - pip install -r windows-wheel-builder\requirements.txt
+  - python -m pip install --upgrade pip
   # Pin wheel to 0.26 to avoid Windows ABI tag for built wheel
   - pip install wheel==0.26
 
