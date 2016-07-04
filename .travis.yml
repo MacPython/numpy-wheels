@@ -16,51 +16,59 @@ env:
             "FEFwGNflXOjuNjv4f2oOq0m8I3b6OvG5AVV/tH9Fsr6jtPNwQOx7PMOVzISBrWfAueeFubz/IapXBeDP8fRio9RVOcEHBhVJQYeJ46VubOx4X/4pRUD7ehGLxjYK30BGVdNh7z/tL6Xr5+iCuxxmOBgirG0pQVeBZXDchPJaUK0="
 
 language: python
+# Default Python version is usually 2.7
+python: 3.5
 sudo: required
 dist: trusty
 services: docker
 
 matrix:
+  exclude:
+      # Exclude the default Python 3.5 build
+      - python: 3.5
   include:
     - os: linux
-      python: 2.7
-    - os: linux
-      python: 2.7
       env:
+        - MB_PYTHON_VERSION=2.7
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
         - UNICODE_WIDTH=16
     - os: linux
-      python: 2.7
       env:
+        - MB_PYTHON_VERSION=2.7
         - PLAT=i686
     - os: linux
-      python: 2.7
       env:
+        - MB_PYTHON_VERSION=2.7
         - PLAT=i686
         - UNICODE_WIDTH=16
     - os: linux
-      python: 3.4
-    - os: linux
-      python: 3.4
       env:
+        - MB_PYTHON_VERSION=3.4
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.4
         - PLAT=i686
     - os: linux
-      python: 3.5
-    - os: linux
-      python: 3.5
       env:
+        - MB_PYTHON_VERSION=3.5
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
         - PLAT=i686
     - os: osx
       language: objective-c
       env:
-        - TRAVIS_PYTHON_VERSION=2.7
+        - MB_PYTHON_VERSION=2.7
     - os: osx
       language: objective-c
       env:
-        - TRAVIS_PYTHON_VERSION=3.4
+        - MB_PYTHON_VERSION=3.4
     - os: osx
       language: objective-c
       env:
-        - TRAVIS_PYTHON_VERSION=3.5
+        - MB_PYTHON_VERSION=3.5
 
 before_install:
     - source multibuild/common_utils.sh
