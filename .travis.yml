@@ -1,9 +1,7 @@
 env:
     global:
-env:
-    global:
         - REPO_DIR=numpy
-        - BUILD_COMMIT=v1.12.0rc1
+        - BUILD_COMMIT=v1.11.3
         - BUILD_DEPENDS=Cython
         - TEST_DEPENDS=nose
         - PLAT=x86_64
@@ -61,17 +59,21 @@ matrix:
         - MB_PYTHON_VERSION=3.5
         - PLAT=i686
     - os: osx
-      language: objective-c
+      language: generic
       env:
         - MB_PYTHON_VERSION=2.7
     - os: osx
-      language: objective-c
+      language: generic
       env:
         - MB_PYTHON_VERSION=3.4
     - os: osx
-      language: objective-c
+      language: generic
       env:
         - MB_PYTHON_VERSION=3.5
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.6
 
 before_install:
     - source multibuild/common_utils.sh
