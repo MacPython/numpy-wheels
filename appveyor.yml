@@ -76,6 +76,7 @@ install:
   - python -m pip install --upgrade pip
   # Pin wheel to 0.26 to avoid Windows ABI tag for built wheel
   - pip install wheel==0.26
+  - pip install "cython>=0.25"
 
 build_script:
   # Build and install the wheel
