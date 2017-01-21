@@ -8,7 +8,8 @@ function build_wheel {
     if [ -z "$IS_OSX" ]; then
         build_libs $PLAT
     fi
-    build_pip_wheel $@
+    # Fix version error for development wheels by using bdist_wheel
+    build_bdist_wheel $@
 }
 
 function build_libs {
