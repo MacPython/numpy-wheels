@@ -17,18 +17,21 @@ function build_libs {
     (cd / && tar zxf $tar_path)
 }
 
+function get_test_cmd {
+    local extra_argv=${1:-$EXTRA_ARGV}
+    echo "import sys; import numpy; \
+        sys.exit(not numpy.test('full', \
+        extra_argv=[${extra_argv}]).wasSuccessful())"
+}
+
 function run_tests {
     # Runs tests on installed distribution from an empty directory
-    test_cmd="import sys; import numpy; \
-        sys.exit(not numpy.test('full').wasSuccessful())"
     if [ -n "$IS_OSX" ]; then  # Test both architectures on OSX
         # Skip f2py tests for 32-bit
-        arch -i386 python -c "import sys; import numpy; \
-            sys.exit(not numpy.test('full', \
-            extra_argv=['-e', 'f2py']).wasSuccessful())"
-        arch -x86_64 python -c "$test_cmd"
+        arch -i386 python -c "$(get_test_cmd "'-e', 'f2py', $EXTRA_ARGV")"
+        arch -x86_64 python -c "$(get_test_cmd)"
     else
-        python -c "$test_cmd"
+        python -c "$(get_test_cmd)"
     fi
     # Show BLAS / LAPACK used
     python -c 'import numpy; numpy.show_config()'
