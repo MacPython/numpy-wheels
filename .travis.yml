@@ -1,7 +1,8 @@
 env:
     global:
         - REPO_DIR=numpy
-        - BUILD_COMMIT=v1.12.0
+        # Also see DAILY_COMMIT below
+        - BUILD_COMMIT==v1.12.0
         - BUILD_DEPENDS=Cython
         - TEST_DEPENDS=nose
         - PLAT=x86_64
@@ -12,6 +13,8 @@ env:
         # travis encrypt -r MacPython/numpy-wheels WHEELHOUSE_UPLOADER_SECRET=<the api key>
         - secure:
             "FEFwGNflXOjuNjv4f2oOq0m8I3b6OvG5AVV/tH9Fsr6jtPNwQOx7PMOVzISBrWfAueeFubz/IapXBeDP8fRio9RVOcEHBhVJQYeJ46VubOx4X/4pRUD7ehGLxjYK30BGVdNh7z/tL6Xr5+iCuxxmOBgirG0pQVeBZXDchPJaUK0="
+        # Daily commit, if present, overrides BUILD_COMMIT
+        # - DAILY_COMMIT=master
 
 language: python
 # Default Python version is usually 2.7
@@ -83,6 +86,13 @@ matrix:
         - MB_PYTHON_VERSION=3.6
 
 before_install:
+    - if [ -z "$DAILY_COMMIT" ]; then
+          CONTAINER=wheels;
+          UPLOAD_ARGS="--no-update-index";
+      else
+          CONTAINER="pre-release";
+          BUILD_COMMIT=$DAILY_COMMIT;
+      fi
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
     - before_install
@@ -101,4 +111,5 @@ after_success:
     - python -m wheelhouse_uploader upload --local-folder
           ${TRAVIS_BUILD_DIR}/wheelhouse/
           --no-update-index
-          wheels
+          $UPLOAD_ARGS
+          $CONTAINER
