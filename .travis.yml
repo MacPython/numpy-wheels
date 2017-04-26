@@ -107,6 +107,7 @@ script:
 
 after_success:
     # Upload wheels to Rackspace container
+    - pip install apache-libcloud==1.1.0
     - pip install wheelhouse-uploader
     - python -m wheelhouse_uploader upload --local-folder
           ${TRAVIS_BUILD_DIR}/wheelhouse/
