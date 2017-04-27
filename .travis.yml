@@ -13,8 +13,8 @@ env:
         # travis encrypt -r MacPython/numpy-wheels WHEELHOUSE_UPLOADER_SECRET=<the api key>
         - secure:
             "FEFwGNflXOjuNjv4f2oOq0m8I3b6OvG5AVV/tH9Fsr6jtPNwQOx7PMOVzISBrWfAueeFubz/IapXBeDP8fRio9RVOcEHBhVJQYeJ46VubOx4X/4pRUD7ehGLxjYK30BGVdNh7z/tL6Xr5+iCuxxmOBgirG0pQVeBZXDchPJaUK0="
-        # Daily commit, if present, overrides BUILD_COMMIT
-        - DAILY_COMMIT=master
+        # Commit when running travis cron jobs
+        - CRON_COMMIT=master
 
 language: python
 # Default Python version is usually 2.7
@@ -86,12 +86,14 @@ matrix:
         - MB_PYTHON_VERSION=3.6
 
 before_install:
-    - if [ -z "$DAILY_COMMIT" ]; then
+    - if ["$TRAVIS_EVENT_TYPE" == "cron" ]; then
+          CONTAINER="pre-release"
+          BUILD_COMMIT=${CRON_COMMIT:-$BUILD_COMMIT}
+          NPY_RELAXED_STRIDES_DEBUG=1
+        else:
           CONTAINER=wheels;
           UPLOAD_ARGS="--no-update-index";
       else
-          CONTAINER="pre-release";
-          BUILD_COMMIT=$DAILY_COMMIT;
       fi
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
@@ -107,7 +109,6 @@ script:
 
 after_success:
     # Upload wheels to Rackspace container
-    - pip install apache-libcloud==1.1.0
     - pip install wheelhouse-uploader
     - python -m wheelhouse_uploader upload --local-folder
           ${TRAVIS_BUILD_DIR}/wheelhouse/
