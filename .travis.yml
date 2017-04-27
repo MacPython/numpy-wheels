@@ -90,7 +90,7 @@ before_install:
           CONTAINER="pre-release"
           BUILD_COMMIT=${CRON_COMMIT:-$BUILD_COMMIT}
           NPY_RELAXED_STRIDES_DEBUG=1
-        else:
+        else
           CONTAINER=wheels;
           UPLOAD_ARGS="--no-update-index";
       else
