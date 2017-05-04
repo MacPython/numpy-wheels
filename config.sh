@@ -6,8 +6,6 @@ source gfortran-install/gfortran_utils.sh
 function build_wheel {
     # Only use openblas for manylinux
     if [ -z "$IS_OSX" ]; then
-        # Downgrade auditwheel
-        /opt/python/cp36-cp36m/bin/pip install auditwheel==1.5
         build_libs $PLAT
     fi
     # Fix version error for development wheels by using bdist_wheel
