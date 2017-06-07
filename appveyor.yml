@@ -7,7 +7,7 @@ os: Visual Studio 2015
 
 environment:
     global:
-      BUILD_COMMIT: v1.13.0rc2
+      BUILD_COMMIT: v1.13.0
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
