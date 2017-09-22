@@ -64,6 +64,12 @@ install:
   - echo "Installed SDKs:"
   - dir "C:/Program Files/Microsoft SDKs/Windows"
 
+  # Get needed submodules
+  - git submodule update --init
+
+  # Install Python 3.6.2 if necessary
+  - ps: .\windows-wheel-builder\install_python362.ps1
+
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
@@ -77,9 +83,6 @@ install:
   # Check that we have the expected version and architecture for Python
   - python --version
   - python -c "import struct; print(struct.calcsize('P') * 8)"
-
-  # Get needed submodules
-  - git submodule update --init
 
   # Install requirements
   - pip install -r windows-wheel-builder\requirements.txt
