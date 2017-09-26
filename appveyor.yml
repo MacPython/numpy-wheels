@@ -75,7 +75,7 @@ install:
   - pip install wheel==0.26
   - pip install "cython>=0.25"
   # Download built openblas libraries
-  - cmd /c windows-wheel-builder/unpack_openblas.bat
+  - cmd /c windows-wheel-builder\unpack_openblas.bat
 
 build_script:
   # Build and install the wheel
