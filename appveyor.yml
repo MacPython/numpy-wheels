@@ -8,6 +8,8 @@ os: Visual Studio 2015
 environment:
     global:
       BUILD_COMMIT: v1.13.1
+      OPENBLAS_COMMIT: v0.2.20
+      OPENBLAS_ROOT: c:\opt
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
@@ -17,36 +19,13 @@ environment:
     matrix:
 
     - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x" # currently 2.7.11
-      PYTHON_ARCH: "32"
-
     - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7.x" # currently 2.7.11
-      PYTHON_ARCH: "64"
-
     - PYTHON: "C:\\Python34"
-      PYTHON_VERSION: "3.4.x" # currently 3.4.3
-      PYTHON_ARCH: "32"
-
     - PYTHON: "C:\\Python34-x64"
-      PYTHON_VERSION: "3.4.x" # currently 3.4.3
-      PYTHON_ARCH: "64"
-
     - PYTHON: "C:\\Python35"
-      PYTHON_VERSION: "3.5.x" # currently 3.5.1
-      PYTHON_ARCH: "32"
-
     - PYTHON: "C:\\Python35-x64"
-      PYTHON_VERSION: "3.5.x" # currently 3.5.1
-      PYTHON_ARCH: "64"
-
     - PYTHON: "C:\\Python36"
-      PYTHON_VERSION: "3.6.x" # currently ?
-      PYTHON_ARCH: "32"
-
     - PYTHON: "C:\\Python36-x64"
-      PYTHON_VERSION: "3.6.x" # currently ?
-      PYTHON_ARCH: "64"
 
 install:
   - ps: >-
@@ -75,6 +54,11 @@ install:
   # the parent CMD process).
   - SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
 
+  # Get Python bitness
+  # https://stackoverflow.com/questions/1746475/windows-batch-help-in-setting-a-variable-from-command-output#4509885
+  - set PY_CMD=python -c "import platform; print(platform.architecture()[0][:2])"
+  - for /f "tokens=1 delims=" %%i in ('%PY_CMD%') do set PYTHON_ARCH=%%i
+
   # Fix MSVC builds for 64-bit Python
   # See
   # http://stackoverflow.com/questions/32091593/cannot-install-windows-sdk-7-1-on-windows-10
@@ -90,19 +74,21 @@ install:
   # Pin wheel to 0.26 to avoid Windows ABI tag for built wheel
   - pip install wheel==0.26
   - pip install "cython>=0.25"
+  # Download built openblas libraries
+  - cmd /c windows-wheel-builder\unpack_openblas.bat
 
 build_script:
   # Build and install the wheel
   - cd numpy
   - git checkout %BUILD_COMMIT%
-  - python ..\windows-wheel-builder\build_numpy.py
+  - python ..\windows-wheel-builder\build_numpy.py . %PYTHON_ARCH% %OPENBLAS_ROOT%
   - cd dist
   - pip install --pre --no-index -f . numpy
   - pip install nose
 
 test_script:
   # Run the project tests
-  - python -c "import numpy; numpy.test()"
+  - python -c "import numpy; numpy.test(verbose=3)"
   - cd ..
 
 after_test:
@@ -111,7 +97,7 @@ after_test:
 
 artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
-  - path: dist\*.*
+  - path: numpy\dist\*.*
 
 on_success:
   # Upload the generated wheel package to Rackspace
