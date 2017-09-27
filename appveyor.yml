@@ -7,7 +7,7 @@ os: Visual Studio 2015
 
 environment:
     global:
-      BUILD_COMMIT: v1.13.1
+      BUILD_COMMIT: v1.13.2
       OPENBLAS_COMMIT: v0.2.20
       OPENBLAS_ROOT: c:\opt
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
