@@ -154,8 +154,8 @@ build_script:
 
 test_script:
   - pip install nose
-  - python -c "import numpy; numpy.test(verbose=3)"
   - cd ..
+  - python -c "import numpy; numpy.test(verbose=3)"
 
 after_test:
   # Upload test results to Appveyor
