@@ -20,6 +20,7 @@ environment:
       TEST_MODE: fast
       APPVEYOR_SAVE_CACHE_ON_ERROR: true
       APPVEYOR_SKIP_FINALIZE_ON_EXIT: true
+      BUILD_COMMIT: v1.13.0rc2
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
