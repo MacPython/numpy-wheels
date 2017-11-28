@@ -7,7 +7,7 @@ os: Visual Studio 2015
 
 environment:
     global:
-      BUILD_COMMIT: v1.13.3
+      BUILD_COMMIT: master
       CYTHON_BUILD_DEP: cython==0.26.1
       OPENBLAS_COMMIT: v0.2.20
       OPENBLAS_ROOT: c:\opt
@@ -82,6 +82,8 @@ build_script:
   # Build and install the wheel
   - cd numpy
   - git checkout %BUILD_COMMIT%
+  # Append license text relevant for the built wheel
+  - type ..\LICENSE_win32.txt >> LICENSE.txt
   - python ..\windows-wheel-builder\build_numpy.py . %PYTHON_ARCH% %OPENBLAS_ROOT%
   - cd dist
   - pip install --pre --no-index -f . numpy
@@ -89,6 +91,7 @@ build_script:
 
 test_script:
   # Run the project tests
+  - python ..\..\check_license.py
   - python -c "import numpy; numpy.test(verbose=3)"
   - cd ..
 
