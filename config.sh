@@ -34,6 +34,8 @@ function run_tests {
     else
         python -c "$(get_test_cmd)"
     fi
+    # Check bundled license file
+    python ../check_license.py
     # Show BLAS / LAPACK used
     python -c 'import numpy; numpy.show_config()'
 }
