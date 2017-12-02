@@ -9,7 +9,7 @@ environment:
     global:
       BUILD_COMMIT: master
       CYTHON_BUILD_DEP: cython==0.26.1
-      OPENBLAS_COMMIT: v0.2.20
+      OPENBLAS_COMMIT: 5f998ef_mingwpy
       OPENBLAS_ROOT: c:\opt
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
