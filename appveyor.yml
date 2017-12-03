@@ -1,34 +1,68 @@
-# vim ft=yaml
-# CI on Windows via appveyor
-# Largely from:
+# As config was originally based on an example by Olivier Grisel. Thanks!
 # https://github.com/ogrisel/python-appveyor-demo/blob/master/appveyor.yml
+clone_depth: 50
 
-os: Visual Studio 2015
+# No reason for us to restrict the number concurrent jobs
+max_jobs: 100
+
+cache:
+  - '%LOCALAPPDATA%\pip\Cache'
 
 environment:
-    global:
-      BUILD_COMMIT: master
-      CYTHON_BUILD_DEP: cython==0.26.1
-      OPENBLAS_COMMIT: v0.2.20
-      OPENBLAS_ROOT: c:\opt
+  global:
+      MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
+      MINGW_64: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin
+      OPENBLAS_32: https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win32.zip
+      OPENBLAS_64: https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win64.zip
+      OPENBLAS_32_SHA256: 0a12804b08d475179a0411936f509b44d7512f084b4a81c2fa3abe8c9ac4ee09
+      OPENBLAS_64_SHA256: 8f11d8a5a79795a3a1ccb2326c979a0ca426e623eee93f8e35239e3c21e62cd6
+      CYTHON_BUILD_DEP: Cython==0.26.1
+      TEST_MODE: fast
+      APPVEYOR_SAVE_CACHE_ON_ERROR: true
+      APPVEYOR_SKIP_FINALIZE_ON_EXIT: true
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
+      BUILD_COMMIT: master
       DAILY_COMMIT: master
 
-    matrix:
+  matrix:
+    - PYTHON: C:\Python36
+      PYTHON_VERSION: 3.6
+      PYTHON_ARCH: 32
 
-    - PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python27-x64"
-    - PYTHON: "C:\\Python34"
-    - PYTHON: "C:\\Python34-x64"
-    - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python35-x64"
-    - PYTHON: "C:\\Python36"
-    - PYTHON: "C:\\Python36-x64"
+    - PYTHON: C:\Python36-x64
+      PYTHON_VERSION: 3.6
+      PYTHON_ARCH: 64
 
-install:
+    - PYTHON: C:\Python35
+      PYTHON_VERSION: 3.5
+      PYTHON_ARCH: 32
+
+    - PYTHON: C:\Python35-x64
+      PYTHON_VERSION: 3.5
+      PYTHON_ARCH: 64
+
+    - PYTHON: C:\Python34
+      PYTHON_VERSION: 3.4
+      PYTHON_ARCH: 32
+
+    - PYTHON: C:\Python34-x64
+      PYTHON_VERSION: 3.4
+      PYTHON_ARCH: 64
+
+    - PYTHON: C:\Python27
+      PYTHON_VERSION: 2.7
+      PYTHON_ARCH: 32
+
+    - PYTHON: C:\Python27-x64
+      PYTHON_VERSION: 2.7
+      PYTHON_ARCH: 64
+
+init:
+  - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
+  - "ECHO \"%APPVEYOR_SCHEDULED_BUILD%\""
   - ps: >-
       if ($env:APPVEYOR_REPO_BRANCH -eq "daily") {
         $env:CONTAINER = "pre-release"
@@ -38,75 +72,122 @@ install:
         $env:CONTAINER = "wheels"
         $env:UPLOAD_ARGS = "--no-update-index"
       }
+install:
   - cmd: echo "Filesystem root:"
   - dir C:\
 
   - echo "Installed SDKs:"
   - dir "C:/Program Files/Microsoft SDKs/Windows"
 
-  # Get needed submodules
-  - git submodule update --init
-
-  # Install Python 3.6.2 if necessary
-  - ps: .\windows-wheel-builder\install_python362.ps1
-
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
-  - SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
-
-  # Get Python bitness
-  # https://stackoverflow.com/questions/1746475/windows-batch-help-in-setting-a-variable-from-command-output#4509885
-  - set PY_CMD=python -c "import platform; print(platform.architecture()[0][:2])"
-  - for /f "tokens=1 delims=" %%i in ('%PY_CMD%') do set PYTHON_ARCH=%%i
-
-  # Fix MSVC builds for 64-bit Python
-  # See
-  # http://stackoverflow.com/questions/32091593/cannot-install-windows-sdk-7-1-on-windows-10
-  - echo "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 > "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64/vcvars64.bat"
+  - SET PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
 
   # Check that we have the expected version and architecture for Python
   - python --version
-  - python -c "import struct; print(struct.calcsize('P') * 8)"
+  - >-
+     python -c "import sys,platform,struct;
+     print(sys.platform, platform.machine(), struct.calcsize('P') * 8, )"
+  # Get needed submodules
+  - git submodule update --init
 
-  # Install requirements
-  - pip install -r windows-wheel-builder\requirements.txt
-  - python -m pip install --upgrade pip
+  # Download and install static "openblas.a" to PYTHON\lib
+  - ps: |
+      $PYTHON_ARCH = $env:PYTHON_ARCH
+      $PYTHON = $env:PYTHON
+      If ($PYTHON_ARCH -eq 32) {
+          $OPENBLAS = $env:OPENBLAS_32
+          $OPENBLAS_SHA256 = $env:OPENBLAS_32_SHA256
+      } Else {
+          $OPENBLAS = $env:OPENBLAS_64
+          $OPENBLAS_SHA256 = $env:OPENBLAS_64_SHA256
+      }
+      $clnt = new-object System.Net.WebClient
+      $file = "$(New-TemporaryFile).zip"
+      $tmpdir = New-TemporaryFile | %{ rm $_; mkdir $_ }
+      $destination = "$PYTHON\lib\openblas.a"
+      echo $file
+      echo $tmpdir
+      echo $OPENBLAS
+      $clnt.DownloadFile($OPENBLAS,$file)
+      $downloaded_hash = Get-FileHash -Algorithm SHA256 $file
+      if ($downloaded_hash.hash -ne $OPENBLAS_SHA256) {
+          $downloaded_hash | Format-List
+          echo $OPENBLAS_SHA256
+          throw "Downloaded OPENBLAS zip SHA256 does not match."
+      }
+      Expand-Archive $file $tmpdir
+      rm $tmpdir\$PYTHON_ARCH\lib\*.dll.a
+      $lib = ls $tmpdir\$PYTHON_ARCH\lib\*.a | ForEach { ls $_ } | Select-Object -first 1
+      echo $lib
+      cp $lib $destination
+      ls $destination
+  # Upgrade to the latest pip and setuptools.
+  - python -m pip install -U pip setuptools
+
   # Pin wheel to 0.26 to avoid Windows ABI tag for built wheel
-  - pip install wheel==0.26
+  - pip install "wheel==0.26"
+
+  # Install build requirements.
   - pip install "%CYTHON_BUILD_DEP%"
-  # Download built openblas libraries
-  - cmd /c windows-wheel-builder\unpack_openblas.bat
 
 build_script:
-  # Build and install the wheel
   - cd numpy
   - git checkout %BUILD_COMMIT%
   # Append license text relevant for the built wheel
   - type ..\LICENSE_win32.txt >> LICENSE.txt
-  - python ..\windows-wheel-builder\build_numpy.py . %PYTHON_ARCH% %OPENBLAS_ROOT%
-  - cd dist
-  - pip install --pre --no-index -f . numpy
-  - pip install nose
+  - ps: |
+      $PYTHON_ARCH = $env:PYTHON_ARCH
+      If ($PYTHON_ARCH -eq 32) {
+          $MINGW = $env:MINGW_32
+      } Else {
+          $MINGW = $env:MINGW_64
+      }
+      $env:Path += ";$MINGW"
+      $env:NPY_NUM_BUILD_JOBS = "4"
+  - python setup.py bdist_wheel
+  - ps: |
+      # Upload artifact to Appveyor immediately after build
+      ls dist -r | Foreach-Object {
+          appveyor PushArtifact $_.FullName
+          pip install $_.FullName
+      }
 
 test_script:
-  # Run the project tests
-  - python ..\..\check_license.py
-  - python -c "import numpy; numpy.test(verbose=3)"
+  - pip install nose
   - cd ..
+  - python check_license.py
+  - python -c "import numpy; numpy.test(verbose=3)"
 
 after_test:
-  # If tests are successful, create binary packages for the project.
-  - dir dist
-
-artifacts:
-  # Archive the generated packages in the ci.appveyor.com build report.
-  - path: numpy\dist\*.*
+  # Upload test results to Appveyor
+  - ps: |
+      If (Test-Path .\junit-results.xml) {
+        (new-object net.webclient).UploadFile(
+          "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)",
+          (Resolve-Path .\junit-results.xml)
+        )
+      }
+      $LastExitCode = 0
+  # Remove old or huge cache files to hopefully not exceed the 1GB cache limit.
+  #
+  # If the cache limit is reached, the cache will not be updated (of not even
+  # created in the first run). So this is a trade of between keeping the cache
+  # current and having a cache at all.
+  # NB: This is done only `on_success` since the cache in uploaded only on
+  # success anyway.
+  - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -type f -mtime +360 -delete
+  - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -type f -size +10M -delete
+  - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -empty -delete
+  # Show size of cache
+  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%\pip\Cache"
 
 on_success:
   # Upload the generated wheel package to Rackspace
   # On Windows, Apache Libcloud cannot find a standard CA cert bundle so we
   # disable the ssl checks.
+  - cd numpy
   - pip install wheelhouse-uploader
   - python -m wheelhouse_uploader upload
     --no-ssl-check --local-folder=dist
