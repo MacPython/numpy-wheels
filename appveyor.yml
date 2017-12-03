@@ -9,13 +9,15 @@ environment:
     global:
       BUILD_COMMIT: master
       CYTHON_BUILD_DEP: cython==0.26.1
-      OPENBLAS_COMMIT: v0.2.20
+      OPENBLAS_COMMIT: 5f998ef_gcc7_1_0
       OPENBLAS_ROOT: c:\opt
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
       DAILY_COMMIT: master
+      MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32
+      MINGW_64: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
 
     matrix:
 
@@ -40,35 +42,32 @@ install:
       }
   - cmd: echo "Filesystem root:"
   - dir C:\
-
   - echo "Installed SDKs:"
   - dir "C:/Program Files/Microsoft SDKs/Windows"
-
   # Get needed submodules
   - git submodule update --init
-
+  
+  # Update windows-wheel-builder
+  - cd windows-wheel-builder
+  - git checkout master
+  - cd ..
   # Install Python 3.6.2 if necessary
   - ps: .\windows-wheel-builder\install_python362.ps1
-
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
   - SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
-
   # Get Python bitness
   # https://stackoverflow.com/questions/1746475/windows-batch-help-in-setting-a-variable-from-command-output#4509885
   - set PY_CMD=python -c "import platform; print(platform.architecture()[0][:2])"
   - for /f "tokens=1 delims=" %%i in ('%PY_CMD%') do set PYTHON_ARCH=%%i
-
   # Fix MSVC builds for 64-bit Python
   # See
   # http://stackoverflow.com/questions/32091593/cannot-install-windows-sdk-7-1-on-windows-10
   - echo "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 > "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64/vcvars64.bat"
-
   # Check that we have the expected version and architecture for Python
   - python --version
   - python -c "import struct; print(struct.calcsize('P') * 8)"
-
   # Install requirements
   - pip install -r windows-wheel-builder\requirements.txt
   - python -m pip install --upgrade pip
@@ -77,10 +76,40 @@ install:
   - pip install "%CYTHON_BUILD_DEP%"
   # Download built openblas libraries
   - cmd /c windows-wheel-builder\unpack_openblas.bat
-
 build_script:
   # Build and install the wheel
   - cd numpy
+  - ps: mkdir ".\build\lib.win32-2.7\numpy\core"
+  
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-2.7\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-2.7\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.4\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.4\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.5\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.5\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.6\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.6\numpy\core" }
+  
+  # Reset file permissions
+  - ps: |
+      $location = ".\build";
+
+      #Search recursivly through location defined;
+      get-childitem -r $location | foreach{
+           $tempLocation = $_.FullName;
+           #Get ACL for tempLocation;
+           $acl = get-acl $tempLocation;
+           #Get SID of explicit ACL;
+           $acl.Access | where{
+                $_.isinherited -like $false} | foreach{
+                #Foreach SID purge the SID from the ACL;
+                $acl.purgeaccessrules($_.IdentityReference); 
+                #Reapply ACL to file or folder without SID;
+                Set-Acl -AclObject $acl -path $tempLocation;
+           }
+      }
+  
+  - ps: ls "build\lib.win32-2.7\numpy\core"
   - git checkout %BUILD_COMMIT%
   # Append license text relevant for the built wheel
   - type ..\LICENSE_win32.txt >> LICENSE.txt
