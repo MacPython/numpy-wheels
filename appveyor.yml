@@ -9,13 +9,15 @@ environment:
     global:
       BUILD_COMMIT: master
       CYTHON_BUILD_DEP: cython==0.26.1
-      OPENBLAS_COMMIT: v0.2.20
+      OPENBLAS_COMMIT: 5f998ef_gcc7_1_0
       OPENBLAS_ROOT: c:\opt
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
       DAILY_COMMIT: master
+      MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32
+      MINGW_64: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
 
     matrix:
 
@@ -46,6 +48,11 @@ install:
 
   # Get needed submodules
   - git submodule update --init
+  
+  # Update windows-wheel-builder
+  - cd windows-wheel-builder
+  - git checkout master
+  - cd ..
 
   # Install Python 3.6.2 if necessary
   - ps: .\windows-wheel-builder\install_python362.ps1
@@ -81,11 +88,24 @@ install:
 build_script:
   # Build and install the wheel
   - cd numpy
+  - ps: mkdir ".\build\lib.win32-2.7\numpy\core"
+  
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-2.7\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-2.7\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.4\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.4\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.5\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.5\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.6\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.6\numpy\core" }
+  
+  - ps: ls "build\lib.win32-2.7\numpy\core"
   - git checkout %BUILD_COMMIT%
   # Append license text relevant for the built wheel
   - type ..\LICENSE_win32.txt >> LICENSE.txt
   - python ..\windows-wheel-builder\build_numpy.py . %PYTHON_ARCH% %OPENBLAS_ROOT%
   - cd dist
+  - appveyor pushartifact numpy-1.14.0.dev0+0d749ad-cp27-none-win32.whl
   - pip install --pre --no-index -f . numpy
   - pip install nose
 
