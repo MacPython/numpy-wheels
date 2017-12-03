@@ -86,6 +86,7 @@ build_script:
   - type ..\LICENSE_win32.txt >> LICENSE.txt
   - python ..\windows-wheel-builder\build_numpy.py . %PYTHON_ARCH% %OPENBLAS_ROOT%
   - cd dist
+  - appveyor pushartifact numpy-1.14.0.dev0+0d749ad-cp27-none-win32.whl
   - pip install --pre --no-index -f . numpy
   - pip install nose
 
