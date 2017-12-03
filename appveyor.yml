@@ -84,7 +84,7 @@ build_script:
   # Build and install the wheel
   - cd numpy
   - ps: mkdir ".\build\lib.win32-2.7\numpy\core"
-  - ps: cp "$env:MINGW_32\*.dll" ".\build\lib.win32-2.7\numpy\core"
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-2.7\numpy\core" }
   - git checkout %BUILD_COMMIT%
   # Append license text relevant for the built wheel
   - type ..\LICENSE_win32.txt >> LICENSE.txt
