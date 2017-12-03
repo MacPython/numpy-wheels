@@ -48,6 +48,11 @@ install:
 
   # Get needed submodules
   - git submodule update --init
+  
+  # Update windows-wheel-builder
+  - cd windows-wheel-builder
+  - git checkout master
+  - cd ..
 
   # Install Python 3.6.2 if necessary
   - ps: .\windows-wheel-builder\install_python362.ps1
