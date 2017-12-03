@@ -89,7 +89,16 @@ build_script:
   # Build and install the wheel
   - cd numpy
   - ps: mkdir ".\build\lib.win32-2.7\numpy\core"
+  
   - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-2.7\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-2.7\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.4\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.4\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.5\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.5\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.6\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.6\numpy\core" }
+  
   - ps: ls "build\lib.win32-2.7\numpy\core"
   - git checkout %BUILD_COMMIT%
   # Append license text relevant for the built wheel
