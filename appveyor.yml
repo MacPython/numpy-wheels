@@ -101,7 +101,7 @@ build_script:
   - ps: |
       $location = ".\build";
       #Get ACLs for first file in the folder
-      $ACL = GCI $location -File | Select -First 1 | Get-Acl
+      $ACL = ls -r $location -File | Select -First 1 | Get-Acl
       #Remove all non-inherited access rules, piped to Out-Null to avoid 'True' spam as it removes rules
       $ACL.Access | ?{!$_.IsInherited} | %{$ACL.RemoveAccessRule($_) | Out-Null}
 
