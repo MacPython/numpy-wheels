@@ -102,6 +102,11 @@ build_script:
       $location = ".\build";
       #Get ACLs for first file in the folder
       $ACL = ls -r $location -File | Select -First 1 | Get-Acl
+
+      $permission = "Everyone","FullControl","Allow"
+      $rule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission
+      $ACL.SetAccessRule($rule)
+      
       #Remove all non-inherited access rules, piped to Out-Null to avoid 'True' spam as it removes rules
       $ACL.Access | ?{!$_.IsInherited} | %{$ACL.RemoveAccessRule($_) | Out-Null}
 
