@@ -79,35 +79,25 @@ install:
 build_script:
   # Build and install the wheel
   - cd numpy
-  - ps: mkdir ".\build\lib.win32-2.7\numpy\core"
-  
-  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-2.7\numpy\core" }
-  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-2.7\numpy\core" }
-  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.4\numpy\core" }
-  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.4\numpy\core" }
-  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.5\numpy\core" }
-  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.5\numpy\core" }
-  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win32-3.6\numpy\core" }
-  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp $_.fullname "build\lib.win-amd64-3.6\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp -Force $_.fullname "build\lib.win32-2.7\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp -Force $_.fullname "build\lib.win-amd64-2.7\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp -Force $_.fullname "build\lib.win32-3.4\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp -Force $_.fullname "build\lib.win-amd64-3.4\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp -Force $_.fullname "build\lib.win32-3.5\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp -Force $_.fullname "build\lib.win-amd64-3.5\numpy\core" }
+  - ps: ls $env:MINGW_32 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp -Force $_.fullname "build\lib.win32-3.6\numpy\core" }
+  - ps: ls $env:MINGW_64 -r -ea silentlycontinue -fo -inc "*.dll" | % { cp -Force $_.fullname "build\lib.win-amd64-3.6\numpy\core" }
   
   # Reset file permissions
   - ps: |
       $location = ".\build";
+      #Get ACLs for first file in the folder
+      $ACL = GCI $location -File | Select -First 1 | Get-Acl
+      #Remove all non-inherited access rules, piped to Out-Null to avoid 'True' spam as it removes rules
+      $ACL.Access | ?{!$_.IsInherited} | %{$ACL.RemoveAccessRule($_) | Out-Null}
 
       #Search recursivly through location defined;
-      get-childitem -r $location | foreach{
-           $tempLocation = $_.FullName;
-           #Get ACL for tempLocation;
-           $acl = get-acl $tempLocation;
-           #Get SID of explicit ACL;
-           $acl.Access | where{
-                $_.isinherited -like $false} | foreach{
-                #Foreach SID purge the SID from the ACL;
-                $acl.purgeaccessrules($_.IdentityReference); 
-                #Reapply ACL to file or folder without SID;
-                Set-Acl -AclObject $acl -path $tempLocation;
-           }
-      }
+      GCI -r $location | Set-Acl -AclObject $ACL
   
   - ps: ls "build\lib.win32-2.7\numpy\core"
   - git checkout %BUILD_COMMIT%
