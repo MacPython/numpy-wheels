@@ -105,11 +105,12 @@ build_script:
 
       $permission = "Everyone","FullControl","Allow"
       $rule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission
+      Foreach($access in $acl.access) 
+      { 
+        $acl.RemoveAccessRule($access) 
+      } 
       $ACL.SetAccessRule($rule)
       
-      #Remove all non-inherited access rules, piped to Out-Null to avoid 'True' spam as it removes rules
-      $ACL.Access | ?{!$_.IsInherited} | %{$ACL.RemoveAccessRule($_) | Out-Null}
-
       #Search recursivly through location defined;
       GCI -r $location | Set-Acl -AclObject $ACL
   
