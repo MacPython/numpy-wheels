@@ -56,16 +56,20 @@ matrix:
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.5
+        - CFLAGS=$CFLAGS" -Wno-sign-compare -Wno-unused-result"
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.5
+        - CFLAGS=$CFLAGS" -Wno-sign-compare -Wno-unused-result"
         - PLAT=i686
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.6
+        - CFLAGS=$CFLAGS" -Wno-sign-compare -Wno-unused-result"
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.6
+        - CFLAGS=$CFLAGS" -Wno-sign-compare -Wno-unused-result"
         - PLAT=i686
     - os: osx
       language: generic
