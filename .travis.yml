@@ -94,7 +94,7 @@ before_install:
           UPLOAD_ARGS="--no-update-index";
       fi
     - if [ "$TRAVIS_OS_NAME"  == "linux" ]; then
-          export ${CFLAGS}" -Wno-sign-compare -Wno-unused-result"
+          export CFLAGS=${CFLAGS}" -Wno-sign-compare -Wno-unused-result"
       fi
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
