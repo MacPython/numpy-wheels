@@ -7,6 +7,3 @@
 [submodule "gfortran-install"]
 	path = gfortran-install
 	url = https://github.com/MacPython/gfortran-install.git
-[submodule "windows-wheel-builder"]
-	path = windows-wheel-builder
-	url = https://github.com/numpy/windows-wheel-builder.git
