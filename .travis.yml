@@ -2,8 +2,8 @@ env:
     global:
         - REPO_DIR=numpy
         # Also see DAILY_COMMIT below
-        - BUILD_COMMIT=v1.13.0rc2
-        - BUILD_DEPENDS=Cython
+        - BUILD_COMMIT=v1.14.2
+        - BUILD_DEPENDS="Cython==0.26.1"
         - TEST_DEPENDS=nose
         - PLAT=x86_64
         - UNICODE_WIDTH=32
@@ -98,11 +98,12 @@ before_install:
     - before_install
 
 install:
+    # Maybe get and clean and patch source
+    - clean_code $REPO_DIR $BUILD_COMMIT
+    - ./patch_code.sh $REPO_DIR
     - if [ "$TRAVIS_OS_NAME"  == "linux" ]; then
           export CFLAGS=${CFLAGS}" -Wno-sign-compare -Wno-unused-result";
       fi
-    # Maybe get and clean and patch source
-    - clean_code $REPO_DIR $BUILD_COMMIT
     - build_wheel $REPO_DIR $PLAT
 
 script:

@@ -8,14 +8,23 @@ max_jobs: 100
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
+# Test script
+test: "import numpy; import sys; \
+       success = numpy.test(verbose=3).wasSuccessful(); \
+       sys.exit(not success)"
+
 environment:
   global:
       MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
       MINGW_64: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin
-      OPENBLAS_32: https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win32.zip
-      OPENBLAS_64: https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win64.zip
-      OPENBLAS_32_SHA256: 0a12804b08d475179a0411936f509b44d7512f084b4a81c2fa3abe8c9ac4ee09
-      OPENBLAS_64_SHA256: 8f11d8a5a79795a3a1ccb2326c979a0ca426e623eee93f8e35239e3c21e62cd6
+      OPENBLAS_32: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43\
+                    .ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win32.zip"
+      OPENBLAS_64: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43\
+                    .ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win64.zip"
+      OPENBLAS_32_SHA256: "0a12804b08d475179a0411936f509b44d7512f0\
+                           84b4a81c2fa3abe8c9ac4ee09"
+      OPENBLAS_64_SHA256: "8f11d8a5a79795a3a1ccb2326c979a0ca426e62\
+                           3eee93f8e35239e3c21e62cd6"
       CYTHON_BUILD_DEP: Cython==0.26.1
       TEST_MODE: fast
       APPVEYOR_SAVE_CACHE_ON_ERROR: true
@@ -24,7 +33,7 @@ environment:
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
-      BUILD_COMMIT: d05fd3032cccabf5ed18840b43513a73499af5d6
+      BUILD_COMMIT: v1.14.2
       DAILY_COMMIT: master
 
   matrix:
@@ -117,7 +126,7 @@ install:
           echo $OPENBLAS_SHA256
           throw "Downloaded OPENBLAS zip SHA256 does not match."
       }
-      Expand-Archive $file $tmpdir      
+      Expand-Archive $file $tmpdir
       rm $tmpdir\$PYTHON_ARCH\lib\*.dll.a
       $lib = ls $tmpdir\$PYTHON_ARCH\lib\*.a | ForEach { ls $_ } | Select-Object -first 1
       echo $lib
@@ -135,10 +144,12 @@ install:
 build_script:
   - cd numpy
   - git checkout %BUILD_COMMIT%
+  # Append license text relevant for the built wheel
+  - type ..\LICENSE_win32.txt >> LICENSE.txt
   - ps: |
       $PYTHON_ARCH = $env:PYTHON_ARCH
       If ($PYTHON_ARCH -eq 32) {
-          $MINGW = $env:MINGW_32 
+          $MINGW = $env:MINGW_32
       } Else {
           $MINGW = $env:MINGW_64
       }
@@ -155,7 +166,8 @@ build_script:
 test_script:
   - pip install nose
   - cd ..
-  - python -c "import numpy; numpy.test(verbose=3)"
+  - python check_license.py
+  - python -c "%test%"
 
 after_test:
   # Upload test results to Appveyor
