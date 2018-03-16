@@ -1,6 +1,6 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
-OPENBLAS_VERSION=0.2.18
+OPENBLAS_VERSION="0.2.20-2-g5f998efd"
 source gfortran-install/gfortran_utils.sh
 
 function build_wheel {
