@@ -21,7 +21,7 @@ function build_libs {
 function get_test_cmd {
     local extra_argv=${1:-$EXTRA_ARGV}
     echo "import sys; import numpy; \
-        sys.exit(not numpy.test('full', verbose=2 \
+        sys.exit(not numpy.test('full', verbose=2, \
         extra_argv=[${extra_argv}]))"
 }
 
@@ -29,7 +29,7 @@ function run_tests {
     # Runs tests on installed distribution from an empty directory
     if [ -n "$IS_OSX" ]; then  # Test both architectures on OSX
         # Skip f2py tests for 32-bit
-        arch -i386 python -c "$(get_test_cmd "'--ignore=f2py', $EXTRA_ARGV")"
+        arch -i386 python -c "$(get_test_cmd "'--ignore=numpy/f2py', $EXTRA_ARGV")"
         arch -x86_64 python -c "$(get_test_cmd)"
     else
         python -c "$(get_test_cmd)"
