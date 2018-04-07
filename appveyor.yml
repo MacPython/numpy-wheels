@@ -169,7 +169,6 @@ test_script:
   - python check_license.py
   - python -c "%test%"
   - python -c "import numpy; numpy.test(verbose=3, extra_argv=['--disable-pytest-warnings'])"
->>>>>>> Stashed changes
 
 after_test:
   # Upload test results to Appveyor
