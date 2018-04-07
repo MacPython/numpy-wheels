@@ -10,7 +10,7 @@ cache:
 
 # Test script
 test: "import numpy; import sys; \
-       success = numpy.test(verbose=3, extra_argv=['--disable-pytest-warnings']); \
+       success = numpy.test(verbose=2, extra_argv=['--disable-pytest-warnings']); \
        sys.exit(not success)"
 
 environment:
@@ -168,7 +168,6 @@ test_script:
   - cd ..
   - python check_license.py
   - python -c "%test%"
-  - python -c "import numpy; numpy.test(verbose=3, extra_argv=['--disable-pytest-warnings'])"
 
 after_test:
   # Upload test results to Appveyor
