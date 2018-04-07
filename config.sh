@@ -21,7 +21,7 @@ function build_libs {
 function get_test_cmd {
     local extra_argv=${1:-$EXTRA_ARGV}
     echo "import sys; import numpy; \
-        sys.exit(not numpy.test('full', \
+        sys.exit(not numpy.test('full', verbose=2 \
         extra_argv=[${extra_argv}]))"
 }
 
