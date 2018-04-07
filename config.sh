@@ -22,7 +22,7 @@ function get_test_cmd {
     local extra_argv=${1:-$EXTRA_ARGV}
     echo "import sys; import numpy; \
         sys.exit(not numpy.test('full', \
-        extra_argv=[${extra_argv}]).wasSuccessful())"
+        extra_argv=[${extra_argv}])"
 }
 
 function run_tests {

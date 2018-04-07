@@ -3,8 +3,8 @@ env:
         - REPO_DIR=numpy
         # Also see DAILY_COMMIT below
         - BUILD_COMMIT=v1.14.2
-        - BUILD_DEPENDS="Cython==0.26.1"
-        - TEST_DEPENDS=nose
+        - BUILD_DEPENDS=Cython
+        - TEST_DEPENDS=pytest
         - PLAT=x86_64
         - UNICODE_WIDTH=32
         - WHEELHOUSE_UPLOADER_USERNAME=travis-worker
@@ -14,6 +14,7 @@ env:
             "FEFwGNflXOjuNjv4f2oOq0m8I3b6OvG5AVV/tH9Fsr6jtPNwQOx7PMOVzISBrWfAueeFubz/IapXBeDP8fRio9RVOcEHBhVJQYeJ46VubOx4X/4pRUD7ehGLxjYK30BGVdNh7z/tL6Xr5+iCuxxmOBgirG0pQVeBZXDchPJaUK0="
         # Commit when running from daily branch
         - DAILY_COMMIT=master
+        - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
 # Default Python version is usually 2.7
