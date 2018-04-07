@@ -3,7 +3,7 @@ env:
         - REPO_DIR=numpy
         # Also see DAILY_COMMIT below
         - BUILD_COMMIT=v1.14.2
-        - BUILD_DEPENDS=Cython
+        - BUILD_DEPENDS=cython
         - TEST_DEPENDS=pytest
         - PLAT=x86_64
         - UNICODE_WIDTH=32
