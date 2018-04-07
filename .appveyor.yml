@@ -10,7 +10,7 @@ cache:
 
 # Test script
 test: "import numpy; import sys; \
-       success = numpy.test(verbose=3).wasSuccessful(); \
+       success = numpy.test(verbose=2, extra_argv=['--disable-pytest-warnings']); \
        sys.exit(not success)"
 
 environment:
@@ -164,7 +164,7 @@ build_script:
       }
 
 test_script:
-  - pip install nose
+  - pip install pytest
   - cd ..
   - python check_license.py
   - python -c "%test%"
