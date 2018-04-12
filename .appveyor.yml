@@ -10,7 +10,7 @@ cache:
 
 # Test script
 test: "import numpy; import sys; \
-       success = numpy.test(verbose=2, extra_argv=['--disable-pytest-warnings']); \
+       success = numpy.test(verbose=2); \
        sys.exit(not success)"
 
 environment:
