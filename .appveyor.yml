@@ -8,11 +8,6 @@ max_jobs: 100
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
-# Test script
-test: "import numpy; import sys; \
-       success = numpy.test(verbose=2); \
-       sys.exit(not success)"
-
 environment:
   global:
       MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
@@ -163,7 +158,10 @@ test_script:
   - pip install pytest
   - cd ..
   - python check_license.py
-  - python -c "%test%"
+  - mkdir tmp_for_test
+  - cd tmp_for_test
+  - pytest --pyargs numpy
+  - cd ..
 
 after_test:
   # Upload test results to Appveyor
