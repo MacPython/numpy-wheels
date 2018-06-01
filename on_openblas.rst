@@ -1,8 +1,12 @@
-# Updating OpenBLAS builds
+########################
+Updating OpenBLAS builds
+########################
 
 A white-water ride...
 
-## Windows
+*******
+Windows
+*******
 
 Get access to or clone : https://github.com/matthew-brett/build-openblas
 
@@ -28,15 +32,21 @@ with the URLs of the new zip files (above), and the SHA 256 hex digests, e.g.::
     OPENBLAS_32_SHA256: 0a12804b08d475179a0411936f509b44d7512f084b4a81c2fa3abe8c9ac4ee09
     OPENBLAS_64_SHA256: 8f11d8a5a79795a3a1ccb2326c979a0ca426e623eee93f8e35239e3c21e62cd6
 
-These builds take a long time.  The 64 bit builds can take over 2 hours.
+These builds take a long time.  The 64 bit builds can take over 2 hours. I
+(`matthew-brett`) got special permission from the Appeveyor team to run builds
+for up to 2 hours 30 minutes, on the basis that they were important, and
+infrequent.
 
-## Linux, OSX
+**********
+Linux, OSX
+**********
 
 See: https://github.com/MacPython/openblas-libs
 
-These builds, a bit confusingly, have names from (from left to right, separated
-by hyphens):
+These builds, a bit confusingly, have names built from (from left to right,
+separated by hyphens):
 
+#. ``openblas``.
 #. ``git describe`` run on the OpenBLAS commit in the submodule.  This commit
    in turn comes from the `BUILD_COMMIT` specification in `.travis.yml`.
 #. result of `uname`;
