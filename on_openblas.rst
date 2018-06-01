@@ -37,7 +37,8 @@ See: https://github.com/MacPython/openblas-libs
 These builds, a bit confusingly, have names from (from left to right, separated
 by hyphens):
 
-#. ``git describe`` run on the OpenBLAS commit in the submodule;
+#. ``git describe`` run on the OpenBLAS commit in the submodule.  This commit
+   in turn comes from the `BUILD_COMMIT` specification in `.travis.yml`.
 #. result of `uname`;
 #. the platform (``i686`` or ``x86_64``), maybe followed by a specified suffix.
 #. The suffix above is, by default, empty on Linux, and comes from the SHA
