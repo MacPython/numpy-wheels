@@ -13,9 +13,9 @@ environment:
       MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
       MINGW_64: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin
       OPENBLAS_32: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-v0.3.0_gcc7_1_0_win32.zip"
-      OPENBLAS_64: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-2c7392f0_gcc6_3_0_win64.zip"
-      OPENBLAS_32_SHA256: e0a16b3d2a8f1ceea7879030ecd560479a12a434e2ad16e578ac809ebd0ea275
-      OPENBLAS_64_SHA256: af487b0cf304efec8b14d73e125dd6b4aea6356ed3e80edf66b617de9b237e81
+      OPENBLAS_64: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-v0.3.0_gcc7_1_0_win64.zip"
+      OPENBLAS_32_SHA256: e133281d160f8f7c14d98a17e6e84ccb07b7fc722a83d869bdb19352e34a699c
+      OPENBLAS_64_SHA256: 7d2ce1d2fdef78adb59914ff7c6c108c6d30e2de8d66cf81f49a02cdcf009ae4
       CYTHON_BUILD_DEP: Cython==0.26.1
       TEST_MODE: fast
       APPVEYOR_SAVE_CACHE_ON_ERROR: true
