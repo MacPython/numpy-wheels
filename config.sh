@@ -1,11 +1,12 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
-OPENBLAS_VERSION="v0.3.0"
+# See env_vars.sh for extra environment variables
 source gfortran-install/gfortran_utils.sh
 
 function build_wheel {
     local lib_plat=$PLAT
     if [ -n "$IS_OSX" ]; then
+        install_gfortran
         # Use fused openblas library
         lib_plat="intel"
     fi
