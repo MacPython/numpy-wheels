@@ -64,7 +64,7 @@ init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
   - "ECHO \"%APPVEYOR_SCHEDULED_BUILD%\""
   - ps: >-
-      if ($env:APPVEYOR_REPO_BRANCH -eq "daily") {
+      if ($env:APPVEYOR_REPO_BRANCH -eq "master") {
         $env:CONTAINER = "pre-release"
         if ($env:DAILY_COMMIT) { $env:BUILD_COMMIT = $env:DAILY_COMMIT }
         $env:NPY_RELAXED_STRIDES_DEBUG = 1
