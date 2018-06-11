@@ -1,13 +1,16 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
-OPENBLAS_VERSION="0.2.20-343-g2c7392f0"
+# See env_vars.sh for extra environment variables
 source gfortran-install/gfortran_utils.sh
 
 function build_wheel {
-    # Only use openblas for manylinux
-    if [ -z "$IS_OSX" ]; then
-        build_libs $PLAT
+    local lib_plat=$PLAT
+    if [ -n "$IS_OSX" ]; then
+        install_gfortran
+        # Use fused openblas library
+        lib_plat="intel"
     fi
+    build_libs $lib_plat
     # Fix version error for development wheels by using bdist_wheel
     build_bdist_wheel $@
 }
@@ -15,7 +18,10 @@ function build_wheel {
 function build_libs {
     local plat=${1:-$PLAT}
     local tar_path=$(abspath $(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat"))
-    (cd / && tar zxf $tar_path)
+    # Sudo needed for macOS
+    local use_sudo=""
+    [ -n "$IS_OSX" ] && use_sudo="sudo"
+    (cd / && $use_sudo tar zxf $tar_path)
 }
 
 function get_test_cmd {
