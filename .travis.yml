@@ -99,7 +99,7 @@ matrix:
         - BUILD_DEPENDS="Cython"
 
 before_install:
-    - if [ "$TRAVIS_BRANCH" == "daily" ]; then
+    - if [ "$TRAVIS_BRANCH" == "master" ]; then
           CONTAINER="pre-release";
           BUILD_COMMIT=${DAILY_COMMIT:-$BUILD_COMMIT};
           NPY_RELAXED_STRIDES_DEBUG=1;
