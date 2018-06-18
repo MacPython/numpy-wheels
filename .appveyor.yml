@@ -188,11 +188,9 @@ after_test:
 
 on_success:
   # Upload the generated wheel package to Rackspace
-  # On Windows, Apache Libcloud cannot find a standard CA cert bundle so we
-  # disable the ssl checks.
   - cd numpy
-  - pip install wheelhouse-uploader
+  - pip install wheelhouse-uploader certifi
   - python -m wheelhouse_uploader upload
-    --no-ssl-check --local-folder=dist
+    --local-folder=dist
     %UPLOAD_ARGS%
     %CONTAINER%
