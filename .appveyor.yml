@@ -191,8 +191,9 @@ on_success:
   # On Windows, Apache Libcloud cannot find a standard CA cert bundle so we
   # disable the ssl checks.
   - cd numpy
+  - pip install -U apache-libcloud
   - pip install wheelhouse-uploader
   - python -m wheelhouse_uploader upload
-    --no-ssl-check --local-folder=dist
+    --local-folder=dist
     %UPLOAD_ARGS%
     %CONTAINER%
