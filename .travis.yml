@@ -107,6 +107,8 @@ before_install:
           CONTAINER=wheels;
           UPLOAD_ARGS="--no-update-index";
       fi
+    # Set DEBUG_PRINT environment variable in settings
+    - if [ -n "${DEBUG_PRINT}" ]; then set -x; fi
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
     - before_install
