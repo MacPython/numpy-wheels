@@ -174,7 +174,7 @@ test_script:
   - pip install nose
   - cd ..
   - python check_license.py
-  - python -c 'import sys; import numpy; sys.exit(not numpy.test(verbose=3).wasSuccessful())'
+  - python -c "import sys; import numpy; sys.exit(not numpy.test(verbose=3).wasSuccessful())"
 
 after_test:
   # Upload test results to Appveyor
