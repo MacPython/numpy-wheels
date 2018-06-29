@@ -40,12 +40,12 @@ environment:
     - PYTHON: C:\Python37
       PYTHON_VERSION: 3.7
       PYTHON_ARCH: 32
-      CYTHON_BUILD_DEP: Cython --install-option="--no-cython-compile"
+      CYTHON_BUILD_DEP: Cython
 
     - PYTHON: C:\Python37-x64
       PYTHON_VERSION: 3.7
       PYTHON_ARCH: 64
-      CYTHON_BUILD_DEP: Cython --install-option="--no-cython-compile"
+      CYTHON_BUILD_DEP: Cython
 
     - PYTHON: C:\Python36
       PYTHON_VERSION: 3.6
@@ -151,7 +151,7 @@ install:
   - pip install "wheel==0.26"
 
   # Install build requirements.
-  - pip install "%CYTHON_BUILD_DEP%"
+  - pip install "%CYTHON_BUILD_DEP%" --install-option="--no-cython-compile"
 
 build_script:
   - cd numpy
