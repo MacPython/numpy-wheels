@@ -26,14 +26,6 @@ function get_test_cmd {
 }
 
 function run_tests {
-    # Runs tests on installed distribution from an empty directory
-    if [ -n "$IS_OSX" ]; then  # Test both architectures on OSX
-        # Skip f2py tests for 32-bit
-        arch -i386 python -c "$(get_test_cmd "'-e', 'f2py', $EXTRA_ARGV")"
-        arch -x86_64 python -c "$(get_test_cmd)"
-    else
-        python -c "$(get_test_cmd)"
-    fi
     # Check bundled license file
     python ../check_license.py
     # Show BLAS / LAPACK used
