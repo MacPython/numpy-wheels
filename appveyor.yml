@@ -40,10 +40,12 @@ environment:
     - PYTHON: C:\Python37
       PYTHON_VERSION: 3.7
       PYTHON_ARCH: 32
+      CYTHON_BUILD_DEP: Cython --install-option="--no-cython-compile"
 
     - PYTHON: C:\Python37-x64
       PYTHON_VERSION: 3.7
       PYTHON_ARCH: 64
+      CYTHON_BUILD_DEP: Cython --install-option="--no-cython-compile"
 
     - PYTHON: C:\Python36
       PYTHON_VERSION: 3.6
