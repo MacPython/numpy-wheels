@@ -8,11 +8,6 @@ max_jobs: 100
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
-# Test script
-test: "import numpy; import sys; \
-       success = numpy.test(verbose=3).wasSuccessful(); \
-       sys.exit(not success)"
-
 environment:
   global:
       MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
@@ -179,7 +174,7 @@ test_script:
   - pip install nose
   - cd ..
   - python check_license.py
-  - python -c "%test%"
+  - python -c 'import sys; import numpy; sys.exit(not numpy.test(verbose=3).wasSuccessful())'
 
 after_test:
   # Upload test results to Appveyor
@@ -207,6 +202,8 @@ after_test:
 on_success:
   # Upload the generated wheel package to Rackspace
   - cd numpy
+  # Python 3.7 doesn't work with wheelhouse-uploader
+  - SET PATH=c:\Python36;c:\Python36\Scripts;%PATH%
   - pip install wheelhouse-uploader certifi
   - python -m wheelhouse_uploader upload
     --local-folder=dist
