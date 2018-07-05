@@ -93,8 +93,12 @@ install:
   - echo "Installed SDKs:"
   - dir "C:/Program Files/Microsoft SDKs/Windows"
 
-  # Install Python 3.7.0 if necessary
-  - ps: .\tools\install_python370.ps1
+  # Get needed submodules
+  - git submodule update --init
+
+  # Install new Python if necessary
+  - ps: .\multibuild\install_python.ps1
+
   # Prepend required Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
@@ -105,8 +109,6 @@ install:
   - >-
      python -c "import sys,platform,struct;
      print(sys.platform, platform.machine(), struct.calcsize('P') * 8, )"
-  # Get needed submodules
-  - git submodule update --init
 
   # Download and install static "openblas.a" to PYTHON\lib
   - ps: |
@@ -202,9 +204,7 @@ after_test:
 on_success:
   # Upload the generated wheel package to Rackspace
   - cd numpy
-  # Python 3.7 doesn't work with wheelhouse-uploader
-  - SET PATH=c:\Python36;c:\Python36\Scripts;%PATH%
-  - pip install wheelhouse-uploader certifi
+  - pip install wheelhouse-uploader
   - python -m wheelhouse_uploader upload
     --local-folder=dist
     %UPLOAD_ARGS%
