@@ -127,17 +127,7 @@ script:
 
 after_success:
     # Upload wheels to Rackspace container
-    # Upload may not work for Python 3.7:
-    # https://github.com/ogrisel/wheelhouse-uploader/issues/27
-    - |
-      if [ -n "$IS_OSX" ]; then
-        # Use system Python
-        deactivate
-        curl -LO https://bootstrap.pypa.io/get-pip.py
-        sudo python get-pip.py
-        WH_PIP_OPTS="--user"
-      fi
-    - pip install $WH_PIP_OPTS wheelhouse-uploader
+    - pip install wheelhouse-uploader
     - python -m wheelhouse_uploader upload --local-folder
           ${TRAVIS_BUILD_DIR}/wheelhouse/
           $UPLOAD_ARGS
