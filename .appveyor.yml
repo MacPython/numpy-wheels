@@ -24,10 +24,20 @@ environment:
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
-      BUILD_COMMIT: master
+      BUILD_COMMIT: v1.14.2
       DAILY_COMMIT: master
 
   matrix:
+    - PYTHON: C:\Python37
+      PYTHON_VERSION: 3.7
+      PYTHON_ARCH: 32
+      CYTHON_BUILD_DEP: Cython
+
+    - PYTHON: C:\Python37-x64
+      PYTHON_VERSION: 3.7
+      PYTHON_ARCH: 64
+      CYTHON_BUILD_DEP: Cython
+
     - PYTHON: C:\Python36
       PYTHON_VERSION: 3.6
       PYTHON_ARCH: 32
@@ -79,7 +89,13 @@ install:
   - echo "Installed SDKs:"
   - dir "C:/Program Files/Microsoft SDKs/Windows"
 
-  # Prepend newly installed Python to the PATH of this build (this cannot be
+  # Get needed submodules
+  - git submodule update --init
+
+  # Install new Python if necessary
+  - ps: .\multibuild\install_python.ps1
+
+  # Prepend required Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
   - SET PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
@@ -89,8 +105,6 @@ install:
   - >-
      python -c "import sys,platform,struct;
      print(sys.platform, platform.machine(), struct.calcsize('P') * 8, )"
-  # Get needed submodules
-  - git submodule update --init
 
   # Download and install static "openblas.a" to PYTHON\lib
   - ps: |
@@ -130,7 +144,7 @@ install:
   - pip install "wheel==0.26"
 
   # Install build requirements.
-  - pip install "%CYTHON_BUILD_DEP%"
+  - pip install "%CYTHON_BUILD_DEP%" --install-option="--no-cython-compile"
 
 build_script:
   - cd numpy

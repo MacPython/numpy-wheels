@@ -68,6 +68,15 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.6
         - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - BUILD_DEPENDS="Cython"
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - BUILD_DEPENDS="Cython"
+        - PLAT=i686
     - os: osx
       language: generic
       env:
@@ -84,6 +93,11 @@ matrix:
       language: generic
       env:
         - MB_PYTHON_VERSION=3.6
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - BUILD_DEPENDS="Cython"
 
 before_install:
     - if [ "$TRAVIS_BRANCH" == "master" ]; then
@@ -94,6 +108,8 @@ before_install:
           CONTAINER=wheels;
           UPLOAD_ARGS="--no-update-index";
       fi
+    # Set DEBUG_PRINT environment variable in settings
+    - if [ -n "${DEBUG_PRINT}" ]; then set -x; fi
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
     - before_install
