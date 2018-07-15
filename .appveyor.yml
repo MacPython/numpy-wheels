@@ -12,10 +12,10 @@ environment:
   global:
       MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
       MINGW_64: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin
-      OPENBLAS_32: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-v0.3.0-win32-gcc_7_1_0.zip"
-      OPENBLAS_64: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-v0.3.0-win_amd64-gcc_7_1_0.zip"
-      OPENBLAS_32_SHA256: 4d8ebb7deb23e9aa39837087a8e41ac4cc0c0e44fa60861e1568e974bdbd7be6
-      OPENBLAS_64_SHA256: e1bea2d94fe1c54c3cd1da62440a7975826427bc2dd55e67d064059632ddf323
+      OPENBLAS_32: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-v0.3.1-win32-gcc_7_1_0.zip"
+      OPENBLAS_64: "https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-v0.3.1-win_amd64-gcc_7_1_0.zip"
+      OPENBLAS_32_SHA256: b9c4b667e27ceb964f0980dbeedbe86f5bcec12732a71b61946f3739a937749f
+      OPENBLAS_64_SHA256: 26dcfb68e803b54a97114bcc3eaa795f145f670dbc3b65a8504862daa8fa6d4a
       CYTHON_BUILD_DEP: Cython
       TEST_MODE: fast
       APPVEYOR_SAVE_CACHE_ON_ERROR: true
@@ -24,7 +24,7 @@ environment:
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
-      BUILD_COMMIT: v1.14.2
+      BUILD_COMMIT: master
       DAILY_COMMIT: master
 
   matrix:
