@@ -125,11 +125,9 @@ install:
       echo $lib
       cp $lib $destination
       ls $destination
-  # Upgrade to the latest pip and setuptools.
-  - python -m pip install -U pip setuptools
 
-  # Pin wheel to 0.26 to avoid Windows ABI tag for built wheel
-  - pip install "wheel==0.26"
+  # Upgrade to the latest pip, setuptools, and wheel.
+  - python -m pip install -U pip setuptools wheel
 
   # Install build requirements.
   - pip install "%CYTHON_BUILD_DEP%" --install-option="--no-cython-compile"
