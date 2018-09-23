@@ -8,6 +8,11 @@ max_jobs: 100
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
+# Test script
+test: "import numpy; import sys; \
+       success = numpy.test(verbose=3).wasSuccessful(); \
+       sys.exit(not success)"
+
 environment:
   global:
       MINGW_32: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
@@ -24,7 +29,7 @@ environment:
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
-      BUILD_COMMIT: b261d8e562d162397fb0458cf8f281e0bb8e4ced
+      BUILD_COMMIT: 8706d48bd9918fca93ee50cb8bdc04d8ed16cbbd
       DAILY_COMMIT: master
 
   matrix:
@@ -167,13 +172,10 @@ build_script:
       }
 
 test_script:
-  - pip install pytest
+  - pip install nose
   - cd ..
   - python check_license.py
-  - mkdir tmp_for_test
-  - cd tmp_for_test
-  - pytest --pyargs numpy
-  - cd ..
+  - python -c "%test%"
 
 after_test:
   # Upload test results to Appveyor
