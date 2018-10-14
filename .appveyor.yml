@@ -126,8 +126,10 @@ install:
       cp $lib $destination
       ls $destination
 
-  # Upgrade to the latest pip, setuptools, and wheel.
-  - python -m pip install -U pip setuptools wheel
+  # Upgrade to the latest pip, setuptools.
+  - python -m pip install -U pip setuptools
+  # Pin wheel to last working version.
+  - pip install "wheel==0.31.1"
 
   # Install build requirements.
   - pip install "%CYTHON_BUILD_DEP%" --install-option="--no-cython-compile"
