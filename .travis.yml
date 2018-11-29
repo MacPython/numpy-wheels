@@ -110,6 +110,7 @@ before_install:
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
     - before_install
+    - ls -tlrh /usr/local/lib/*blas*
     - brew info openblas
 
 install:
