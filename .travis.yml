@@ -86,7 +86,7 @@ install:
     - ./patch_code.sh $REPO_DIR
     - if [ "$TRAVIS_OS_NAME"  == "linux" ]; then
           export CFLAGS=${CFLAGS}" -Wno-sign-compare -Wno-unused-result\
-                                   -Wno-strict-aliasing";
+                                   -Wno-strict-aliasing -std=c99";
       fi
     - build_wheel $REPO_DIR $PLAT
 
