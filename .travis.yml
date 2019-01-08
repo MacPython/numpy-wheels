@@ -1,3 +1,4 @@
+#testing 1
 env:
     global:
         - REPO_DIR=numpy
@@ -20,7 +21,7 @@ language: python
 # Default Python version is usually 2.7
 python: 3.5
 sudo: required
-dist: trusty
+dist: xenial
 services: docker
 # Force xcode 6.4 image to work round
 # https://github.com/python-pillow/pillow-wheels/issues/45
