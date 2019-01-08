@@ -1,4 +1,4 @@
-#testing 1
+#testing 12
 env:
     global:
         - REPO_DIR=numpy
@@ -21,7 +21,7 @@ language: python
 # Default Python version is usually 2.7
 python: 3.5
 sudo: required
-dist: xenial
+dist: trusty
 services: docker
 # Force xcode 6.4 image to work round
 # https://github.com/python-pillow/pillow-wheels/issues/45
@@ -70,7 +70,7 @@ before_install:
     - if [ "$TRAVIS_BRANCH" == "master" ]; then
           CONTAINER="pre-release";
           BUILD_COMMIT=${DAILY_COMMIT:-$BUILD_COMMIT};
-          NPY_RELAXED_STRIDES_DEBUG=1;
+          #NPY_RELAXED_STRIDES_DEBUG=1;
       else
           CONTAINER=wheels;
           UPLOAD_ARGS="--no-update-index";
