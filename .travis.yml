@@ -14,7 +14,7 @@ env:
             "FEFwGNflXOjuNjv4f2oOq0m8I3b6OvG5AVV/tH9Fsr6jtPNwQOx7PMOVzISBrWfAueeFubz/IapXBeDP8fRio9RVOcEHBhVJQYeJ46VubOx4X/4pRUD7ehGLxjYK30BGVdNh7z/tL6Xr5+iCuxxmOBgirG0pQVeBZXDchPJaUK0="
         # Commit when running from daily branch
         #        - DAILY_COMMIT=master
-        - DAILY_COMMIT=062dc8f831e695c2c179482da35affcc6045b4f3
+        - DAILY_COMMIT=3abb5f8c3cd0947d4cf64c3dbcd9fda5a5c22caa
         - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
