@@ -14,7 +14,7 @@ env:
             "FEFwGNflXOjuNjv4f2oOq0m8I3b6OvG5AVV/tH9Fsr6jtPNwQOx7PMOVzISBrWfAueeFubz/IapXBeDP8fRio9RVOcEHBhVJQYeJ46VubOx4X/4pRUD7ehGLxjYK30BGVdNh7z/tL6Xr5+iCuxxmOBgirG0pQVeBZXDchPJaUK0="
         # Commit when running from daily branch
         #        - DAILY_COMMIT=master
-        - DAILY_COMMIT=8814211079b36d4130786cce42d8dce3cfb2ef99
+        - DAILY_COMMIT=062dc8f831e695c2c179482da35affcc6045b4f3
         - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
@@ -49,7 +49,7 @@ before_install:
     - if [ "$TRAVIS_BRANCH" == "master" ]; then
           CONTAINER="pre-release";
           BUILD_COMMIT=${DAILY_COMMIT:-$BUILD_COMMIT};
-          NPY_RELAXED_STRIDES_DEBUG=1;
+          #          NPY_RELAXED_STRIDES_DEBUG=1;
       else
           CONTAINER=wheels;
           UPLOAD_ARGS="--no-update-index";
