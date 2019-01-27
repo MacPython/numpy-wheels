@@ -70,7 +70,6 @@ install:
     - build_wheel $REPO_DIR $PLAT
 
 script:
-    - echo $TRAVIS_BRANCH
     - install_run $PLAT
 
 after_success:
