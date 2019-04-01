@@ -32,6 +32,9 @@ function get_test_cmd {
 function run_tests {
     # Runs tests on installed distribution from an empty directory
     # We only run the 64 bit tests as of NumPy 1.16.
+    if [ -z "$IS_OSX" ]; then
+        apt-get -y update && apt-get install -y gfortran
+    fi
     python -c "$(get_test_cmd)"
     # Check bundled license file
     python ../check_license.py
