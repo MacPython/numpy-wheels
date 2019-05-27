@@ -8,7 +8,7 @@ function build_wheel {
     if [ -n "$IS_OSX" ]; then
         install_gfortran
         # Use fused openblas library
-        lib_plat="intel"
+        # lib_plat="intel"
     fi
     build_libs $lib_plat
     # Fix version error for development wheels by using bdist_wheel
