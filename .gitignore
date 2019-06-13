@@ -1,5 +1,6 @@
 *.pyc
 *~
+*.swp
 tmp_for_test/
 working/
 downloads/
