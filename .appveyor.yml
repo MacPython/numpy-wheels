@@ -119,6 +119,10 @@ install:
 build_script:
   - cd numpy
   - git checkout %BUILD_COMMIT%
+  # Create _distributor_init.py
+  - cd ..
+  - python -c "import openblas_support; openblas_support.make_init('numpy')"
+  - cd numpy
   # Append license text relevant for the built wheel
   - type ..\LICENSE_win32.txt >> LICENSE.txt
   - ps: |
