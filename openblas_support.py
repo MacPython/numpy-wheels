@@ -26,7 +26,7 @@ def make_init(dirname):
                 else:
                     libs_dir = os.path.abspath(os.path.join(basedir, '.libs'))
                     DLL_filenames = []
-                    if os.path.isdir(libs_path):
+                    if os.path.isdir(libs_dir):
                         for filename in glob.glob(os.path.join(libs_dir,
                                                              '*openblas*dll')):
                             # NOTE: would it change behavior to load ALL
