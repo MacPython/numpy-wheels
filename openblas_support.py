@@ -20,7 +20,7 @@ def make_init(dirname):
                 # convention for storing / loading the DLL from
                 # numpy/.libs/, if present
                 try:
-                    basedir = os.path.dirname(os.path.dirname(__file__))
+                    basedir = os.path.dirname(__file__)
                 except:
                     pass
                 else:
