@@ -31,35 +31,35 @@ matrix:
       # Exclude the default Python 3.5 build
       - python: 3.5
   include:
-    #- os: linux
-      #env:
-        #- MB_PYTHON_VERSION=3.5
-    #- os: linux
-      #env:
-        #- MB_PYTHON_VERSION=3.5
-        #- PLAT=i686
-    #- os: linux
-      #env:
-        #- MB_PYTHON_VERSION=3.6
-    #- os: linux
-      #env:
-        #- MB_PYTHON_VERSION=3.6
-        #- PLAT=i686
-    #- os: linux
-      #env:
-        #- MB_PYTHON_VERSION=3.7
-    #- os: linux
-      #env:
-        #- MB_PYTHON_VERSION=3.7
-        #- PLAT=i686
-    #- os: osx
-      #language: generic
-      #env:
-        #- MB_PYTHON_VERSION=3.5
-    #- os: osx
-      #language: generic
-      #env:
-        #- MB_PYTHON_VERSION=3.6
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.6
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.6
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - PLAT=i686
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.5
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.6
     - os: osx
       language: generic
       env:
