@@ -19,6 +19,8 @@ function build_libs {
     local tar_fname=$(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat")
     [ -e $tar_fname ] || (echo "$tar_fname does not exist"; exit 1)
     local tar_path=$(abspath $tar_fname)
+    echo $tar_fname
+    echo $tar_path
     # Sudo needed for macOS
     local use_sudo=""
     [ -n "$IS_OSX" ] && use_sudo="sudo"
