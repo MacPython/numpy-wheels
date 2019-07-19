@@ -15,7 +15,10 @@ function build_wheel {
 
 function build_libs {
     local plat=${1:-$PLAT}
-    local tar_path=$(abspath $(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat"))
+#    local tar_path=$(abspath $(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat"))
+    local tar_fname=$(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat")
+    [ -e $tar_fname ] || (echo "$tar_fname does not exist"; exit 1)
+    local tar_path=$(abspath $tar_fname)
     # Sudo needed for macOS
     local use_sudo=""
     [ -n "$IS_OSX" ] && use_sudo="sudo"
