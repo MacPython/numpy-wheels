@@ -15,7 +15,12 @@ function build_wheel {
 
 function build_libs {
     local plat=${1:-$PLAT}
-#    local tar_path=$(abspath $(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat"))
+    # Force 64-bit OpenBLAS library for macOS intel (dual arch)
+    # builds. For these builds, we pretend to be dual arch, but in
+    # fact we're only using the 64-bit build of OpenBLAS
+    if [ -n $IS_OSX ] && [ $plat == intel ]; then
+        plat=x86_64
+    fi
     local tar_fname=$(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat")
     [ -e $tar_fname ] || (echo "$tar_fname does not exist"; exit 1)
     local tar_path=$(abspath $tar_fname)
