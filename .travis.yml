@@ -20,7 +20,7 @@ language: python
 # Default Python version is usually 2.7
 python: 3.5
 sudo: required
-dist: trusty
+dist: xenial
 services: docker
 # Force xcode 6.4 image to work round
 # https://github.com/python-pillow/pillow-wheels/issues/45
@@ -51,6 +51,13 @@ matrix:
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.7
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.8-dev
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.8-dev
         - PLAT=i686
     - os: osx
       language: generic
