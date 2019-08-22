@@ -6,14 +6,77 @@
 trigger:
 - master
 
+variables:
+  REPO_DIR: "numpy"
+  BUILD_COMMIT: "master"
+  TEST_DEPENDS: "pytest pytz"
+  PLAT: "x64"
+
+strategy:
+  matrix:
+    # linux64python3.5:
+    #     imageName: "ubuntu-16.04"
+    #     os: linux
+    #    MB_PYTHON_VERSION: 3.5
+    # linux32python3.5:
+    #     imageName: "ubuntu-16.04"
+    #     os: linux
+    #     PLAT: i386
+    #     MB_PYTHON_VERSION: 3.5
+    # linux64python3.6:
+    #     imageName: "ubuntu-16.04"
+    #     MB_PYTHON_VERSION: 3.6
+    # linux32python3.6:
+    #     imageName: "ubuntu-16.04"
+    #     PLAT: i386
+    #     MB_PYTHON_VERSION: 3.6
+    # linux64python3.7:
+    #     imageName: "ubuntu-16.04"
+    #     MB_PYTHON_VERSION: 3.7
+    # linux32python3.7:
+    #     imageName: "ubuntu-16.04"
+    #     PLAT: i386
+    #     MB_PYTHON_VERSION: 3.7
+    # osXpython3.5:
+    #     imageName: "macOS-10.13" # could also use macos-10.14
+    #     MB_PYTHON_VERSION: 3.5
+    # osXpython3.6:
+    #     imageName: "macOS-10.13" # could also use macos-10.14
+    #     MB_PYTHON_VERSION: 3.6
+    # osXpython3.7:
+    #     imageName: "macOS-10.13" # could also use macos-10.14
+    #     MB_PYTHON_VERSION: 3.7
+    win64python3.5:
+        imageName: "VS2017-Win2016"
+        MB_PYTHON_VERSION: "3.5"
+    win32python3.5:
+        imageName: "VS2017-Win2016"
+        PLAT: "x86"
+        MB_PYTHON_VERSION: "3.5"
+    win64python3.6:
+        imageName: "VS2017-Win2016"
+        MB_PYTHON_VERSION: "3.6"
+    win32python3.6:
+        imageName: "VS2017-Win2016"
+        PLAT: "x86"
+        MB_PYTHON_VERSION: "3.6"
+    win64python3.7:
+        imageName: "VS2017-Win2016"
+        MB_PYTHON_VERSION: "3.7"
+    win32python3.7:
+        imageName: "VS2017-Win2016"
+        PLAT: "x86"
+        MB_PYTHON_VERSION: "3.7"
 pool:
-  vmImage: 'ubuntu-latest'
+    # see https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
+    vmImage: $(imageName)
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(MB_PYTHON_VERSION)'
+    addToPath: true
+    # only valid on windows vmImages
+    architecture: '$(PLAT)'
+- script: python -c"import sys; print(sys.version)"
+  displayName: 'Print python version'
