@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=numpy
         # Also see DAILY_COMMIT below
-        - BUILD_COMMIT=d9b1e32cb8ef90d6b4a47853241db2a28146a57d
+        - BUILD_COMMIT=29759461091f9a4a40ff2f4ae2126e0a5af1fcdd
         - BUILD_DEPENDS=cython
         - TEST_DEPENDS=pytest
         - PLAT=x86_64
