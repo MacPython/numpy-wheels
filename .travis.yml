@@ -24,7 +24,8 @@ dist: trusty
 services: docker
 # Force xcode 6.4 image to work round
 # https://github.com/python-pillow/pillow-wheels/issues/45
-# osx_image: xcode6.4
+# sync with multibuild/.travis.yml 2019-08-21
+osx_image: xcode10.1
 
 matrix:
   exclude:
@@ -55,7 +56,7 @@ matrix:
     - os: osx
       language: generic
       env:
-        - MB_PYTHON_VERSION=3.5
+        - MB_PYTHON_VERSION=3.5.4
         - MB_PYTHON_OSX_VER=10.9
     - os: osx
       language: generic
