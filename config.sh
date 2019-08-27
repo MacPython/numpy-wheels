@@ -7,8 +7,6 @@ function build_wheel {
     local lib_plat=$PLAT
     if [ -n "$IS_OSX" ]; then
         install_gfortran
-        # Use fused openblas library
-        # lib_plat="intel"
     fi
     build_libs $lib_plat
     # Fix version error for development wheels by using bdist_wheel
@@ -17,7 +15,14 @@ function build_wheel {
 
 function build_libs {
     local plat=${1:-$PLAT}
-    local tar_path=$(abspath $(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat"))
+    # Force 64-bit OpenBLAS library for macOS intel (dual arch)
+    # builds. For these builds, we pretend to be dual arch, but in
+    # fact we're only using the 64-bit build of OpenBLAS
+    if [ -n $IS_OSX ] && [ $plat == intel ]; then
+        plat=x86_64
+    fi
+    local tar_fname=$(get_gf_lib "openblas-${OPENBLAS_VERSION}" "$plat")
+    local tar_path=$(abspath $tar_fname)
     # Sudo needed for macOS
     local use_sudo=""
     [ -n "$IS_OSX" ] && use_sudo="sudo"
@@ -34,6 +39,9 @@ function get_test_cmd {
 function run_tests {
     # Runs tests on installed distribution from an empty directory
     # We only run the 64 bit tests as of NumPy 1.16.
+    if [ -z "$IS_OSX" ]; then
+        apt-get -y update && apt-get install -y gfortran
+    fi
     python -c "$(get_test_cmd)"
     # Check bundled license file
     python ../check_license.py
