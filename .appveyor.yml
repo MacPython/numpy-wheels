@@ -22,7 +22,7 @@ environment:
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
-      BUILD_COMMIT: c5f98bda9eaa8165567f71527fb16e9ed6789a9d
+      BUILD_COMMIT: e39f7fb83e
       DAILY_COMMIT: master
 
   matrix:
@@ -111,7 +111,7 @@ install:
       ls $destination
 
   # Upgrade to the latest pip, setuptools, and wheel.
-  - python -m pip install -U pip setuptools=="41.0.0" wheel
+  - python -m pip install -U pip setuptools wheel
 
   # Install build requirements.
   - pip install "%CYTHON_BUILD_DEP%" --install-option="--no-cython-compile"
