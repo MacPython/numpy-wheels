@@ -22,8 +22,8 @@ environment:
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
-      BUILD_COMMIT: c5f98bda9eaa8165567f71527fb16e9ed6789a9d
-      DAILY_COMMIT: c5f98bda9eaa8165567f71527fb16e9ed6789a9d
+      BUILD_COMMIT: 815061c3ce9672b850147a0bc3535ebb220913e0
+      DAILY_COMMIT: 815061c3ce9672b850147a0bc3535ebb220913e0
 
   matrix:
 #    - PYTHON: C:\Python37
