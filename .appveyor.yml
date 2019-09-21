@@ -111,7 +111,7 @@ install:
       ls $destination
 
   # Upgrade to the latest pip, setuptools, and wheel.
-  - python -m pip install -U pip setuptools wheel
+  - python -m pip install -U pip setuptools=="41.0.0" wheel
 
   # Install build requirements.
   - pip install "%CYTHON_BUILD_DEP%" --install-option="--no-cython-compile"
