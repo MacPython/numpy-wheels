@@ -23,7 +23,7 @@ environment:
         secure:
             9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
       BUILD_COMMIT: 706deec3c61d68e4acbfeb9417213eeb64ec39bb
-      DAILY_COMMIT: master
+      DAILY_COMMIT: 706deec3c61d68e4acbfeb9417213eeb64ec39bb
 
   matrix:
 #    - PYTHON: C:\Python37
