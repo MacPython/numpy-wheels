@@ -46,6 +46,9 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.7
         - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.8
     - os: osx
       language: generic
       env:
