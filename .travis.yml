@@ -50,6 +50,7 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.8
         - MB_ML_VER=1
+        - PLAT=i686
     #- os: osx
       #language: generic
       #env:
