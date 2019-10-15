@@ -42,11 +42,11 @@ environment:
       PYTHON_VERSION: 3.7
       PYTHON_ARCH: 64
 
-    - PYTHON: C:\Python38rc1
+    - PYTHON: C:\Python38
       PYTHON_VERSION: 3.8
       PYTHON_ARCH: 32
 
-    - PYTHON: C:\Python38rc1-x64
+    - PYTHON: C:\Python38-x64
       PYTHON_VERSION: 3.8
       PYTHON_ARCH: 64
 
