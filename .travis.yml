@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=numpy
         # Also see DAILY_COMMIT below
-        - BUILD_COMMIT=cbdc3b7477aa0b497406bbb2df1025bed290f3cb
+        - BUILD_COMMIT=336eeb40effccc4571031a514f1ed266c5aec400
         - BUILD_DEPENDS=cython==0.29.2
         - TEST_DEPENDS=pytest
         - PLAT=x86_64
@@ -22,9 +22,6 @@ python: 3.5
 sudo: required
 dist: trusty
 services: docker
-# Force xcode 6.4 image to work round
-# https://github.com/python-pillow/pillow-wheels/issues/45
-osx_image: xcode6.4
 
 matrix:
   exclude:
@@ -70,20 +67,28 @@ matrix:
         - PLAT=i686
     - os: osx
       language: generic
+      osx_image: xcode6.4
       env:
         - MB_PYTHON_VERSION=2.7
+        - MB_PYTHON_OSX_VER=10.6
     - os: osx
       language: generic
+      osx_image: xcode6.4
       env:
         - MB_PYTHON_VERSION=3.5
+        - MB_PYTHON_OSX_VER=10.6
     - os: osx
       language: generic
+      osx_image: xcode6.4
       env:
         - MB_PYTHON_VERSION=3.6
+        - MB_PYTHON_OSX_VER=10.9
     - os: osx
       language: generic
+      osx_image: xcode6.4
       env:
         - MB_PYTHON_VERSION=3.7
+        - MB_PYTHON_OSX_VER=10.9
 
 before_install:
     - if [ "$TRAVIS_BRANCH" == "master" ]; then
