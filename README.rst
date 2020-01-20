@@ -30,7 +30,7 @@ The wheel-building repository:
 
 The resulting wheels are therefore self-contained and do not need any external
 dynamic libraries apart from those provided as standard by OSX / Linux as
-defined by the manylinux1 standard.
+defined by the manylinux standard.
 
 The ``.travis.yml`` file in this repository has a line containing the API key
 for the Rackspace container encrypted with an RSA key that is unique to the

@@ -67,6 +67,42 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.8
         - MB_PYTHON_OSX_VER=10.9
+    - os: linux
+      arch: arm64
+      env:
+        - PLAT=aarch64
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.6
+    - os: linux
+      arch: s390x
+      env:
+        - PLAT=s390x
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.6
+    - os: linux
+      arch: ppc64le
+      env:
+        - PLAT=ppc64le
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.6
+    - os: linux
+      arch: arm64
+      env:
+        - PLAT=aarch64
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.7
+    - os: linux
+      arch: s390x
+      env:
+        - PLAT=s390x
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.7
+    - os: linux
+      arch: ppc64le
+      env:
+        - PLAT=ppc64le
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.7
 
 before_install:
     - if [ "$TRAVIS_BRANCH" == "master" ]; then
