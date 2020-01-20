@@ -8,10 +8,9 @@ function build_wheel {
     local lib_plat=$PLAT
     if [ -n "$IS_OSX" ]; then
         install_gfortran
-    else
-        # For manylinux2010 builds with manylinux1 openblas builds
-        $use_sudo yum install -y libgfortran-4.4.7
     fi
+    echo gcc --version
+    echo `gcc --version`
     build_libs $lib_plat
     # Fix version error for development wheels by using bdist_wheel
     build_bdist_wheel $@
@@ -44,7 +43,13 @@ function run_tests {
     $PYTHON_EXE -c "$(get_test_cmd)"
     # Check bundled license file
     $PYTHON_EXE ../check_license.py
-    # Show BLAS / LAPACK used. Since this uses a wheel we cannot use
-    # tools/openblas_config.py; tools is not part of what is shipped
+    # Show BLAS / LAPACK used. Assumes this is one-directory-in
+    # so we can find tools/openblas_config.py;
+    if [ -e ../numpy/tools/openblas_support.py ]; then
+        $PYTHON_EXE ../numpy/tools/openblas_support.py --check_version
+    else
+        echo could not find ../numpy, ls -d .. is
+        ls -d ..
+    fi
     $PYTHON_EXE -c 'import numpy; numpy.show_config()'
 }
