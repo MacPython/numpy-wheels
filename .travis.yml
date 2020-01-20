@@ -5,7 +5,6 @@ env:
         - BUILD_COMMIT=e94cec800304a6a467cf90ce4e7d3e207770b4b4
         - BUILD_DEPENDS=cython
         - TEST_DEPENDS=pytest
-        - PLAT=x86_64
         - UNICODE_WIDTH=32
         - WHEELHOUSE_UPLOADER_USERNAME=travis-worker
         # Following generated with
@@ -19,9 +18,7 @@ env:
 language: python
 # Default Python version is usually 2.7
 python: 3.6
-sudo: required
 dist: bionic
-services: docker
 
 matrix:
   exclude:
@@ -30,6 +27,7 @@ matrix:
   include:
     - os: linux
       env:
+        - PLAT=x86_64
         - MB_PYTHON_VERSION=3.6
     - os: linux
       env:
@@ -37,6 +35,7 @@ matrix:
         - PLAT=i686
     - os: linux
       env:
+        - PLAT=x86_64
         - MB_PYTHON_VERSION=3.7
     - os: linux
       env:
@@ -44,6 +43,7 @@ matrix:
         - PLAT=i686
     - os: linux
       env:
+        - PLAT=x86_64
         - MB_PYTHON_VERSION=3.8
     - os: linux
       env:
@@ -53,18 +53,21 @@ matrix:
       language: generic
       osx_image: xcode10.1
       env:
+        - PLAT=x86_64
         - MB_PYTHON_VERSION=3.6
         - MB_PYTHON_OSX_VER=10.9
     - os: osx
       language: generic
       osx_image: xcode10.1
       env:
+        - PLAT=x86_64
         - MB_PYTHON_VERSION=3.7
         - MB_PYTHON_OSX_VER=10.9
     - os: osx
       language: generic
       osx_image: xcode10.1
       env:
+        - PLAT=x86_64
         - MB_PYTHON_VERSION=3.8
         - MB_PYTHON_OSX_VER=10.9
     - os: linux
@@ -73,36 +76,42 @@ matrix:
         - PLAT=aarch64
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.6
+        - DEBUG_PRINT=1
     - os: linux
       arch: s390x
       env:
         - PLAT=s390x
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.6
+        - DEBUG_PRINT=1
     - os: linux
       arch: ppc64le
       env:
         - PLAT=ppc64le
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.6
+        - DEBUG_PRINT=1
     - os: linux
       arch: arm64
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.7
+        - DEBUG_PRINT=1
     - os: linux
       arch: s390x
       env:
         - PLAT=s390x
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.7
+        - DEBUG_PRINT=1
     - os: linux
       arch: ppc64le
       env:
         - PLAT=ppc64le
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.7
+        - DEBUG_PRINT=1
 
 before_install:
     - if [ "$TRAVIS_BRANCH" == "master" ]; then

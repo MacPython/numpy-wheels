@@ -8,6 +8,8 @@ function build_wheel {
     if [ -n "$IS_OSX" ]; then
         install_gfortran
     fi
+    echo gcc --version
+    echo `gcc --version`
     build_libs $lib_plat
     # Fix version error for development wheels by using bdist_wheel
     build_bdist_wheel $@
