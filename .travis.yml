@@ -4,7 +4,7 @@ env:
         # Also see DAILY_COMMIT below
         - BUILD_COMMIT=e94cec800304a6a467cf90ce4e7d3e207770b4b4
         - BUILD_DEPENDS=cython
-        - TEST_DEPENDS=pytest
+        - TEST_DEPENDS="pytest hypothesis"
         - PLAT=x86_64
         - UNICODE_WIDTH=32
         - WHEELHOUSE_UPLOADER_USERNAME=travis-worker

@@ -145,7 +145,7 @@ build_script:
       }
 
 test_script:
-  - pip install pytest
+  - pip install pytest hypothesis
   - cd ..
   - python check_license.py
   - mkdir tmp_for_test
