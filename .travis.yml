@@ -19,11 +19,11 @@ env:
 language: python
 # Default Python version is usually 2.7
 python: 3.6
-sudo: required
 dist: bionic
 services: docker
+os: linux
 
-matrix:
+jobs:
   exclude:
       # Exclude the default Python 3.6 build
       - python: 3.6
@@ -37,6 +37,7 @@ matrix:
         - MB_PYTHON_VERSION=3.6
         - MB_ML_VER=2010
         - PLAT=i686
+        - ENV_VARS_PATH=env_vars_32.sh
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.7
@@ -46,6 +47,7 @@ matrix:
         - MB_PYTHON_VERSION=3.7
         - MB_ML_VER=2010
         - PLAT=i686
+        - ENV_VARS_PATH=env_vars_32.sh
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.8
@@ -55,6 +57,7 @@ matrix:
         - MB_PYTHON_VERSION=3.8
         - MB_ML_VER=2010
         - PLAT=i686
+        - ENV_VARS_PATH=env_vars_32.sh
     - os: osx
       language: generic
       osx_image: xcode10.1
