@@ -18,6 +18,7 @@ function build_wheel {
 
 function build_libs {
     # Use the same incantation as numpy/tools/travis-before-install.sh
+    python -mpip install urllib3
     target=$(python numpy/tools/openblas_support.py)
     $use_sudo cp -r $target/lib/* /usr/local/lib
     $use_sudo cp $target/include/* /usr/local/include
