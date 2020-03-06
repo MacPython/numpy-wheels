@@ -17,16 +17,12 @@ env:
         - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
-# Default Python version is usually 2.7
-python: 3.6
+python: 3.7
 dist: bionic
 services: docker
 os: linux
 
 jobs:
-  exclude:
-      # Exclude the default Python 3.6 build
-      - python: 3.6
   include:
     - os: linux
       env:
@@ -38,6 +34,7 @@ jobs:
         - MB_ML_VER=2010
         - PLAT=i686
         - ENV_VARS_PATH=env_vars_32.sh
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.7
@@ -48,6 +45,7 @@ jobs:
         - MB_ML_VER=2010
         - PLAT=i686
         - ENV_VARS_PATH=env_vars_32.sh
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.8
@@ -58,6 +56,7 @@ jobs:
         - MB_ML_VER=2010
         - PLAT=i686
         - ENV_VARS_PATH=env_vars_32.sh
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: osx
       language: generic
       osx_image: xcode10.1
