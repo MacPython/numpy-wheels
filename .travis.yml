@@ -5,8 +5,6 @@ env:
         - BUILD_COMMIT=e94cec800304a6a467cf90ce4e7d3e207770b4b4
         - BUILD_DEPENDS=cython
         - TEST_DEPENDS="pytest hypothesis"
-        - PLAT=x86_64
-        - UNICODE_WIDTH=32
         - WHEELHOUSE_UPLOADER_USERNAME=travis-worker
         # Following generated with
         # travis encrypt -r MacPython/numpy-wheels WHEELHOUSE_UPLOADER_SECRET=<the api key>
@@ -17,44 +15,48 @@ env:
         - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
-# Default Python version is usually 2.7
-python: 3.6
-sudo: required
 dist: bionic
 services: docker
+os: linux
 
-matrix:
-  exclude:
-      # Exclude the default Python 3.6 build
-      - python: 3.6
+jobs:
   include:
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.6
         - MB_ML_VER=2010
+        - PLAT=x86_64
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.6
         - MB_ML_VER=2010
         - PLAT=i686
+        - ENV_VARS_PATH=env_vars_32.sh
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.7
         - MB_ML_VER=2010
+        - PLAT=x86_64
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.7
         - MB_ML_VER=2010
         - PLAT=i686
+        - ENV_VARS_PATH=env_vars_32.sh
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.8
         - MB_ML_VER=2010
+        - PLAT=x86_64
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.8
         - MB_ML_VER=2010
         - PLAT=i686
+        - ENV_VARS_PATH=env_vars_32.sh
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: osx
       language: generic
       osx_image: xcode10.1
