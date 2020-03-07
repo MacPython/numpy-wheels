@@ -5,8 +5,6 @@ env:
         - BUILD_COMMIT=e94cec800304a6a467cf90ce4e7d3e207770b4b4
         - BUILD_DEPENDS=cython
         - TEST_DEPENDS="pytest hypothesis"
-        - PLAT=x86_64
-        - UNICODE_WIDTH=32
         - WHEELHOUSE_UPLOADER_USERNAME=travis-worker
         # Following generated with
         # travis encrypt -r MacPython/numpy-wheels WHEELHOUSE_UPLOADER_SECRET=<the api key>
@@ -17,7 +15,6 @@ env:
         - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
-python: 3.7
 dist: bionic
 services: docker
 os: linux
@@ -28,6 +25,7 @@ jobs:
       env:
         - MB_PYTHON_VERSION=3.6
         - MB_ML_VER=2010
+        - PLAT=x86_64
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.6
@@ -39,6 +37,7 @@ jobs:
       env:
         - MB_PYTHON_VERSION=3.7
         - MB_ML_VER=2010
+        - PLAT=x86_64
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.7
@@ -50,6 +49,7 @@ jobs:
       env:
         - MB_PYTHON_VERSION=3.8
         - MB_ML_VER=2010
+        - PLAT=x86_64
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.8

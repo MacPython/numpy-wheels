@@ -17,11 +17,14 @@ function build_wheel {
 }
 
 function build_libs {
-    # Use the same incantation as numpy/tools/travis-before-install.sh
+    # Use the same incantation as numpy/tools/travis-before-install.sh to
+    # download and un-tar the openblas libraries. The python call returns
+    # the un-tar root directory, then the files are copied into /usr/local.
+    # Could utilize a site.cfg instead to prevent the copy.
     python -mpip install urllib3
-    target=$(python numpy/tools/openblas_support.py)
-    $use_sudo cp -r $target/lib/* /usr/local/lib
-    $use_sudo cp $target/include/* /usr/local/include
+    basedir=$(python numpy/tools/openblas_support.py)
+    $use_sudo cp -r $basedir/lib/* /usr/local/lib
+    $use_sudo cp $basedir/include/* /usr/local/include
 }
 
 function get_test_cmd {
