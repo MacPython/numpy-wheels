@@ -107,6 +107,7 @@ install:
     - build_wheel $REPO_DIR $PLAT
 
 script:
+    - pip install hypothesis
     - install_run $PLAT
 
 after_success:
