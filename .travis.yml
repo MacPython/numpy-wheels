@@ -56,6 +56,7 @@ jobs:
     - os: osx
       language: generic
       osx_image: xcode6.4
+      dist: trusty
       env:
         - MB_PYTHON_VERSION=3.5
         - MB_PYTHON_OSX_VER=10.6
