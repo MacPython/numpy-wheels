@@ -27,3 +27,5 @@ function teardown_test_venv {
         fi
     fi
 } 
+# Work around bug in multibuild
+if [ ! -o PIP_CMD ]; then PIP_CMD="$PYTHON_EXE -mpip"; fi
