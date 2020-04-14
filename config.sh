@@ -23,6 +23,7 @@ function build_libs {
     # the un-tar root directory, then the files are copied into /usr/local.
     # Could utilize a site.cfg instead to prevent the copy.
     python -mpip install urllib3
+    python -c"import platform; print('platform.uname().machine', platform.uname().machine)"
     basedir=$(python numpy/tools/openblas_support.py)
     $use_sudo cp -r $basedir/lib/* /usr/local/lib
     $use_sudo cp $basedir/include/* /usr/local/include

@@ -2,7 +2,7 @@ function setup_test_venv {
     # Create a new empty venv dedicated to testing for non-Linux platforms. On
     # Linux the tests are run in a Docker container.
     if [ $(uname) != "Linux" ]; then
-        deactivate || echo ""
+        if type -t deactivate ; then deactivate; fi
         $PYTHON_EXE -m venv test_venv
         if [ $(uname) == "Darwin" ]; then
             source test_venv/bin/activate
@@ -21,7 +21,7 @@ function setup_test_venv {
 
 function teardown_test_venv {
     if [ $(uname) != "Linux" ]; then
-        deactivate || echo ""
+        if type -t deactivate ; then deactivate; fi
         if [ $(uname) == "Darwin" ]; then
             source venv/bin/activate
         fi
