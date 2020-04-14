@@ -63,8 +63,20 @@ jobs:
       - bash: |
           set -e
           pushd numpy
-          pip install twine wheel
+          pip install twine wheel urllib3
+          # a bit overkill, all we really need is cython
           pip install --timeout=60 -r test_requirements.txt
+
+          # handle license
+          cp ../LICENSE_win32.txt LICENSE.txt
+
+          # Download and install static "openblas.a" to PYTHON/lib
+          PYTHON_DIR=$(python -c"import sys, os; print(os.path.dirname(sys.executable))")
+          LIB=$(python tools/openblas_support.py)
+          echo Copying $LIB to $PYTHON_DIR/lib
+          cp $LIB $PYTHON_DIR/lib/openblas.a
+
+          # Build the wheel
           python setup.py build
           python setup.py bdist_wheel
           ls dist
@@ -77,7 +89,7 @@ jobs:
           source extra_functions.sh
           source config.sh
           setup_test_venv
-          pip install -r test_requirements.txt
+          pip install -r numpy/test_requirements.txt
           pip install numpy/dist/numpy-*.whl
           run_tests
           teardown_test_venv
