@@ -1,0 +1,122 @@
+parameters:
+  name: ""
+  vmImage: ""
+  matrix: []
+
+jobs:
+  - job: ${{ parameters.name }}
+    pool:
+      vmImage: ${{ parameters.vmImage }}
+    variables:
+      BUILD_COMMIT: "v1.18.2"
+      NIGHTLY_BUILD_COMMIT: "master"
+      NIGHTLY_BUILD: "false"
+      PYTHON_ARCH: "x64"
+      JUNITXML: "test-data.xml"
+      TEST_DIR: '$(Agent.WorkFolder)/tmp_for_test'
+    strategy:
+      matrix:
+        ${{ insert }}: ${{ parameters.matrix }}
+    steps:
+      - checkout: self
+        submodules: true
+
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: $(PYTHON_VERSION)
+          architecture: $(PYTHON_ARCH)
+        displayName: Set python version
+
+      - bash: |
+          set -e
+          echo PYTHON $PYTHON_VERSION $PYTHON_ARCH
+          echo Build Reason: $BUILD_REASON
+          python --version
+          python -c "import struct; print(struct.calcsize('P') * 8)"
+          pip --version
+        displayName: Check that we have the expected version and architecture for Python
+      - bash: |
+          set -e
+          SKIP_BUILD="false"
+          if [ "$BUILD_REASON" == "Schedule" ]; then
+            BUILD_COMMIT=$NIGHTLY_BUILD_COMMIT
+            if [ "$NIGHTLY_BUILD" != "true" ]; then
+              SKIP_BUILD="true"
+            fi
+          fi
+          echo "Building numpy@$BUILD_COMMIT"
+          echo "##vso[task.setvariable variable=BUILD_COMMIT]$BUILD_COMMIT"
+          echo "##vso[task.setvariable variable=SKIP_BUILD]$SKIP_BUILD"
+          # Store original Python path to be able to create test_venv pointing
+          # to same Python version.
+          PYTHON_EXE=`which python`
+          echo "##vso[task.setvariable variable=PYTHON_EXE]$PYTHON_EXE"
+        displayName: Define build env variables
+      - bash: |
+          set -e
+          cd numpy
+          git checkout $BUILD_COMMIT
+          git clean -fxd
+          git reset --hard
+        displayName: Checkout numpy commit
+        condition: eq(variables['SKIP_BUILD'], 'false')
+      - bash: |
+          set -e
+          pip install --timeout=60 -r test_requirements.txt
+          pip install twine wheel
+          pushd numpy
+          python setup.py build
+          python setup.py bdist_wheel
+          ls dist
+          twine check dist/*
+          popd
+        displayName: Build wheel
+        condition: eq(variables['SKIP_BUILD'], 'false')
+      - bash: |
+          set -e
+          source extra_functions.sh
+          source config.sh
+          setup_test_venv
+          pip install numpy/dist/numpy-*.whl
+          python run_tests.py -mfull
+          teardown_test_venv
+        displayName: Install wheel and test
+        condition: eq(variables['SKIP_BUILD'], 'false')
+
+      - bash: echo "##vso[task.prependpath]$CONDA/Scripts"
+        displayName: Add conda to PATH
+        condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
+
+      - bash: conda install -q -y anaconda-client
+        displayName: Install anaconda-client
+        condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
+
+      - bash: |
+          set -e
+          if [ "$BUILD_REASON" == "Schedule" ]; then
+            ANACONDA_ORG="scipy-wheels-nightly"
+            TOKEN="$NUMPY_NIGHTLY_UPLOAD_TOKEN"
+          else
+            ANACONDA_ORG="multibuild-wheels-staging"
+            TOKEN="$NUMPY_STAGING_UPLOAD_TOKEN"
+          fi
+          if [ "$TOKEN" == "" ]; then
+            echo "##[warning] Could not find anaconda.org upload token in secret variables"
+          fi
+          echo "##vso[task.setvariable variable=TOKEN]$TOKEN"
+          echo "##vso[task.setvariable variable=ANACONDA_ORG]$ANACONDA_ORG"
+        displayName: Retrieve secret upload token
+        condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
+        env:
+          # Secret variables need to mapped to env variables explicitly:
+          NUMPY_NIGHTLY_UPLOAD_TOKEN: $(NUMPY_NIGHTLY_UPLOAD_TOKEN)
+          NUMPY_STAGING_UPLOAD_TOKEN: $(NUMPY_STAGING_UPLOAD_TOKEN)
+      - bash: |
+          set -e
+          # The --force option forces a replacement if the remote file already
+          # exists.
+          ls numpy/dist/numpy-*.whl
+          anaconda -t $TOKEN upload --force -u $ANACONDA_ORG numpy/dist/numpy-*.whl
+          echo "PyPI-style index: https://pypi.anaconda.org/$ANACONDA_ORG/simple"
+        displayName: Upload to anaconda.org (only if secret token is retrieved)
+        condition: ne(variables['TOKEN'], '')

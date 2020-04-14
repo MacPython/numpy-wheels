@@ -1,19 +1,79 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+schedules:
+- cron: "27 3 */1 * *"
+  # 3:27am UTC everyday
+  displayName: Nighthly build
+  branches:
+    include:
+    - master
+  always: true
 
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+pr:
+- master 
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs:
+  - template: azure/windows.yml
+    parameters:
+      name: windows
+      vmImage: vs2017-win2016
+      matrix:
+        py_3.6_32:
+          PYTHON_VERSION: "3.6.x"
+          PYTHON_ARCH: "x86"
+        py_3.6_64:
+          PYTHON_VERSION: "3.6.x"
+        py_3.7_32:
+          PYTHON_VERSION: "3.7.x"
+          PYTHON_ARCH: "x86"
+          NIGHTLY_BUILD: "true"
+        py_3.7_64:
+          PYTHON_VERSION: "3.7.x"
+          NIGHTLY_BUILD: "true"
+        py_3.8_32:
+          PYTHON_VERSION: "3.8.x"
+          PYTHON_ARCH: "x86"
+          NIGHTLY_BUILD: "true"
+        py_3.8_64:
+          PYTHON_VERSION: "3.8.x"
+          NIGHTLY_BUILD: "true"
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - template: azure/posix.yml
+    parameters:
+      name: linux
+      vmImage: ubuntu-16.04
+      matrix:
+        py_3.6_32:
+          MB_PYTHON_VERSION: "3.6"
+          PLAT: "i686"
+        py_3.6_64:
+          MB_PYTHON_VERSION: "3.6"
+        py_3.7_32:
+          MB_PYTHON_VERSION: "3.7"
+          PLAT: "i686"
+          NIGHTLY_BUILD: "true"
+        py_3.7_64:
+          MB_PYTHON_VERSION: "3.7"
+          NIGHTLY_BUILD: "true"
+        py_3.8_32:
+          MB_PYTHON_VERSION: "3.8"
+          PLAT: "i686"
+          NIGHTLY_BUILD: "true"
+        py_3.8_64:
+          MB_PYTHON_VERSION: "3.8"
+          NIGHTLY_BUILD: "true"
+
+  - template: azure/posix.yml
+    parameters:
+      name: macOS
+      vmImage: macOS-10.14
+      matrix:
+        py_3.6_64:
+          MB_PYTHON_VERSION: "3.6"
+        py_3.7_64:
+          MB_PYTHON_VERSION: "3.7"
+          NIGHTLY_BUILD: "true"
+        py_3.8_64:
+          MB_PYTHON_VERSION: "3.8"
+          NIGHTLY_BUILD: "true"
