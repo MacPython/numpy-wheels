@@ -62,9 +62,9 @@ jobs:
         condition: eq(variables['SKIP_BUILD'], 'false')
       - bash: |
           set -e
-          pip install --timeout=60 -r test_requirements.txt
-          pip install twine wheel
           pushd numpy
+          pip install twine wheel
+          pip install --timeout=60 -r test_requirements.txt
           python setup.py build
           python setup.py bdist_wheel
           ls dist

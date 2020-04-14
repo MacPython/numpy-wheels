@@ -47,22 +47,34 @@ jobs:
         py_3.6_32:
           MB_PYTHON_VERSION: "3.6"
           PLAT: "i686"
+          MB_ML_VER: "2010"
+          ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.6_64:
           MB_PYTHON_VERSION: "3.6"
+          MB_ML_VER: "2010"
         py_3.7_32:
           MB_PYTHON_VERSION: "3.7"
           PLAT: "i686"
           NIGHTLY_BUILD: "true"
+          MB_ML_VER: "2010"
+          ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.7_64:
           MB_PYTHON_VERSION: "3.7"
           NIGHTLY_BUILD: "true"
+          MB_ML_VER: "2010"
         py_3.8_32:
           MB_PYTHON_VERSION: "3.8"
           PLAT: "i686"
           NIGHTLY_BUILD: "true"
+          MB_ML_VER: "2010"
+          ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
           NIGHTLY_BUILD: "true"
+          MB_ML_VER: "2010"
 
   - template: azure/posix.yml
     parameters:
@@ -71,9 +83,12 @@ jobs:
       matrix:
         py_3.6_64:
           MB_PYTHON_VERSION: "3.6"
+          MB_PYTHON_OSX_VER: 10.9
         py_3.7_64:
           MB_PYTHON_VERSION: "3.7"
           NIGHTLY_BUILD: "true"
+          MB_PYTHON_OSX_VER: 10.9
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
           NIGHTLY_BUILD: "true"
+          MB_PYTHON_OSX_VER: 10.9
