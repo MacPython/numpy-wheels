@@ -1,6 +1,7 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
 # See env_vars.sh for extra environment variables
+if [ $(uname) == "Linux" ]; then IS_LINUX=1; fi
 source gfortran-install/gfortran_utils.sh
 
 function build_wheel {
@@ -36,7 +37,7 @@ function get_test_cmd {
 
 function run_tests {
     # Runs tests on installed distribution from an empty directory
-    if [ -z "$IS_OSX" ]; then
+    if [ -n "$IS_LINUX" ]; then
         apt-get -y update && apt-get install -y gfortran
     fi
     python -c "$(get_test_cmd)"

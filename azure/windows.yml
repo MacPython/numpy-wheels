@@ -78,7 +78,7 @@ jobs:
           source config.sh
           setup_test_venv
           pip install numpy/dist/numpy-*.whl
-          python run_tests.py -mfull
+          run_tests
           teardown_test_venv
         displayName: Install wheel and test
         condition: eq(variables['SKIP_BUILD'], 'false')
