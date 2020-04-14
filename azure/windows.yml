@@ -73,10 +73,11 @@ jobs:
         displayName: Build wheel
         condition: eq(variables['SKIP_BUILD'], 'false')
       - bash: |
-          set -e
+          set -ex
           source extra_functions.sh
           source config.sh
           setup_test_venv
+          pip install -r test_requirements.txt
           pip install numpy/dist/numpy-*.whl
           run_tests
           teardown_test_venv
