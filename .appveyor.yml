@@ -1,0 +1,10 @@
+image: Ubuntu
+
+install:
+- echo done
+
+test_script:
+- echo done
+
+build: off
+

@@ -41,10 +41,10 @@ function run_tests {
     if [ -n "$IS_LINUX" ]; then
         apt-get -y update && apt-get install -y gfortran
     fi
-    python -c "$(get_test_cmd)"
+    $PYTHON_EXE -c "$(get_test_cmd)"
     # Check bundled license file
-    python ../check_license.py
+    $PYTHON_EXE ../check_license.py
     # Show BLAS / LAPACK used. Since this uses a wheel we cannot use
     # tools/openblas_config.py; tools is not part of what is shipped
-    python -c 'import numpy; numpy.show_config()'
+    $PYTHON_EXE -c 'import numpy; numpy.show_config()'
 }

@@ -8,10 +8,8 @@ jobs:
     pool:
       vmImage: ${{ parameters.vmImage }}
     variables:
-      BUILD_COMMIT: "v1.18.2"
+      BUILD_COMMIT: "v1.18.3"
       NIGHTLY_BUILD_COMMIT: "master"
-      NIGHTLY_BUILD: "false"
-      PYTHON_ARCH: "x64"
       JUNITXML: "test-data.xml"
       TEST_DIR: '$(Agent.WorkFolder)/tmp_for_test'
     strategy:
@@ -24,6 +22,7 @@ jobs:
       - task: UsePythonVersion@0
         inputs:
           versionSpec: $(PYTHON_VERSION)
+          addToPath: true
           architecture: $(PYTHON_ARCH)
         displayName: Set python version
 
@@ -37,16 +36,11 @@ jobs:
         displayName: Check that we have the expected version and architecture for Python
       - bash: |
           set -e
-          SKIP_BUILD="false"
           if [ "$BUILD_REASON" == "Schedule" ]; then
             BUILD_COMMIT=$NIGHTLY_BUILD_COMMIT
-            if [ "$NIGHTLY_BUILD" != "true" ]; then
-              SKIP_BUILD="true"
-            fi
           fi
           echo "Building numpy@$BUILD_COMMIT"
           echo "##vso[task.setvariable variable=BUILD_COMMIT]$BUILD_COMMIT"
-          echo "##vso[task.setvariable variable=SKIP_BUILD]$SKIP_BUILD"
           # Store original Python path to be able to create test_venv pointing
           # to same Python version.
           PYTHON_EXE=`which python`
@@ -55,13 +49,18 @@ jobs:
       - bash: |
           set -e
           cd numpy
+          git fetch origin HEAD
           git checkout $BUILD_COMMIT
           git clean -fxd
           git reset --hard
         displayName: Checkout numpy commit
-        condition: eq(variables['SKIP_BUILD'], 'false')
+
+      - powershell: |
+          choco install -y mingw --forcex86 --force --version=5.3.0
+        displayName: 'Install 32-bit mingw for 32-bit builds'
+        condition: eq(variables['BITS'], 32)
       - bash: |
-          set -e
+          set -xe
           pushd numpy
           pip install twine wheel urllib3
           # a bit overkill, all we really need is cython
@@ -70,48 +69,61 @@ jobs:
           # handle license
           cp ../LICENSE_win32.txt LICENSE.txt
 
-          # Download and install static "openblas.a" to PYTHON/lib
-          PYTHON_DIR=$(python -c"import sys, os; print(os.path.dirname(sys.executable))")
-          LIB=$(python tools/openblas_support.py)
-          echo Copying $LIB to $PYTHON_DIR/lib
-          cp $LIB $PYTHON_DIR/lib/openblas.a
+          # handle _distributor_init.py
+          PYTHONPATH=tools python -c "import openblas_support; openblas_support.make_init('numpy')"
 
+          # Download and get the path to "openblas.a". We cannot copy it
+          # to $PYTHON_EXE's directory since that is on a different drive which
+          # mingw does not like. Instead copy it to a directory and set OPENBLAS
+          target=$(python tools/openblas_support.py)
+          mkdir -p openblas
+          echo Copying $target to openblas
+          cp $target openblas
+          echo "##vso[task.setvariable variable=OPENBLAS]openblas"
+        displayName: Prepare the build
+
+      - powershell: |
+          If ($(BITS) -eq 32) {
+              $env:CFLAGS = "-m32"
+              $env:LDFLAGS = "-m32"
+              $env:PATH = "C:\\tools\\mingw32\\bin;" + $env:PATH
+              refreshenv
+          }
           # Build the wheel
+          pushd numpy
           python setup.py build
           python setup.py bdist_wheel
-          ls dist
           twine check dist/*
           popd
         displayName: Build wheel
-        condition: eq(variables['SKIP_BUILD'], 'false')
       - bash: |
           set -ex
           source extra_functions.sh
           source config.sh
           setup_test_venv
-          pip install -r numpy/test_requirements.txt
-          pip install numpy/dist/numpy-*.whl
+          python -m pip install -r numpy/test_requirements.txt
+          python -m pip install numpy/dist/numpy-*.whl
+          mkdir -p for_test
+          pushd for_test
           run_tests
+          popd
           teardown_test_venv
         displayName: Install wheel and test
-        condition: eq(variables['SKIP_BUILD'], 'false')
 
       - bash: echo "##vso[task.prependpath]$CONDA/Scripts"
         displayName: Add conda to PATH
-        condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
 
       - bash: conda install -q -y anaconda-client
         displayName: Install anaconda-client
-        condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
 
       - bash: |
           set -e
           if [ "$BUILD_REASON" == "Schedule" ]; then
             ANACONDA_ORG="scipy-wheels-nightly"
-            TOKEN="$NUMPY_NIGHTLY_UPLOAD_TOKEN"
+            TOKEN="$MAPPED_NUMPY_NIGHTLY_UPLOAD_TOKEN"
           else
             ANACONDA_ORG="multibuild-wheels-staging"
-            TOKEN="$NUMPY_STAGING_UPLOAD_TOKEN"
+            TOKEN="$MAPPED_NUMPY_STAGING_UPLOAD_TOKEN"
           fi
           if [ "$TOKEN" == "" ]; then
             echo "##[warning] Could not find anaconda.org upload token in secret variables"
@@ -119,16 +131,16 @@ jobs:
           echo "##vso[task.setvariable variable=TOKEN]$TOKEN"
           echo "##vso[task.setvariable variable=ANACONDA_ORG]$ANACONDA_ORG"
         displayName: Retrieve secret upload token
-        condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
         env:
           # Secret variables need to mapped to env variables explicitly:
-          NUMPY_NIGHTLY_UPLOAD_TOKEN: $(NUMPY_NIGHTLY_UPLOAD_TOKEN)
-          NUMPY_STAGING_UPLOAD_TOKEN: $(NUMPY_STAGING_UPLOAD_TOKEN)
+          MAPPED_NUMPY_NIGHTLY_UPLOAD_TOKEN: $(NUMPY_NIGHTLY_UPLOAD_TOKEN)
+          MAPPED_NUMPY_STAGING_UPLOAD_TOKEN: $(NUMPY_STAGING_UPLOAD_TOKEN)
+
       - bash: |
           set -e
           # The --force option forces a replacement if the remote file already
           # exists.
-          ls numpy/dist/numpy-*.whl
+          echo uploading numpy/dist/numpy-*.whl
           anaconda -t $TOKEN upload --force -u $ANACONDA_ORG numpy/dist/numpy-*.whl
           echo "PyPI-style index: https://pypi.anaconda.org/$ANACONDA_ORG/simple"
         displayName: Upload to anaconda.org (only if secret token is retrieved)

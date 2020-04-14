@@ -1,7 +1,7 @@
 schedules:
 - cron: "27 3 */1 * *"
   # 3:27am UTC everyday
-  displayName: Nighthly build
+  displayName: Nightly build
   branches:
     include:
     - master
@@ -22,27 +22,32 @@ jobs:
         py_3.6_32:
           PYTHON_VERSION: "3.6.x"
           PYTHON_ARCH: "x86"
+          BITS: 32
         py_3.6_64:
           PYTHON_VERSION: "3.6.x"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
         py_3.7_32:
           PYTHON_VERSION: "3.7.x"
           PYTHON_ARCH: "x86"
-          NIGHTLY_BUILD: "true"
+          BITS: 32
         py_3.7_64:
           PYTHON_VERSION: "3.7.x"
-          NIGHTLY_BUILD: "true"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
         py_3.8_32:
           PYTHON_VERSION: "3.8.x"
           PYTHON_ARCH: "x86"
-          NIGHTLY_BUILD: "true"
+          BITS: 32
         py_3.8_64:
           PYTHON_VERSION: "3.8.x"
-          NIGHTLY_BUILD: "true"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
 
   - template: azure/posix.yml
     parameters:
       name: linux
-      vmImage: ubuntu-16.04
+      vmImage: ubuntu-18.04
       matrix:
         py_3.6_32:
           MB_PYTHON_VERSION: "3.6"
@@ -56,24 +61,20 @@ jobs:
         py_3.7_32:
           MB_PYTHON_VERSION: "3.7"
           PLAT: "i686"
-          NIGHTLY_BUILD: "true"
           MB_ML_VER: "2010"
           ENV_VARS_PATH: "env_vars_32.sh"
           DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.7_64:
           MB_PYTHON_VERSION: "3.7"
-          NIGHTLY_BUILD: "true"
           MB_ML_VER: "2010"
         py_3.8_32:
           MB_PYTHON_VERSION: "3.8"
           PLAT: "i686"
-          NIGHTLY_BUILD: "true"
           MB_ML_VER: "2010"
           ENV_VARS_PATH: "env_vars_32.sh"
           DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
-          NIGHTLY_BUILD: "true"
           MB_ML_VER: "2010"
 
   - template: azure/posix.yml
@@ -83,12 +84,7 @@ jobs:
       matrix:
         py_3.6_64:
           MB_PYTHON_VERSION: "3.6"
-          MB_PYTHON_OSX_VER: 10.9
         py_3.7_64:
           MB_PYTHON_VERSION: "3.7"
-          NIGHTLY_BUILD: "true"
-          MB_PYTHON_OSX_VER: 10.9
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
-          NIGHTLY_BUILD: "true"
-          MB_PYTHON_OSX_VER: 10.9

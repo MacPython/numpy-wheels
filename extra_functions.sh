@@ -7,11 +7,14 @@ function setup_test_venv {
         if [ $(uname) == "Darwin" ]; then
             source test_venv/bin/activate
         else
+            mkdir -p test_venv/libs
             source test_venv/Scripts/activate
         fi
         # Note: the idiom "python -m pip install ..." is necessary to upgrade
         # pip itself on Windows. Otherwise one would get a permission error on
         # pip.exe.
+        PYTHON_EXE=python
+        PIP_CMD="$PYTHON_EXE -m pip"
         python -m pip install --upgrade pip wheel
         if [ "$TEST_DEPENDS" != "" ]; then
             pip install $TEST_DEPENDS
@@ -28,4 +31,4 @@ function teardown_test_venv {
     fi
 } 
 # Work around bug in multibuild
-if [ ! -o PIP_CMD ]; then PIP_CMD="$PYTHON_EXE -mpip"; fi
+if [ ! -o PIP_CMD ]; then PIP_CMD="$PYTHON_EXE -m pip"; fi
