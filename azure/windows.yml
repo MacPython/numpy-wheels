@@ -36,7 +36,7 @@ jobs:
         displayName: Check that we have the expected version and architecture for Python
       - bash: |
           set -e
-          if [ 1 -o "$BUILD_REASON" == "Schedule" ]; then
+          if [ "$BUILD_REASON" == "Schedule" ]; then
             BUILD_COMMIT=$NIGHTLY_BUILD_COMMIT
           fi
           echo "Building numpy@$BUILD_COMMIT"
@@ -118,7 +118,7 @@ jobs:
 
       - bash: |
           set -e
-          if [ 1 -o "$BUILD_REASON" == "Schedule" ]; then
+          if [ "$BUILD_REASON" == "Schedule" ]; then
             ANACONDA_ORG="scipy-wheels-nightly"
             TOKEN="$MAPPED_NUMPY_NIGHTLY_UPLOAD_TOKEN"
           else
@@ -141,7 +141,6 @@ jobs:
           # The --force option forces a replacement if the remote file already
           # exists.
           echo uploading numpy/dist/numpy-*.whl
-          echo TOKEN starts with ${TOKEN:0:3}
           anaconda -t $TOKEN upload --force -u $ANACONDA_ORG numpy/dist/numpy-*.whl
           echo "PyPI-style index: https://pypi.anaconda.org/$ANACONDA_ORG/simple"
         displayName: Upload to anaconda.org (only if secret token is retrieved)
