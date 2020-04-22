@@ -1,0 +1,119 @@
+parameters:
+  name: ""
+  vmImage: ""
+  matrix: []
+
+jobs:
+  - job: ${{ parameters.name }}
+    pool:
+      vmImage: ${{ parameters.vmImage }}
+    variables:
+      REPO_DIR: "numpy"
+      BUILD_COMMIT: 'v1.18.3'
+      PLAT: "x86_64"
+      CYTHON_BUILD_DEP: "cython==0.29.16"
+      NIGHTLY_BUILD_COMMIT: "master"
+      TEST_DEPENDS: "pytest hypothesis cffi pytz"
+      JUNITXML: "test-data.xml"
+      TEST_DIR: "tmp_for_test"
+    strategy:
+      matrix:
+        ${{ insert }}: ${{ parameters.matrix }}
+
+    steps:
+      - checkout: self
+        submodules: true
+
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: $(MB_PYTHON_VERSION)
+        displayName: Set python version
+
+      - bash: |
+          set -e
+
+          if [ "$BUILD_REASON" == "Schedule" ]; then
+            BUILD_COMMIT=$NIGHTLY_BUILD_COMMIT
+          fi
+          echo "Building numpy@$BUILD_COMMIT"
+          echo "##vso[task.setvariable variable=BUILD_COMMIT]$BUILD_COMMIT"
+
+          # Platform variables used in multibuild scripts
+          if [ `uname` == 'Darwin' ]; then
+            echo "##vso[task.setvariable variable=TRAVIS_OS_NAME]osx"
+            echo "##vso[task.setvariable variable=MACOSX_DEPLOYMENT_TARGET]10.9"
+          else
+            echo "##vso[task.setvariable variable=TRAVIS_OS_NAME]linux"
+          fi
+
+          # Store original Python path to be able to create test_venv pointing
+          # to same Python version.
+          PYTHON_EXE=`which python`
+          echo "##vso[task.setvariable variable=PYTHON_EXE]$PYTHON_EXE"
+        displayName: Define build env variables
+
+      - bash: |
+          set -e
+          echo $BUILD_COMMIT
+          pip install virtualenv wheel
+          BUILD_DEPENDS="$CYTHON_BUILD_DEP"
+
+          source multibuild/common_utils.sh
+          source multibuild/travis_steps.sh
+          source extra_functions.sh
+
+          # Setup build dependencies
+          before_install
+
+          clean_code $REPO_DIR $BUILD_COMMIT
+          ./patch_code.sh $REPO_DIR
+          build_wheel $REPO_DIR $PLAT
+        displayName: Build wheel
+
+      - bash: |
+          set -e
+          source multibuild/common_utils.sh
+          source multibuild/travis_steps.sh
+          source extra_functions.sh
+          setup_test_venv
+          install_run $PLAT
+          teardown_test_venv
+        displayName: Install wheel and test
+
+      - bash: |
+          echo "##vso[task.prependpath]$CONDA/bin"
+          sudo chown -R $USER $CONDA
+        displayName: Add conda to PATH
+
+      - bash: conda install -q -y anaconda-client
+        displayName: Install anaconda-client
+
+      - bash: |
+          set -e
+          if [ "$BUILD_REASON" == "Schedule" ]; then
+            ANACONDA_ORG="scipy-wheels-nightly"
+            TOKEN="$MAPPED_NUMPY_NIGHTLY_UPLOAD_TOKEN"
+          else
+            ANACONDA_ORG="multibuild-wheels-staging"
+            TOKEN="$MAPPED_NUMPY_STAGING_UPLOAD_TOKEN"
+          fi
+          if [ "$TOKEN" == "" ]; then
+            echo "##[warning] Could not find anaconda.org upload token in secret variables"
+          fi
+          echo "##vso[task.setvariable variable=TOKEN]$TOKEN"
+          echo "##vso[task.setvariable variable=ANACONDA_ORG]$ANACONDA_ORG"
+        displayName: Retrieve secret upload token
+        env:
+          # Secret variables need to mapped to env variables explicitly:
+          MAPPED_NUMPY_NIGHTLY_UPLOAD_TOKEN: $(NUMPY_NIGHTLY_UPLOAD_TOKEN)
+          MAPPED_NUMPY_STAGING_UPLOAD_TOKEN: $(NUMPY_STAGING_UPLOAD_TOKEN)
+
+      - bash: |
+          set -e
+          # The --force option forces a replacement if the remote file already
+          # exists.
+          echo uploading wheelhouse/*.whl
+          anaconda -t $TOKEN upload --force -u $ANACONDA_ORG wheelhouse/*.whl
+          echo "PyPI-style index: https://pypi.anaconda.org/$ANACONDA_ORG/simple"
+        displayName: Upload to anaconda.org (only if secret token is retrieved)
+        condition: ne(variables['TOKEN'], '')

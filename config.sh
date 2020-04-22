@@ -1,6 +1,7 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
 # See env_vars.sh for extra environment variables
+if [ $(uname) == "Linux" ]; then IS_LINUX=1; fi
 source gfortran-install/gfortran_utils.sh
 
 function build_wheel {
@@ -22,6 +23,7 @@ function build_libs {
     # the un-tar root directory, then the files are copied into /usr/local.
     # Could utilize a site.cfg instead to prevent the copy.
     python -mpip install urllib3
+    python -c"import platform; print('platform.uname().machine', platform.uname().machine)"
     basedir=$(python numpy/tools/openblas_support.py)
     $use_sudo cp -r $basedir/lib/* /usr/local/lib
     $use_sudo cp $basedir/include/* /usr/local/include
@@ -36,13 +38,13 @@ function get_test_cmd {
 
 function run_tests {
     # Runs tests on installed distribution from an empty directory
-    if [ -z "$IS_OSX" ]; then
+    if [ -n "$IS_LINUX" ]; then
         apt-get -y update && apt-get install -y gfortran
     fi
-    python -c "$(get_test_cmd)"
+    $PYTHON_EXE -c "$(get_test_cmd)"
     # Check bundled license file
-    python ../check_license.py
+    $PYTHON_EXE ../check_license.py
     # Show BLAS / LAPACK used. Since this uses a wheel we cannot use
     # tools/openblas_config.py; tools is not part of what is shipped
-    python -c 'import numpy; numpy.show_config()'
+    $PYTHON_EXE -c 'import numpy; numpy.show_config()'
 }
