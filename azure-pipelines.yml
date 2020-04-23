@@ -76,6 +76,31 @@ jobs:
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
           MB_ML_VER: "2010"
+        # manylinux1 wheels
+        py_3.6_32manylinux1:
+          MB_PYTHON_VERSION: "3.6"
+          PLAT: "i686"
+          MB_ML_VER: "1"
+          ENV_VARS_PATH: "env_vars_32.sh"
+        py_3.6_64manylinux1:
+          MB_PYTHON_VERSION: "3.6"
+          MB_ML_VER: "1"
+        py_3.7_32manylinux1:
+          MB_PYTHON_VERSION: "3.7"
+          PLAT: "i686"
+          MB_ML_VER: "1"
+          ENV_VARS_PATH: "env_vars_32.sh"
+        py_3.7_64manylinux1:
+          MB_PYTHON_VERSION: "3.7"
+          MB_ML_VER: "1"
+        py_3.8_32manylinux1:
+          MB_PYTHON_VERSION: "3.8"
+          PLAT: "i686"
+          MB_ML_VER: "1"
+          ENV_VARS_PATH: "env_vars_32.sh"
+        py_3.8_64manylinux1:
+          MB_PYTHON_VERSION: "3.8"
+          MB_ML_VER: "1"
 
   - template: azure/posix.yml
     parameters:

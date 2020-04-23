@@ -9,7 +9,7 @@ jobs:
       vmImage: ${{ parameters.vmImage }}
     variables:
       REPO_DIR: "numpy"
-      BUILD_COMMIT: 'v1.18.3'
+      BUILD_COMMIT: 'f1be9e50ff'  # needed for 32 bit builds, should become 1.18.4
       PLAT: "x86_64"
       CYTHON_BUILD_DEP: "cython==0.29.16"
       NIGHTLY_BUILD_COMMIT: "master"
