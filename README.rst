@@ -57,11 +57,11 @@ You can trigger a build by:
 Which numpy commit does the repository build?
 ===============================================
 
-PRs merged to this repo from a fork, and PRs directly pushed to this repo
+PRs merged to this repo from a fork, and commits directly pushed to this repo
 will build the commit specified in the ``BUILD_COMMIT`` at the top of the
 ``azure/windows.yml`` and ``azure/posix.yml`` files, the wheels will be
 uploaded to https://anaconda.org/multibuild-wheels-staging/numpy. The
-``NIGHTLY_BUILD_COMMIT`` will be built once a week (sorry for the misnomer),
+``NIGHTLY_BUILD_COMMIT`` is built once a week (sorry for the misnomer),
 and uploaded to https://anaconda.org/scipy-wheels-nightly/.
 The value of ``BUILD_COMMIT`` can be any naming of a commit, including branch
 name, tag name or commit hash.
