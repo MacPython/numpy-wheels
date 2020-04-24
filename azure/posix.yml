@@ -9,7 +9,7 @@ jobs:
       vmImage: ${{ parameters.vmImage }}
     variables:
       REPO_DIR: "numpy"
-      BUILD_COMMIT: 'f1be9e50ff'  # needed for 32 bit builds, should become 1.18.4
+      BUILD_COMMIT: 'maintenance/1.18.x'
       PLAT: "x86_64"
       CYTHON_BUILD_DEP: "cython==0.29.16"
       NIGHTLY_BUILD_COMMIT: "master"
@@ -97,8 +97,9 @@ jobs:
             ANACONDA_ORG="multibuild-wheels-staging"
             TOKEN="$MAPPED_NUMPY_STAGING_UPLOAD_TOKEN"
           fi
-          if [ "$TOKEN" == "" ]; then
+          if [ "$TOKEN" == "" -o "${TOKEN:0:7}" == "\$(NUMPY" ]; then
             echo "##[warning] Could not find anaconda.org upload token in secret variables"
+            TOKEN=""
           fi
           echo "##vso[task.setvariable variable=TOKEN]$TOKEN"
           echo "##vso[task.setvariable variable=ANACONDA_ORG]$ANACONDA_ORG"
