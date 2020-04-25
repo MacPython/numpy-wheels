@@ -2,17 +2,22 @@
 Building and uploading numpy wheels
 ###################################
 
-We automate wheel building using this custom github repository that builds on
-the travis-ci OSX machines, travis-ci Linux machines, and the Appveyor VMs.
+The wheel builds are currently done by Azure Pipelines. Options that may be
+used for future builds are Travis CI and Appveyor. The progress and success of
+builds may be monitored at the following locations:
 
-The travis-ci interface for the builds is
+Azure Pipelines at
+https://dev.azure.com/numpy/numpy/_build?definitionId=8&_a=summary&view=runs
+
+Travis CI at
 https://travis-ci.org/MacPython/numpy-wheels
 
-Appveyor interface at
+The Appveyor at
 https://ci.appveyor.com/project/matthew-brett/numpy-wheels
 
 The driving github repository is
 https://github.com/MacPython/numpy-wheels
+
 
 How it works
 ============
@@ -82,9 +87,9 @@ called a `wheelhouse`.   The typical call for `wheel-uploader` would then
 be something like::
 
     CDN_URL=https://anaconda.org/multibuild-wheels/staging/numpy/files
-    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t macosx numpy 1.11.1
-    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t manylinux1 numpy 1.11.1
-    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t win numpy 1.11.1
+    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t macosx numpy 1.19.0
+    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t manylinux1 numpy 1.19.0
+    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t win numpy 1.19.0
 
 where:
 
@@ -98,28 +103,11 @@ where:
   ``~/wheelhouse``.
 
 ``numpy`` is the root name of the wheel(s) to download / upload, and
-``1.11.1`` is the version to download / upload.
+``1.19.0`` is the version to download / upload.
 
-In order to use the Warehouse PyPI server, you will need something like this
-in your ``~/.pypirc`` file::
-
-    [distutils]
-    index-servers =
-        pypi
-        warehouse
-
-    [pypi]
-    username:your_user_name
-    password:your_password
-
-    [warehouse]
-    repository: https://upload.pypi.io/legacy/
-    username: your_user_name
-    password: your_password
-
-So, in this case, ``wheel-uploader`` will download all wheels starting with
-``numpy-1.11.1-`` from http://wheels.scipy.org to ``~/wheelhouse``, then
-upload them to PyPI.
+So, in this case, ``wheel-uploader`` will download all wheels starting with ``numpy-1.19.0-``
+from https://anaconda.org/multibuild-wheels/staging/numpy/files to ``~/wheelhouse``,
+then upload them to PyPI.
 
 Of course, you will need permissions to upload to PyPI, for this to work.
 
