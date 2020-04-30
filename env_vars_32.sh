@@ -6,4 +6,4 @@ OPENBLAS_VERSION="v0.3.7"
 MACOSX_DEPLOYMENT_TARGET=10.9
 # Causes failure for pre-1.19 in np.reciprocal
 # CFLAGS="-msse2 -std=c99 -fno-strict-aliasing"
-CFLAGS="-std=c99 -fno-strict-aliasing"
+CFLAGS="-std=c99 -fno-strict-aliasing $CFLAGS"
