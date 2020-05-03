@@ -3,20 +3,31 @@ Building and uploading numpy wheels
 ###################################
 
 The wheel builds are currently done by Azure Pipelines. Options that may be
-used for future builds are Travis CI and Appveyor. The progress and success of
-builds may be monitored at the following locations:
+used for future builds are TravisCI and Appveyor. Note that currently TravisCI
+and Appveyor are not triggered, if you want to enable them you will need to do
+so in the settings/Webhooks.
 
-Azure Pipelines at
-https://dev.azure.com/numpy/numpy/_build?definitionId=8&_a=summary&view=runs
+**Build process pages**
 
-Travis CI at
-https://travis-ci.org/MacPython/numpy-wheels
+- Azure Pipelines at
+  https://dev.azure.com/numpy/numpy/_build?definitionId=8&_a=summary&view=runs
 
-The Appveyor at
-https://ci.appveyor.com/project/matthew-brett/numpy-wheels
+- Travis CI at
+  https://travis-ci.org/MacPython/numpy-wheels
 
-The driving github repository is
-https://github.com/MacPython/numpy-wheels
+- The Appveyor at
+  https://ci.appveyor.com/project/matthew-brett/numpy-wheels
+
+- The driving github repository is
+  https://github.com/MacPython/numpy-wheels
+
+**Uploaded file locations**
+
+- Release builds at
+  https://anaconda.org/multibuild-wheels-staging/numpy/files
+
+- Nightly builds at
+  https://anaconda.org/scipy-wheels-nightly/numpy/files
 
 
 How it works
@@ -86,7 +97,7 @@ You will typically have a directory on your machine where you store wheels,
 called a `wheelhouse`.   The typical call for `wheel-uploader` would then
 be something like::
 
-    CDN_URL=https://anaconda.org/multibuild-wheels/staging/numpy/files
+    CDN_URL=https://anaconda.org/multibuild-wheels-staging/numpy/files
     wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t macosx numpy 1.19.0
     wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t manylinux1 numpy 1.19.0
     wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t win numpy 1.19.0
@@ -106,7 +117,7 @@ where:
 ``1.19.0`` is the version to download / upload.
 
 So, in this case, ``wheel-uploader`` will download all wheels starting with ``numpy-1.19.0-``
-from https://anaconda.org/multibuild-wheels/staging/numpy/files to ``~/wheelhouse``,
+from https://anaconda.org/multibuild-wheels-staging/numpy/files to ``~/wheelhouse``,
 then upload them to PyPI.
 
 Of course, you will need permissions to upload to PyPI, for this to work.
