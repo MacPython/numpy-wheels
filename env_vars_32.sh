@@ -4,7 +4,10 @@
 # compile sse loops for ufuncs.
 set -x
 MACOSX_DEPLOYMENT_TARGET=10.9
-CFLAGS="-msse2 -std=c99 -fno-strict-aliasing"
+
+# Fails test_umath.TestAVXUfuncs with reciprocal on Azure
+# CFLAGS="-msse2 -std=c99 -fno-strict-aliasing"
+CFLAGS="-std=c99 -fno-strict-aliasing"
 # Macos's linker doesn't support stripping symbols
 if [ "$(uname)" != "Darwin" ]; then
     LDFLAGS="-Wl,--strip-debug"

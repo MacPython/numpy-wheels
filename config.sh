@@ -21,9 +21,9 @@ function build_libs {
     # download and un-tar the openblas libraries. The python call returns
     # the un-tar root directory, then the files are copied into /usr/local.
     # Could utilize a site.cfg instead to prevent the copy.
-    python -mpip install urllib3
-    python -c"import platform; print('platform.uname().machine', platform.uname().machine)"
-    basedir=$(python numpy/tools/openblas_support.py)
+    $PYTHON_EXE -mpip install urllib3
+    $PYTHON_EXE -c"import platform; print('platform.uname().machine', platform.uname().machine)"
+    basedir=$($PYTHON_EXE numpy/tools/openblas_support.py)
     $use_sudo cp -r $basedir/lib/* /usr/local/lib
     $use_sudo cp $basedir/include/* /usr/local/include
 }
@@ -43,13 +43,9 @@ function run_tests {
     $PYTHON_EXE -c "$(get_test_cmd)"
     # Check bundled license file
     $PYTHON_EXE ../check_license.py
-    # Show BLAS / LAPACK used. Assumes this is one-directory-in
-    # so we can find tools/openblas_config.py;
-    if [ -e ../numpy/tools/openblas_support.py ]; then
+    # Test BLAS / LAPACK used
+    if [ -n "$IS_LINUX" -o -n "$IS_OSX" ]; then
         $PYTHON_EXE ../numpy/tools/openblas_support.py --check_version
-    else
-        echo could not find ../numpy, ls -d .. is
-        ls -d ..
     fi
     $PYTHON_EXE -c 'import numpy; numpy.show_config()'
 }
