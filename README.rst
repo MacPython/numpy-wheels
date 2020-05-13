@@ -58,7 +58,7 @@ where user is the ``ANACONDA_ORG`` value in the ``yml`` files.
 Triggering a build
 ==================
 
-You will likely want to edit the ``azure/*`` files to
+You will likely want to edit the ``azure-pipelines.yml`` files to
 specify the ``BUILD_COMMIT`` before triggering a build - see below.
 
 You will need write permission to the github repository to trigger new builds.
@@ -75,7 +75,7 @@ Which numpy commit does the repository build?
 
 PRs merged to this repo from a fork, and commits directly pushed to this repo
 will build the commit specified in the ``BUILD_COMMIT`` at the top of the
-``azure/windows.yml`` and ``azure/posix.yml`` files, the wheels will be
+``azure-pipelines.yml`` file, the wheels will be
 uploaded to https://anaconda.org/multibuild-wheels-staging/numpy. The
 ``NIGHTLY_BUILD_COMMIT`` is built once a week (sorry for the misnomer),
 and uploaded to https://anaconda.org/scipy-wheels-nightly/.

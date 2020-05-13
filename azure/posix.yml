@@ -9,7 +9,6 @@ jobs:
       vmImage: ${{ parameters.vmImage }}
     variables:
       REPO_DIR: "numpy"
-      BUILD_COMMIT: "master"
       PLAT: "x86_64"
       CYTHON_BUILD_DEP: "cython==0.29.16"
       NIGHTLY_BUILD_COMMIT: "master"
