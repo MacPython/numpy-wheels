@@ -13,6 +13,9 @@ trigger:
 pr:
 - master 
 
+variables:
+  BUILD_COMMIT: "master"
+
 jobs:
   - template: azure/windows.yml
     parameters:
