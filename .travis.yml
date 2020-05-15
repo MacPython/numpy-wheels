@@ -105,16 +105,16 @@ after_success:
     # https://travis-ci.org/github/MacPython/numpy-wheels/settings
     # originally generated at
     # anaconda.org/scipy-wheels-nightly/settings/access
-    - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    - if [ "$TRAVIS_BRANCH" == "master" ] ; then
           ANACONDA_ORG="scipy-wheels-nightly";
           TOKEN=${NUMPY_NIGHTLY_UPLOAD_TOKEN};
-          source extra_functions.sh
-          for f in wheelhouse/*.whl; do rename_wheel $f; done
+          source extra_functions.sh;
+          for f in wheelhouse/*.whl; do rename_wheel $f; done;
       else
           ANACONDA_ORG="multibuild-wheels-staging";
           TOKEN=${NUMPY_STAGING_UPLOAD_TOKEN};
       fi
     - pip install git+https://github.com/Anaconda-Server/anaconda-client;
-    - if [ -n "${TOKEN}" ] ;then
+    - if [ -n "${TOKEN}" ] ; then
         anaconda -t ${TOKEN} upload -u ${ANACONDA_ORG} ${TRAVIS_BUILD_DIR}/wheelhouse/*.whl;
       fi
