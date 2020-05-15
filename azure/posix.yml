@@ -110,8 +110,10 @@ jobs:
 
       - bash: |
           set -e
-          source extra_functions.sh
-          for f in wheelhouse/*.whl; do rename_wheel $f; done
+          if [ $ANACONDA_ORG == "scipy-wheels-nightly" ]; then
+            source extra_functions.sh
+            for f in wheelhouse/*.whl; do rename_wheel $f; done
+          fi
 
           echo uploading wheelhouse/*.whl
 
