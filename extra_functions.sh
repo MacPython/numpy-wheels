@@ -41,6 +41,7 @@ function rename_wheel {
     # if those conditions are not met, the name will be returned as-is
 
     newname=$(echo "$1" | sed "s/\(.*dev0+\)\([a-z0-9]*-.*\)/\1$(date '+%Y%m%d%H%M%S_')\2/")
+    echo rename_wheel "$1" to "$newname" using "$(date '+%Y%m%d%H%M%S_')"
     if [ "$newname" != "$1" ]; then
         mv $1 $newname
     fi
