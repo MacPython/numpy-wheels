@@ -138,7 +138,8 @@ jobs:
 
       - bash: |
           set -e
-          if [ $ANACONDA_ORG == "scipy-wheels-nightly" ]; then
+          if [ "$ANACONDA_ORG" == "scipy-wheels-nightly" ]; then
+            echo renaming numpy/dist/numpy-*.whl
             source extra_functions.sh
             for f in wheelhouse/*.whl; do rename_wheel $f; done
           fi
