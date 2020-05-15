@@ -114,5 +114,5 @@ after_success:
       fi
     - pip install git+https://github.com/Anaconda-Server/anaconda-client;
     - if [ -n "${TOKEN}" ] ;then
-        anaconda -t ${TOKEN} upload u ${ANACONDA_ORG} ${TRAVIS_BUILD_DIR}/wheelhouse/*.whl;
+        anaconda -t ${TOKEN} upload -u ${ANACONDA_ORG} ${TRAVIS_BUILD_DIR}/wheelhouse/*.whl;
       fi
