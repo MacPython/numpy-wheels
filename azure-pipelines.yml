@@ -7,9 +7,6 @@ schedules:
     - master
   always: true
 
-trigger:
-- master
-
 pr:
 - master 
 
