@@ -7,8 +7,8 @@ schedules:
     - master
   always: true
 
-trigger:
-- master
+#trigger:
+#- v1.19.x
 
 pr:
 - master
