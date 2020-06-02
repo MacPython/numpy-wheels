@@ -55,7 +55,7 @@ jobs:
         displayName: Checkout numpy commit
 
       - powershell: |
-          choco install -y mingw --forcex86 --force --version=5.3.0
+          choco install -y mingw --forcex86 --force --version=7.3.0
         displayName: 'Install 32-bit mingw for 32-bit builds'
         condition: eq(variables['BITS'], 32)
       - bash: |
@@ -85,7 +85,7 @@ jobs:
           If ($(BITS) -eq 32) {
               $env:CFLAGS = "-m32"
               $env:LDFLAGS = "-m32"
-              $env:PATH = "C:\\tools\\mingw32\\bin;" + $env:PATH
+              $env:PATH = "C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw$(BITS)\\bin;" + $env:PATH
               refreshenv
           }
           # Build the wheel
