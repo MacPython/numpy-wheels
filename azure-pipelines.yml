@@ -8,10 +8,10 @@ schedules:
   always: true
 
 pr:
-- master 
+- master
 
 variables:
-  BUILD_COMMIT: "master"
+  BUILD_COMMIT: 32f514f546733ae1960077d2be93be970f4e13ef
 
 jobs:
   - template: azure/windows.yml
@@ -19,6 +19,14 @@ jobs:
       name: windows
       vmImage: vs2017-win2016
       matrix:
+        py_3.5_32:
+          PYTHON_VERSION: "3.5.x"
+          PYTHON_ARCH: "x86"
+          BITS: 32
+        py_3.5_64:
+          PYTHON_VERSION: "3.5.x"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
         py_3.6_32:
           PYTHON_VERSION: "3.6.x"
           PYTHON_ARCH: "x86"
@@ -45,38 +53,15 @@ jobs:
           BITS: 64
 
   - template: azure/posix.yml
-    parameters:
-      name: linux
-      vmImage: ubuntu-18.04
-      matrix:
-        py_3.6_32:
-          MB_PYTHON_VERSION: "3.6"
-          PLAT: "i686"
-          MB_ML_VER: "2010"
-          ENV_VARS_PATH: "env_vars_32.sh"
-          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
-        py_3.6_64:
-          MB_PYTHON_VERSION: "3.6"
-          MB_ML_VER: "2010"
-        py_3.7_32:
-          MB_PYTHON_VERSION: "3.7"
-          PLAT: "i686"
-          MB_ML_VER: "2010"
-          ENV_VARS_PATH: "env_vars_32.sh"
-          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
-        py_3.7_64:
-          MB_PYTHON_VERSION: "3.7"
-          MB_ML_VER: "2010"
-        py_3.8_32:
-          MB_PYTHON_VERSION: "3.8"
-          PLAT: "i686"
-          MB_ML_VER: "2010"
-          ENV_VARS_PATH: "env_vars_32.sh"
-          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
-        py_3.8_64:
-          MB_PYTHON_VERSION: "3.8"
-          MB_ML_VER: "2010"
         # manylinux1 wheels
+        py_3.5_32manylinux1:
+          MB_PYTHON_VERSION: "3.5"
+          PLAT: "i686"
+          MB_ML_VER: "1"
+          ENV_VARS_PATH: "env_vars_32.sh"
+        py_3.5_64manylinux1:
+          MB_PYTHON_VERSION: "3.5"
+          MB_ML_VER: "1"
         py_3.6_32manylinux1:
           MB_PYTHON_VERSION: "3.6"
           PLAT: "i686"
@@ -107,6 +92,8 @@ jobs:
       name: macOS
       vmImage: macOS-10.14
       matrix:
+        py_3.5_64:
+          MB_PYTHON_VERSION: "3.5"
         py_3.6_64:
           MB_PYTHON_VERSION: "3.6"
         py_3.7_64:
