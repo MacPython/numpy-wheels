@@ -23,6 +23,11 @@ jobs:
           PYTHON_VERSION: "3.6.x"
           PYTHON_ARCH: "x86"
           BITS: 32
+        pypy_3.6_32:
+          PYTHON_VERSION: "PyPy3.6"
+          PYTHON_ARCH: "x86"
+          BITS: 32
+          EXTRA_ARGV: "'-m', 'not slow'"
         py_3.6_64:
           PYTHON_VERSION: "3.6.x"
           PYTHON_ARCH: 'x64'
