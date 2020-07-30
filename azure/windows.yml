@@ -24,6 +24,25 @@ jobs:
           addToPath: true
           architecture: $(PYTHON_ARCH)
         displayName: Set python version
+        condition: not(contains(variables['PYTHON_VERSION'], 'PyPy'))
+
+      - powershell: |
+          $url = "http://buildbot.pypy.org/nightly/py3.6/pypy-c-jit-latest-win32.zip"
+          $output = "pypy.zip"
+          $wc = New-Object System.Net.WebClient
+          $wc.DownloadFile($url, $output)
+          echo "downloaded $url to $output"
+          mkdir pypy3
+          Expand-Archive $output -DestinationPath pypy3
+          move pypy3/pypy-c-*/* pypy3
+          cp pypy3/pypy3.exe pypy3/python.exe
+          $pypypath = Join-Path (Get-Item .).FullName pypy3
+          $env:Path = $pypypath + ";" + $env:Path
+          setx PATH $env:Path
+          python -mensurepip
+          echo "##vso[task.prependpath]$pypypath"
+        condition: contains(variables['PYTHON_VERSION'], 'PyPy')
+        displayName: "Install PyPy pre-release"
 
       - bash: |
           set -e
@@ -31,7 +50,7 @@ jobs:
           echo Build Reason: $BUILD_REASON
           python --version
           python -c "import struct; print(struct.calcsize('P') * 8)"
-          pip --version
+          python -m pip --version
         displayName: Check that we have the expected version and architecture for Python
       - bash: |
           set -e
@@ -58,12 +77,13 @@ jobs:
           choco install -y mingw --forcex86 --force --version=7.3.0
         displayName: 'Install 32-bit mingw for 32-bit builds'
         condition: eq(variables['BITS'], 32)
+
       - bash: |
           set -xe
           pushd numpy
           pip install twine wheel urllib3
           # a bit overkill, all we really need is cython
-          pip install --timeout=60 -r test_requirements.txt
+          python -m pip install --timeout=60 -r test_requirements.txt
 
           # handle license
           cp ../LICENSE_win32.txt LICENSE.txt

@@ -24,7 +24,7 @@ jobs:
           PYTHON_ARCH: "x86"
           BITS: 32
         pypy_3.6_32:
-          PYTHON_VERSION: "pypy3"
+          PYTHON_VERSION: "PyPy3.6"
           PYTHON_ARCH: "x86"
           BITS: 32
         py_3.6_64:
