@@ -17,6 +17,8 @@ function build_wheel {
 }
 
 function build_libs {
+    # setuptools v49.2.0 is broken
+    $PYTHON_EXE -mpip install --upgrade "setuptools<49.2.0"
     # Use the same incantation as numpy/tools/travis-before-install.sh to
     # download and un-tar the openblas libraries. The python call returns
     # the un-tar root directory, then the files are copied into /usr/local.
