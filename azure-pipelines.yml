@@ -48,6 +48,15 @@ jobs:
           PYTHON_VERSION: "3.8.x"
           PYTHON_ARCH: 'x64'
           BITS: 64
+        py_3.9_32:
+          PYTHON_VERSION: "3.9.x"
+          PYTHON_ARCH: "x86"
+          BITS: 32
+        py_3.9_64:
+          PYTHON_VERSION: "3.9.x"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
+
 
   - template: azure/posix.yml
     parameters:
@@ -106,6 +115,15 @@ jobs:
         py_3.8_64manylinux1:
           MB_PYTHON_VERSION: "3.8"
           MB_ML_VER: "1"
+        py_3.9_32manylinux1:
+          MB_PYTHON_VERSION: "3.9"
+          PLAT: "i686"
+          MB_ML_VER: "1"
+          ENV_VARS_PATH: "env_vars_32.sh"
+        py_3.9_64manylinux1:
+          MB_PYTHON_VERSION: "3.9"
+          MB_ML_VER: "1"
+
 
   - template: azure/posix.yml
     parameters:
@@ -118,3 +136,5 @@ jobs:
           MB_PYTHON_VERSION: "3.7"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
+        py_3.9_64:
+          MB_PYTHON_VERSION: "3.9"
