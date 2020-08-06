@@ -25,7 +25,7 @@ jobs:
 
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: $[coalesce(variables.AZURE_PYTHON_VERSION, variables.MB_PYTHON_VERSION)]
+          versionSpec: ${{ coalesce(variables.AZURE_PYTHON_VERSION, variables.MB_PYTHON_VERSION) }}
         displayName: Set python version
 
       - bash: |

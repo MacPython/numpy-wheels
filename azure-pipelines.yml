@@ -16,7 +16,7 @@ variables:
 jobs:
   - template: azure/windows.yml
     parameters:
-      name: windows
+      name: windows2017
       vmImage: vs2017-win2016
       matrix:
         py_3.6_32:
@@ -51,8 +51,9 @@ jobs:
 
   - template: azure/windows.yml
     parameters:
-      name: windows
+      name: windows2019
       vmImage: windows-2019
+      matrix:
         py_3.9_32:
           # Will use the latest up to 3.9.0
           PYTHON_VERSION: "'3.9.0-alpha - 3.9.0'"
@@ -102,7 +103,6 @@ jobs:
           AZURE_PYTHON_VERSION: "3.8"
           PLAT: "i686"
           MB_ML_VER: "2010"
-          MB_ML_VER: "1"
           ENV_VARS_PATH: "env_vars_32.sh"
         py_3.9_64manylinux2010:
           MB_PYTHON_VERSION: "3.9"
