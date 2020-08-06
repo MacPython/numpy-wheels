@@ -49,11 +49,11 @@ jobs:
           PYTHON_ARCH: 'x64'
           BITS: 64
         py_3.9_32:
-          PYTHON_VERSION: "3.9.x"
+          PYTHON_VERSION: "3.9.0-beta.4"
           PYTHON_ARCH: "x86"
           BITS: 32
         py_3.9_64:
-          PYTHON_VERSION: "3.9.x"
+          PYTHON_VERSION: "3.9.0-beta.4"
           PYTHON_ARCH: 'x64'
           BITS: 64
 
