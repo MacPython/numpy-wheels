@@ -25,8 +25,15 @@ jobs:
 
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: ${{ coalesce(variables.AZURE_PYTHON_VERSION, variables.MB_PYTHON_VERSION) }}
-        displayName: Set python version
+          versionSpec: $(AZURE_PYTHON_VERSION)
+        displayName: Set python version from AZURE
+        condition: ne( coalesce (variables['AZURE_PYTHON_VERSION'], 'NONE'), 'NONE')
+
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: $(MB_PYTHON_VERSION)
+        displayName: Set python version from MB
+        condition: eq( coalesce (variables['AZURE_PYTHON_VERSION'], 'NONE'), 'NONE')
 
       - bash: |
           set -e

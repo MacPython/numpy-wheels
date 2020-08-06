@@ -49,23 +49,6 @@ jobs:
           PYTHON_ARCH: 'x64'
           BITS: 64
 
-  - template: azure/windows.yml
-    parameters:
-      name: windows2019
-      vmImage: windows-2019
-      matrix:
-        py_3.9_32:
-          # Will use the latest up to 3.9.0
-          PYTHON_VERSION: "'3.9.0-alpha - 3.9.0'"
-          PYTHON_ARCH: "x86"
-          BITS: 32
-        py_3.9_64:
-          # Will use the latest up to 3.9.0
-          PYTHON_VERSION: "'3.9.0-alpha - 3.9.0'"
-          PYTHON_ARCH: 'x64'
-          BITS: 64
-
-
   - template: azure/posix.yml
     parameters:
       name: linux
@@ -100,12 +83,14 @@ jobs:
           MB_ML_VER: "2010"
         py_3.9_32manylinux2010:
           MB_PYTHON_VERSION: "3.9"
+          # Comment this out when the image grows a CPython3.9
           AZURE_PYTHON_VERSION: "3.8"
           PLAT: "i686"
           MB_ML_VER: "2010"
           ENV_VARS_PATH: "env_vars_32.sh"
         py_3.9_64manylinux2010:
           MB_PYTHON_VERSION: "3.9"
+          # Comment this out when the image grows a CPython3.9
           AZURE_PYTHON_VERSION: "3.8"
           MB_ML_VER: "2010"
 
@@ -146,5 +131,3 @@ jobs:
           MB_PYTHON_VERSION: "3.7"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
-        py_3.9_64:
-          MB_PYTHON_VERSION: "3.9"
