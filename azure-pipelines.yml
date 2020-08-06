@@ -102,6 +102,7 @@ jobs:
           PLAT: "i686"
           MB_ML_VER: "1"
           ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.6_64manylinux1:
           MB_PYTHON_VERSION: "3.6"
           MB_ML_VER: "1"
@@ -110,6 +111,7 @@ jobs:
           PLAT: "i686"
           MB_ML_VER: "1"
           ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.7_64manylinux1:
           MB_PYTHON_VERSION: "3.7"
           MB_ML_VER: "1"
@@ -118,6 +120,7 @@ jobs:
           PLAT: "i686"
           MB_ML_VER: "1"
           ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.8_64manylinux1:
           MB_PYTHON_VERSION: "3.8"
           MB_ML_VER: "1"
