@@ -16,12 +16,12 @@ os: linux
 
 jobs:
   include:
-    - os: linux
-      arch: x86_64
-      env:
-        - MB_PYTHON_VERSION=pypy3.6-7.3.1
-        - MB_ML_VER=2010
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    #- os: linux
+      #arch: x86_64
+      #env:
+        #- MB_PYTHON_VERSION=pypy3.6-7.3.1
+        #- MB_ML_VER=2010
+        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
 
     # The manylinux2014 arm64 image has libbz2.so.1 and libbz.so.1.0.6 but not
     # libbz2.so.1.0, leading to this error with pypy:
@@ -47,30 +47,30 @@ jobs:
     #    - MB_PYTHON_VERSION=pypy3.6-7.3.1
     #    - MB_PYTHON_OSX_VER=10.9
 
-    - os: linux
-      arch: arm64
-      env:
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.6
-        - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-    - os: linux
-      arch: arm64
-      env:
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.7
-        - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-    - os: linux
-      arch: arm64
-      env:
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.8
-        - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    #- os: linux
+      #arch: arm64
+      #env:
+        #- PLAT=aarch64
+        #- MB_ML_VER=2014
+        #- MB_PYTHON_VERSION=3.6
+        #- DEBUG_PRINT=1
+        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    #- os: linux
+      #arch: arm64
+      #env:
+        #- PLAT=aarch64
+        #- MB_ML_VER=2014
+        #- MB_PYTHON_VERSION=3.7
+        #- DEBUG_PRINT=1
+        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    #- os: linux
+      #arch: arm64
+      #env:
+        #- PLAT=aarch64
+        #- MB_ML_VER=2014
+        #- MB_PYTHON_VERSION=3.8
+        #- DEBUG_PRINT=1
+        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       arch: arm64
       env:
