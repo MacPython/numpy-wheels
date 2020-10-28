@@ -19,7 +19,7 @@ variables:
 jobs:
   - template: azure/windows.yml
     parameters:
-      name: windows
+      name: windows2017
       vmImage: vs2017-win2016
       matrix:
         py_3.6_32:
@@ -44,6 +44,14 @@ jobs:
           BITS: 32
         py_3.8_64:
           PYTHON_VERSION: "3.8.x"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
+        py_3.9_32:
+          PYTHON_VERSION: "3.9.x"
+          PYTHON_ARCH: "x86"
+          BITS: 32
+        py_3.9_64:
+          PYTHON_VERSION: "3.9.x"
           PYTHON_ARCH: 'x64'
           BITS: 64
 
@@ -79,12 +87,23 @@ jobs:
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
           MB_ML_VER: "2010"
+        py_3.9_32:
+          MB_PYTHON_VERSION: "3.9"
+          PLAT: "i686"
+          MB_ML_VER: "2010"
+          ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
+        py_3.9_64:
+          MB_PYTHON_VERSION: "3.9"
+          MB_ML_VER: "2010"
+
         # manylinux1 wheels
         py_3.6_32manylinux1:
           MB_PYTHON_VERSION: "3.6"
           PLAT: "i686"
           MB_ML_VER: "1"
           ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.6_64manylinux1:
           MB_PYTHON_VERSION: "3.6"
           MB_ML_VER: "1"
@@ -93,6 +112,7 @@ jobs:
           PLAT: "i686"
           MB_ML_VER: "1"
           ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.7_64manylinux1:
           MB_PYTHON_VERSION: "3.7"
           MB_ML_VER: "1"
@@ -101,8 +121,18 @@ jobs:
           PLAT: "i686"
           MB_ML_VER: "1"
           ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.8_64manylinux1:
           MB_PYTHON_VERSION: "3.8"
+          MB_ML_VER: "1"
+        py_3.9_32manylinux1:
+          MB_PYTHON_VERSION: "3.9"
+          PLAT: "i686"
+          MB_ML_VER: "1"
+          ENV_VARS_PATH: "env_vars_32.sh"
+          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
+        py_3.9_64manylinux1:
+          MB_PYTHON_VERSION: "3.9"
           MB_ML_VER: "1"
 
   - template: azure/posix.yml
@@ -116,3 +146,5 @@ jobs:
           MB_PYTHON_VERSION: "3.7"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
+        py_3.9_64:
+          MB_PYTHON_VERSION: "3.9"
