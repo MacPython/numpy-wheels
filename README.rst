@@ -2,10 +2,8 @@
 Building and uploading numpy wheels
 ###################################
 
-The wheel builds are currently done by Azure Pipelines. Options that may be
-used for future builds are TravisCI and Appveyor. Note that currently TravisCI
-and Appveyor are not triggered, if you want to enable them you will need to do
-so in the settings/Webhooks.
+The wheel builds are currently done using Azure Pipelines and TravisCI, Appveyor is
+not used and is disabled at this time.
 
 **Build process pages**
 
@@ -13,7 +11,7 @@ so in the settings/Webhooks.
   https://dev.azure.com/numpy/numpy/_build?definitionId=8&_a=summary&view=runs
 
 - Travis CI at
-  https://travis-ci.org/MacPython/numpy-wheels
+  https://travis-ci.com/MacPython/numpy-wheels
 
 - The Appveyor at
   https://ci.appveyor.com/project/matthew-brett/numpy-wheels
