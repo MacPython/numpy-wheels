@@ -17,45 +17,6 @@ os: linux
 jobs:
   include:
     - os: linux
-      arch: x86_64
-      env:
-        - MB_PYTHON_VERSION=pypy3.6-7.3.1
-        - MB_ML_VER=2010
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-
-    # The manylinux2014 arm64 image has libbz2.so.1 and libbz.so.1.0.6 but not
-    # libbz2.so.1.0, leading to this error with pypy:
-    # pypy3.6-v7.3.1-aarch64/bin/pypy: error while loading shared libraries:
-    # libbz2.so.1.0: cannot open shared object file: No such file or directory
-    #- os: linux
-    #  arch: arm64
-    #  env:
-    #    - PLAT=aarch64
-    #    - MB_ML_VER=2014
-    #    - MB_PYTHON_VERSION=pypy3.6-7.3.1
-    #    - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-
-    # The pypy3 osx package has bin/pypy3 not bin/pypy, so
-    # multibuild/common_utils.sh has a "ln" command (not "ln -s"). Apparently
-    # it does not work, we get the error message:
-    # multibuild/common_utils.sh: line 476:
-    # /Users/travis/build/MacPython/numpy-wheels/pypy3.6-v7.3.1-linux64/bin/pypy:
-    # cannot execute binary file
-    # - os: osx
-    #  language: generic
-    #  env:
-    #    - MB_PYTHON_VERSION=pypy3.6-7.3.1
-    #    - MB_PYTHON_OSX_VER=10.9
-
-    - os: linux
-      arch: arm64
-      env:
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.6
-        - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-    - os: linux
       arch: arm64
       env:
         - PLAT=aarch64
