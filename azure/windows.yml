@@ -158,13 +158,7 @@ jobs:
 
       - bash: |
           set -e
-          if [ "$ANACONDA_ORG" == "scipy-wheels-nightly" ]; then
-            source extra_functions.sh
-            for f in numpy/dist/numpy-*.whl; do rename_wheel $f; done
-          fi
-
           echo uploading numpy/dist/numpy-*.whl
-
           anaconda -t $TOKEN upload -u $ANACONDA_ORG numpy/dist/numpy-*.whl
           echo "PyPI-style index: https://pypi.anaconda.org/$ANACONDA_ORG/simple"
         displayName: Upload to anaconda.org (only if secret token is retrieved)

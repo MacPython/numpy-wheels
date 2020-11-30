@@ -77,8 +77,6 @@ after_success:
     - if [ "$TRAVIS_BRANCH" == "master" ] ; then
           ANACONDA_ORG="scipy-wheels-nightly";
           TOKEN=${NUMPY_NIGHTLY_UPLOAD_TOKEN};
-          source extra_functions.sh;
-          for f in wheelhouse/*.whl; do rename_wheel $f; done;
       else
           ANACONDA_ORG="multibuild-wheels-staging";
           TOKEN=${NUMPY_STAGING_UPLOAD_TOKEN};
