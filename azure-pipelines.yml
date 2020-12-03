@@ -11,7 +11,7 @@ pr:
 - master
 
 variables:
-  BUILD_COMMIT: "master"
+  BUILD_COMMIT: 03ec0bc0e7a631e6d7339eae3399602a59e2738c
 
 jobs:
   - template: azure/windows.yml
