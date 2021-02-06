@@ -26,8 +26,10 @@ function build_libs {
     $PYTHON_EXE -mpip install urllib3
     $PYTHON_EXE -c"import platform; print('platform.uname().machine', platform.uname().machine)"
     basedir=$($PYTHON_EXE numpy/tools/openblas_support.py)
-    $use_sudo cp -r $basedir/lib/* /usr/local/lib
-    $use_sudo cp $basedir/include/* /usr/local/include
+    mkdir -p $BUILD_PREFIX/lib
+    mkdir -p $BUILD_PREFIX/include
+    $use_sudo cp -r $basedir/lib/* $BUILD_PREFIX/lib
+    $use_sudo cp $basedir/include/* $BUILD_PREFIX/include
 }
 
 function get_test_cmd {
