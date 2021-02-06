@@ -106,7 +106,7 @@ jobs:
   - template: azure/posix.yml
     parameters:
       name: macOS
-      vmImage: macOS-10.14
+      vmImage: macOS-10.15
       matrix:
         py_3.7_64:
           MB_PYTHON_VERSION: "3.7"
