@@ -14,6 +14,11 @@ dist: bionic
 services: docker
 os: linux
 
+# Disable clone depth to make sure versioneer
+# can find the most recent tag.
+git:
+  depth: false
+
 jobs:
   include:
     - os: linux
