@@ -56,7 +56,7 @@ jobs:
           ENV_VARS_PATH: "env_vars_32.sh"
           DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         pypy_3.7_64:
-          MB_PYTHON_VERSION: "pypy3.7-7.3.2"
+          MB_PYTHON_VERSION: "pypy3.7-7.3.3"
           AZURE_PYTHON_VERSION: "3.7"
           MB_ML_VER: "2010"
           DOCKER_TEST_IMAGE: multibuild/xenial_{PLAT}
