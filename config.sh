@@ -28,6 +28,7 @@ function build_libs {
     mkdir -p $BUILD_PREFIX/include
     $use_sudo cp -r $basedir/lib/* $BUILD_PREFIX/lib
     $use_sudo cp $basedir/include/* $BUILD_PREFIX/include
+    export OPENBLAS=$BUILD_PREFIX
 }
 
 function get_test_cmd {
