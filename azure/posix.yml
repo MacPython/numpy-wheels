@@ -67,6 +67,7 @@ jobs:
             sudo xcode-select -switch /Applications/Xcode_12.4.app/Contents/Developer
             env
             ls /Library/Developer/CommandLineTools/SDKs/
+            xcrun --sdk macosx --show-sdk-version
           fi
           pip install virtualenv wheel
           BUILD_DEPENDS="$CYTHON_BUILD_DEP"
