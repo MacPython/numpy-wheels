@@ -67,7 +67,7 @@ jobs:
             env
             ls /Library/Developer/CommandLineTools/SDKs/
             xcrun --sdk macosx --show-sdk-version
-            xcrun --sdk macosx --show-sdk-path
+            export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
           fi
           pip install virtualenv wheel
           BUILD_DEPENDS="$CYTHON_BUILD_DEP"
