@@ -63,8 +63,10 @@ jobs:
           echo $BUILD_COMMIT
           
           if [[ "$PLAT" == "arm64" || "$PLAT" == "universal2" ]]; then
-            sudo xcode-select -switch /Applications/Xcode_12.2.app/Contents/Developer
+            export DEVELOPER_DIR=/Applications/Xcode_12.4.app/Contents/Developer
+            sudo xcode-select -switch /Applications/Xcode_12.4.app/Contents/Developer
             env
+            ls /Library/Developer/CommandLineTools/SDKs/
           fi
           pip install virtualenv wheel
           BUILD_DEPENDS="$CYTHON_BUILD_DEP"
