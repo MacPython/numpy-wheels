@@ -63,8 +63,7 @@ jobs:
           echo $BUILD_COMMIT
           
           if [[ "$PLAT" == "arm64" || "$PLAT" == "universal2" ]]; then
-            export DEVELOPER_DIR=/Applications/Xcode_12.4.app/Contents/Developer
-            sudo xcode-select -switch /Applications/Xcode_12.4.app/Contents/Developer
+            sudo xcode-select -switch /Applications/Xcode_12.4.app/
             env
             ls /Library/Developer/CommandLineTools/SDKs/
             xcrun --sdk macosx --show-sdk-version
