@@ -62,7 +62,7 @@ jobs:
           set -ex
           echo $BUILD_COMMIT
           
-          if [[ "$PLAT" == "arm64" ]]; then
+          if [[ "$PLAT" == "arm64" || "$PLAT" == "universal2" ]]; then
             sudo xcode-select -switch /Applications/Xcode_12.2.app/Contents/Developer
             env
           fi
