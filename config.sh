@@ -4,6 +4,11 @@
 if [ $(uname) == "Linux" ]; then IS_LINUX=1; fi
 source gfortran-install/gfortran_utils.sh
 
+function _build_wheel {
+    build_libs
+    build_bdist_wheel $@
+}
+
 function build_wheel {
     if [ -n "$IS_OSX" ]; then
         install_gfortran
@@ -11,7 +16,7 @@ function build_wheel {
     echo gcc --version
     echo `gcc --version`
     # Fix version error for development wheels by using bdist_wheel
-    wrap_wheel_builder build_libs && build_bdist_wheel $@
+    wrap_wheel_builder _build_wheel $@
 }
 
 function build_libs {
