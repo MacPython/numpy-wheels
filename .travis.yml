@@ -45,6 +45,23 @@ jobs:
         - MB_PYTHON_VERSION=3.9
         - DEBUG_PRINT=1
         - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    - os: linux
+      arch: s390x
+      env:
+        - PLAT=s390x
+        - MB_ML_VER=_2_24
+        - MB_PYTHON_VERSION=3.9
+        - DEBUG_PRINT=1
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    - os: linux
+      arch: ppc64le
+      env:
+        - PLAT=ppc64le
+        - MB_ML_VER=_2_24
+        - MB_PYTHON_VERSION=3.9
+        - DEBUG_PRINT=1
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+
 
 before_install:
     - if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
