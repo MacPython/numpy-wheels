@@ -4,16 +4,19 @@
 if [ $(uname) == "Linux" ]; then IS_LINUX=1; fi
 source gfortran-install/gfortran_utils.sh
 
+function _build_wheel {
+    build_libs
+    build_bdist_wheel $@
+}
+
 function build_wheel {
-    local lib_plat=$PLAT
     if [ -n "$IS_OSX" ]; then
         install_gfortran
     fi
     echo gcc --version
     echo `gcc --version`
-    build_libs $lib_plat
     # Fix version error for development wheels by using bdist_wheel
-    build_bdist_wheel $@
+    wrap_wheel_builder _build_wheel $@
 }
 
 function build_libs {
@@ -26,8 +29,9 @@ function build_libs {
     $PYTHON_EXE -mpip install urllib3
     $PYTHON_EXE -c"import platform; print('platform.uname().machine', platform.uname().machine)"
     basedir=$($PYTHON_EXE numpy/tools/openblas_support.py)
-    $use_sudo cp -r $basedir/lib/* /usr/local/lib
-    $use_sudo cp $basedir/include/* /usr/local/include
+    $use_sudo cp -r $basedir/lib/* $BUILD_PREFIX/lib
+    $use_sudo cp $basedir/include/* $BUILD_PREFIX/include
+    export OPENBLAS=$BUILD_PREFIX
 }
 
 function get_test_cmd {

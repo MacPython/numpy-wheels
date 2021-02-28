@@ -59,8 +59,9 @@ jobs:
         displayName: Define build env variables
 
       - bash: |
-          set -e
+          set -ex
           echo $BUILD_COMMIT
+          
           pip install virtualenv wheel
           BUILD_DEPENDS="$CYTHON_BUILD_DEP"
 
@@ -77,7 +78,7 @@ jobs:
         displayName: Build wheel
 
       - bash: |
-          set -e
+          set -ex
           source multibuild/common_utils.sh
           source multibuild/travis_steps.sh
           source extra_functions.sh
