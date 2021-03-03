@@ -19,6 +19,11 @@ function build_wheel {
     wrap_wheel_builder _build_wheel $@
 }
 
+function install_delocate {
+    check_pip
+    $PIP_CMD install git+https://github.com/isuruf/delocate.git@loader_path
+}
+
 function build_libs {
     # setuptools v49.2.0 is broken
     $PYTHON_EXE -mpip install --upgrade "setuptools<49.2.0"
