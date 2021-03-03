@@ -123,6 +123,3 @@ jobs:
           echo "PyPI-style index: https://pypi.anaconda.org/$ANACONDA_ORG/simple"
         displayName: Upload to anaconda.org (only if secret token is retrieved)
         condition: ne(variables['TOKEN'], '')
-
-      - publish: wheelhouse/
-        artifact: ${{ Agent.JobName }}
