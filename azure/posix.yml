@@ -11,7 +11,7 @@ jobs:
       REPO_DIR: "numpy"
       PLAT: "x86_64"
       CYTHON_BUILD_DEP: "cython==0.29.21"
-      NIGHTLY_BUILD_COMMIT: "master"
+      NIGHTLY_BUILD_COMMIT: "main"
       TEST_DEPENDS: "pytest hypothesis cffi pytz"
       JUNITXML: "test-data.xml"
       TEST_DIR: "tmp_for_test"
@@ -97,7 +97,7 @@ jobs:
 
       - bash: |
           set -e
-          if [ "$BUILD_COMMIT" == "master" ]; then
+          if [ "$BUILD_COMMIT" == "main" ]; then
             ANACONDA_ORG="scipy-wheels-nightly"
             TOKEN="$MAPPED_NUMPY_NIGHTLY_UPLOAD_TOKEN"
           else

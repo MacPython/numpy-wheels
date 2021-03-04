@@ -8,7 +8,7 @@ jobs:
     pool:
       vmImage: ${{ parameters.vmImage }}
     variables:
-      NIGHTLY_BUILD_COMMIT: "master"
+      NIGHTLY_BUILD_COMMIT: "main"
       JUNITXML: "test-data.xml"
       TEST_DIR: '$(Agent.WorkFolder)/tmp_for_test'
     strategy:
@@ -137,7 +137,7 @@ jobs:
 
       - bash: |
           set -e
-          if [ "$BUILD_COMMIT" == "master" ]; then
+          if [ "$BUILD_COMMIT" == "main" ]; then
             ANACONDA_ORG="scipy-wheels-nightly"
             TOKEN="$MAPPED_NUMPY_NIGHTLY_UPLOAD_TOKEN"
           else

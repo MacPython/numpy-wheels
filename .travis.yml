@@ -2,11 +2,11 @@ env:
     global:
         - REPO_DIR=numpy
         # Also see CRON_COMMIT below
-        - BUILD_COMMIT=master
+        - BUILD_COMMIT=main
         - BUILD_DEPENDS=cython==0.29.21
         - TEST_DEPENDS="pytest hypothesis cffi pytz"
         # Commit when running from cron job
-        - CRON_COMMIT=master
+        - CRON_COMMIT=main
         - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
@@ -73,13 +73,13 @@ script:
 after_success:
     # trigger an upload to the shared ecosystem
     # infrastructure at: https://anaconda.org/scipy-wheels-nightly
-    # for cron jobs only (restricted to master branch once
+    # for cron jobs only (restricted to main branch once
     # per week)
     # The tokens are set from
     # https://travis-ci.org/github/MacPython/numpy-wheels/settings
     # originally generated at
     # anaconda.org/scipy-wheels-nightly/settings/access
-    - if [ "$TRAVIS_BRANCH" == "master" ] ; then
+    - if [ "$TRAVIS_BRANCH" == "main" ] ; then
           ANACONDA_ORG="scipy-wheels-nightly";
           TOKEN=${NUMPY_NIGHTLY_UPLOAD_TOKEN};
       else
