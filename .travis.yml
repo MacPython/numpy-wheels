@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=numpy
         # Also see CRON_COMMIT below
-        - BUILD_COMMIT=d7aa4085623b222058edb0ff38392c38c5e00c54
+        - BUILD_COMMIT=b19ad5bfa396a4600a52a598a30a65d4e993f831
         - BUILD_DEPENDS=cython==0.29.21
         - TEST_DEPENDS="pytest hypothesis cffi pytz"
         # Commit when running from cron job
