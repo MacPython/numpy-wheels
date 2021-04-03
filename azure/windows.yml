@@ -159,7 +159,7 @@ jobs:
       - bash: |
           set -e
           echo uploading numpy/dist/numpy-*.whl
-          anaconda -t $TOKEN upload -u $ANACONDA_ORG numpy/dist/numpy-*.whl
+          anaconda -t $TOKEN upload --skip -u $ANACONDA_ORG numpy/dist/numpy-*.whl
           echo "PyPI-style index: https://pypi.anaconda.org/$ANACONDA_ORG/simple"
         displayName: Upload to anaconda.org (only if secret token is retrieved)
         condition: ne(variables['TOKEN'], '')
