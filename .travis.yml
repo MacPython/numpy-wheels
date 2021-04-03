@@ -76,9 +76,11 @@ after_success:
     # for cron jobs only (restricted to main branch once
     # per week)
     # The tokens are set from
-    # https://travis-ci.org/github/MacPython/numpy-wheels/settings
+    # https://travis-ci.com/github/MacPython/numpy-wheels/settings
     # originally generated at
     # anaconda.org/scipy-wheels-nightly/settings/access
+    # and 
+    # anaconda.org/multibuild-wheels-staging/settings/access
     - if [ "$TRAVIS_BRANCH" == "main" ] ; then
           ANACONDA_ORG="scipy-wheels-nightly";
           TOKEN=${NUMPY_NIGHTLY_UPLOAD_TOKEN};
