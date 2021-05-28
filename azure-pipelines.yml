@@ -112,6 +112,9 @@ jobs:
           MB_PYTHON_VERSION: "3.7"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
+        py_3.8_universal2:
+          MB_PYTHON_VERSION: "3.8"
+          PLAT: universal2
         py_3.9_universal2:
           MB_PYTHON_VERSION: "3.9"
           PLAT: universal2
