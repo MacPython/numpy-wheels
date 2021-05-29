@@ -19,6 +19,7 @@ function build_wheel {
     wrap_wheel_builder _build_wheel $@
 }
 
+# TODO: Remove once https://github.com/matthew-brett/multibuild/pull/409 lands
 function pyinst_fname_for_version {
     # echo filename for OSX installer file given Python and minimum
     # macOS versions
