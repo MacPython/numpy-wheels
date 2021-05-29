@@ -19,6 +19,22 @@ function build_wheel {
     wrap_wheel_builder _build_wheel $@
 }
 
+# TODO: Remove once https://github.com/matthew-brett/multibuild/pull/409 lands
+function pyinst_fname_for_version {
+    # echo filename for OSX installer file given Python and minimum
+    # macOS versions
+    # Parameters
+    #   $py_version (Python version in major.minor.extra format)
+    #   $py_osx_ver: {major.minor | not defined}
+    #       if defined, the minimum macOS SDK version that Python is
+    #       built for, eg: "10.6" or "10.9", if not defined, infers
+    #       this from $py_version using macpython_sdk_for_version
+    local py_version=$1
+    local py_osx_ver=${2:-$(macpython_sdk_for_version $py_version)}
+    local inst_ext=$(pyinst_ext_for_version $py_version)
+    echo "python-${py_version}-macosx${py_osx_ver}.${inst_ext}"
+}
+
 function install_delocate {
     check_pip
     $PIP_CMD install git+https://github.com/isuruf/delocate.git@arm64
