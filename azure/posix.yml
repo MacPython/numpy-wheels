@@ -12,10 +12,10 @@ jobs:
       PLAT: "x86_64"
       CYTHON_BUILD_DEP: "cython==0.29.21"
       NIGHTLY_BUILD_COMMIT: "main"
-      TEST_DEPENDS: "\
+      TEST_DEPENDS: '\
           pytest hypothesis cffi pytz \
-          mypy==0.812; platform_python_implementation!='PyPy' \
-          typing_extensions==3.10.0.0; platform_python_implementation!='PyPy'"
+          mypy==0.812; platform_python_implementation!="PyPy" \
+          typing_extensions==3.10.0.0; platform_python_implementation!="PyPy"'
       JUNITXML: "test-data.xml"
       TEST_DIR: "tmp_for_test"
     strategy:
