@@ -23,31 +23,34 @@ jobs:
   include:
     - os: linux
       arch: arm64-graviton2
+      dist: focal
       virt: vm
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.7
         - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+        - DOCKER_TEST_IMAGE=quay.io/pypa/manylinux2014_${PLAT}
     - os: linux
       arch: arm64-graviton2
+      dist: focal
       virt: vm
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.8
         - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+        - DOCKER_TEST_IMAGE=quay.io/pypa/manylinux2014_${PLAT}
     - os: linux
       arch: arm64-graviton2
+      dist: focal
       virt: vm
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.9
         - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+        - DOCKER_TEST_IMAGE=quay.io/pypa/manylinux2014_${PLAT}
 
 before_install:
     - if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
