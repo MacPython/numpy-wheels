@@ -22,7 +22,8 @@ git:
 jobs:
   include:
     - os: linux
-      arch: arm64
+      arch: arm64-graviton2
+      virt: vm
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
@@ -30,7 +31,8 @@ jobs:
         - DEBUG_PRINT=1
         - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
-      arch: arm64
+      arch: arm64-graviton2
+      virt: vm
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
@@ -38,7 +40,8 @@ jobs:
         - DEBUG_PRINT=1
         - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
-      arch: arm64
+      arch: arm64-graviton2
+      virt: vm
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
