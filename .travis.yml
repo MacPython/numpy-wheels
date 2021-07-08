@@ -22,8 +22,8 @@ git:
 jobs:
   include:
     - os: linux
-      arch: arm64-graviton2
-      #virt: vm
+      arch: arm64
+      virt: vm
       #group: edge
       #dist: focal
       env:
