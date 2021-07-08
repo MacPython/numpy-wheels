@@ -23,9 +23,9 @@ jobs:
   include:
     - os: linux
       arch: arm64-graviton2
-      virt: vm
-      group: edge
-      dist: focal
+      #virt: vm
+      #group: edge
+      #dist: focal
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
