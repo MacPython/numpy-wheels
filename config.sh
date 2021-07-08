@@ -66,6 +66,7 @@ function run_tests {
     # Runs tests on installed distribution from an empty directory
     if [ -n "$IS_LINUX" ]; then
         apt-get -y update && apt-get install -y gfortran
+        apt-get install -y git-all
         lscpu
         $PYTHON_EXE -m pip install git+https://github.com/ogrisel/threadpoolctl.git@openblas_get_corename
         $PYTHON_EXE -m threadpoolctl -i numpy
