@@ -30,7 +30,7 @@ jobs:
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.7
         - DEBUG_PRINT=1
-        - DOCKER_IMAGE=quay.io/pypa/manylinux2014_${PLAT}
+        - DOCKER_IMAGE=quay.io/pypa/manylinux2014_aarch64:2021-07-03-d4d5413
         - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       arch: arm64
