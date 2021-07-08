@@ -1,7 +1,6 @@
 env:
     global:
         - REPO_DIR=numpy
-        - PLAT=x86_64
         # Also see CRON_COMMIT below
         - BUILD_COMMIT=main
         - BUILD_DEPENDS=cython==0.29.21
@@ -25,14 +24,14 @@ jobs:
     - os: linux
       arch: arm64-graviton2
       virt: vm
-      dist: focal
       group: edge
+      dist: focal
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.7
         - DEBUG_PRINT=1
-        - DOCKER_IMAGE=quay.io/pypa/manylinux2014_aarch64:2021-06-07-00faba2
+        - DOCKER_IMAGE=quay.io/pypa/manylinux2014_aarch64
         - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       arch: arm64
