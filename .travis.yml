@@ -1,6 +1,7 @@
 env:
     global:
         - REPO_DIR=numpy
+        - PLAT=x86_64
         # Also see CRON_COMMIT below
         - BUILD_COMMIT=main
         - BUILD_DEPENDS=cython==0.29.21
@@ -25,6 +26,7 @@ jobs:
       arch: arm64-graviton2
       virt: vm
       dist: focal
+      group: edge
       env:
         - PLAT=aarch64
         - MB_ML_VER=2014
