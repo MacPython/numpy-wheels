@@ -51,7 +51,7 @@ jobs:
       matrix:
         # manylinux 2014
         pypy_3.7_64:
-          MB_PYTHON_VERSION: "pypy3.7-7.3.4rc1"
+          MB_PYTHON_VERSION: "pypy3.7-7.3.5"
           AZURE_PYTHON_VERSION: "3.7"
           MB_ML_VER: "2014"
           DOCKER_TEST_IMAGE: multibuild/xenial_{PLAT}
