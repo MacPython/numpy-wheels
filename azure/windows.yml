@@ -46,7 +46,7 @@ jobs:
 
       - bash: |
           set -e
-          echo PYTHON $PYTHON_VERSION $PYTHON_ARCH
+          echo PYTHON $PYTHON_VERSION $PYTHON_ARCH $BITS $NPY_USE_BLAS_ILP64
           echo Build Reason: $BUILD_REASON
           python --version
           python -c "import struct; print(struct.calcsize('P') * 8)"
@@ -96,9 +96,14 @@ jobs:
           # mingw does not like. Instead copy it to a directory and set OPENBLAS
           target=$(python tools/openblas_support.py)
           mkdir -p openblas
-          echo Copying $target to openblas
           cp $target openblas
-          echo "##vso[task.setvariable variable=OPENBLAS]openblas"
+          ls openblas
+          if [ "$NPY_USE_BLAS_ILP64" == "1" ]; then
+              echo "##vso[task.setvariable variable=OPENBLAS64_]openblas"
+          else
+              echo "##vso[task.setvariable variable=OPENBLAS]openblas"
+          fi
+          popd
         displayName: Prepare the build
 
       - powershell: |

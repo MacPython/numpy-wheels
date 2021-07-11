@@ -25,24 +25,27 @@ jobs:
       arch: arm64
       env:
         - PLAT=aarch64
-        - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.7
+        - MB_ML_VER=2014
+        #- CONFIG_PATH: "config_ilp64.sh"
         - DEBUG_PRINT=1
         - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       arch: arm64
       env:
         - PLAT=aarch64
-        - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.8
+        - MB_ML_VER=2014
+        #- CONFIG_PATH: "config_ilp64.sh"
         - DEBUG_PRINT=1
         - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - os: linux
       arch: arm64
       env:
         - PLAT=aarch64
-        - MB_ML_VER=2014
         - MB_PYTHON_VERSION=3.9
+        - MB_ML_VER=2014
+        #- CONFIG_PATH: "config_ilp64.sh"
         - DEBUG_PRINT=1
         - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
 
