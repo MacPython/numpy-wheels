@@ -127,4 +127,4 @@ jobs:
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: $(System.DefaultWorkingDirectory)/wheelhouse/
-          artifactName: ${{ parameters.name }}_${{ Agent.JobName }}
+          artifactName: ${{ parameters.name }}_$(Agent.JobName)
