@@ -4,6 +4,9 @@
 if [ $(uname) == "Linux" ]; then IS_LINUX=1; fi
 source gfortran-install/gfortran_utils.sh
 
+# Use 64 bit BLAS
+export NPY_USE_BLAS_ILP64
+
 function _build_wheel {
     build_libs
     build_bdist_wheel $@

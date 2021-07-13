@@ -26,6 +26,7 @@ jobs:
         py_3.7_64:
           PYTHON_VERSION: "3.7.x"
           PYTHON_ARCH: 'x64'
+          NPY_USE_BLAS_ILP64: 1
           BITS: 64
         py_3.8_32:
           PYTHON_VERSION: "3.8.x"
@@ -34,6 +35,7 @@ jobs:
         py_3.8_64:
           PYTHON_VERSION: "3.8.x"
           PYTHON_ARCH: 'x64'
+          NPY_USE_BLAS_ILP64: 1
           BITS: 64
         py_3.9_32:
           PYTHON_VERSION: "3.9.x"
@@ -42,6 +44,7 @@ jobs:
         py_3.9_64:
           PYTHON_VERSION: "3.9.x"
           PYTHON_ARCH: 'x64'
+          NPY_USE_BLAS_ILP64: 1
           BITS: 64
 
   - template: azure/posix.yml
@@ -54,38 +57,41 @@ jobs:
           MB_PYTHON_VERSION: "pypy3.7-7.3.5"
           AZURE_PYTHON_VERSION: "3.7"
           MB_ML_VER: "2014"
+          CONFIG_PATH: "config_ilp64.sh"
           DOCKER_TEST_IMAGE: multibuild/xenial_{PLAT}
 
         py_3.7_32:
           MB_PYTHON_VERSION: "3.7"
           PLAT: "i686"
           MB_ML_VER: "2014"
-          ENV_VARS_PATH: "env_vars_32.sh"
+          CONFIG_PATH: "config_ilp64.sh"
           DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.7_64:
           MB_PYTHON_VERSION: "3.7"
           MB_ML_VER: "2014"
+          CONFIG_PATH: "config_ilp64.sh"
 
         py_3.8_32:
           MB_PYTHON_VERSION: "3.8"
           PLAT: "i686"
           MB_ML_VER: "2014"
-          ENV_VARS_PATH: "env_vars_32.sh"
+          CONFIG_PATH: "config_ilp64.sh"
           DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
           MB_ML_VER: "2014"
+          CONFIG_PATH: "config_ilp64.sh"
 
         py_3.9_32:
           MB_PYTHON_VERSION: "3.9"
           PLAT: "i686"
           MB_ML_VER: "2014"
-          ENV_VARS_PATH: "env_vars_32.sh"
+          CONFIG_PATH: "config_ilp64.sh"
           DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
         py_3.9_64:
           MB_PYTHON_VERSION: "3.9"
           MB_ML_VER: "2014"
-          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
+          CONFIG_PATH: "config_ilp64.sh"
 
   - template: azure/posix.yml
     parameters:
@@ -94,14 +100,19 @@ jobs:
       matrix:
         py_3.7_64:
           MB_PYTHON_VERSION: "3.7"
+          CONFIG_PATH: "config_ilp64.sh"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
+          CONFIG_PATH: "config_ilp64.sh"
         py_3.9_64:
           MB_PYTHON_VERSION: "3.9"
+          CONFIG_PATH: "config_ilp64.sh"
 
         py_3.8_universal2:
           MB_PYTHON_VERSION: "3.8"
           PLAT: universal2
+          #CONFIG_PATH: "config_ilp64.sh"
         py_3.9_universal2:
           MB_PYTHON_VERSION: "3.9"
           PLAT: universal2
+          #CONFIG_PATH: "config_ilp64.sh"
