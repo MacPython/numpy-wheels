@@ -21,7 +21,7 @@ function build_wheel {
 
 function install_delocate {
     check_pip
-    $PIP_CMD install git+https://github.com/isuruf/delocate.git@arm64
+    $PIP_CMD install git+https://github.com/HexDecimal/delocate.git@loader_path
 }
 
 function build_libs {
