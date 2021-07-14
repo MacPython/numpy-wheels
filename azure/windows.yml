@@ -75,6 +75,7 @@ jobs:
 
       - powershell: |
           choco install -y mingw --forcex86 --force --version=7.3.0
+          refreshenv
         displayName: 'Install 32-bit mingw for 32-bit builds'
         condition: eq(variables['BITS'], 32)
 
@@ -97,12 +98,6 @@ jobs:
           target=$(python tools/openblas_support.py)
           mkdir -p openblas
           cp $target openblas
-          ls openblas
-          if [ "$NPY_USE_BLAS_ILP64" == "1" ]; then
-              echo "##vso[task.setvariable variable=OPENBLAS64_]openblas"
-          else
-              echo "##vso[task.setvariable variable=OPENBLAS]openblas"
-          fi
           popd
         displayName: Prepare the build
 
@@ -111,7 +106,11 @@ jobs:
               $env:CFLAGS = "-m32"
               $env:LDFLAGS = "-m32"
               $env:PATH = "C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw$(BITS)\\bin;" + $env:PATH
-              refreshenv
+          }
+          If ( Test-Path env:NPY_USE_BLAS_ILP64 ) {
+              $env:OPENBLAS64_ = "openblas"
+          } else {
+              $env:OPENBLAS = "openblas"
           }
           # Build the wheel
           pushd numpy
