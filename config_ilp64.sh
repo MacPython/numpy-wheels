@@ -5,7 +5,7 @@ if [ $(uname) == "Linux" ]; then IS_LINUX=1; fi
 source gfortran-install/gfortran_utils.sh
 
 # Use 64 bit BLAS
-export NPY_USE_BLAS_ILP64
+export NPY_USE_BLAS_ILP64=1
 
 function _build_wheel {
     build_libs
@@ -39,7 +39,7 @@ function build_libs {
     basedir=$($PYTHON_EXE numpy/tools/openblas_support.py)
     $use_sudo cp -r $basedir/lib/* $BUILD_PREFIX/lib
     $use_sudo cp $basedir/include/* $BUILD_PREFIX/include
-    export OPENBLAS=$BUILD_PREFIX
+    export OPENBLAS64_=$BUILD_PREFIX
 }
 
 function get_test_cmd {
