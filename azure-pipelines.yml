@@ -93,6 +93,19 @@ jobs:
           MB_ML_VER: "2014"
           CONFIG_PATH: "config_ilp64.sh"
 
+        #py_3.10_32:
+          #AZURE_PYTHON_VERSION: "3.9"
+          #MB_PYTHON_VERSION: "3.10"
+          #PLAT: "i686"
+          #MB_ML_VER: "2014"
+          #ENV_VARS_PATH: "env_vars_32.sh"
+        py_3.10_64:
+          AZURE_PYTHON_VERSION: "3.9"
+          MB_PYTHON_VERSION: "3.10"
+          MB_ML_VER: "2014"
+          CONFIG_PATH: "config_ilp64.sh"
+          DOCKER_TEST_IMAGE: "multibuild/focal_{PLAT}"
+
   - template: azure/posix.yml
     parameters:
       name: macOS
