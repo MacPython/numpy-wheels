@@ -9,9 +9,10 @@ schedules:
 
 pr:
 - main
+- v1.21.x
 
 variables:
-  BUILD_COMMIT: df6d2600c51502e1877aac563658d0616a75c5e5
+  BUILD_COMMIT: 52d5a4b17c73f16b370133e575b707a10d814c9c
 
 jobs:
   - template: azure/windows.yml
@@ -82,6 +83,11 @@ jobs:
           MB_PYTHON_VERSION: "3.9"
           MB_ML_VER: "2010"
           DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
+        py_3.10_64:
+          AZURE_PYTHON_VERSION: "3.9"
+          MB_PYTHON_VERSION: "3.10"
+          MB_ML_VER: "2014"
+          DOCKER_TEST_IMAGE: "multibuild/focal_{PLAT}"
 
         # manylinux1 wheels
         py_3.7_32manylinux1:
