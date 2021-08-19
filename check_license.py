@@ -16,7 +16,7 @@ import re
 import argparse
 
 def check_text(text):
-    ok = (u'Copyright (c)' in text and
+    ok = (u'Copyright (c)' in text and u'NumPy Developers' in text and
           re.search(u'This binary distribution of \w+ also bundles the following software', text))
     return ok
 
