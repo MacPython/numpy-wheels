@@ -86,8 +86,8 @@ jobs:
           # a bit overkill, all we really need is cython
           python -m pip install --timeout=60 -r test_requirements.txt
 
-          # handle license
-          cp ../LICENSE_win32.txt LICENSE.txt
+          # append to license
+          cat ../LICENSE_win32.txt >> LICENSE.txt
 
           # handle _distributor_init.py
           PYTHONPATH=tools python -c "import openblas_support; openblas_support.make_init('numpy')"
