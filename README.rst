@@ -11,7 +11,7 @@ not used and is disabled at this time.
   https://dev.azure.com/numpy/numpy/_build?definitionId=8&_a=summary&view=runs
 
 - Travis CI at
-  https://travis-ci.com/MacPython/numpy-wheels
+  https://app.travis-ci.com/github/MacPython/numpy-wheels/builds
 
 - The Appveyor at
   https://ci.appveyor.com/project/matthew-brett/numpy-wheels
