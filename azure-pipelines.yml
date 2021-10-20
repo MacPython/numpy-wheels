@@ -12,7 +12,7 @@ pr:
 - v1.21.x
 
 variables:
-  BUILD_COMMIT: 2fe48d2d98a85c8ea3f3d5caffd952ea69e99335
+  BUILD_COMMIT: d4d0584ccb508cad69288b504e6c8b04aa0d5caf
 
 jobs:
   - template: azure/windows.yml
@@ -42,6 +42,10 @@ jobs:
           BITS: 32
         py_3.9_64:
           PYTHON_VERSION: "3.9.x"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
+        py_3.10_64:
+          PYTHON_VERSION: "3.10.x"
           PYTHON_ARCH: 'x64'
           BITS: 64
 
@@ -118,11 +122,15 @@ jobs:
           MB_PYTHON_VERSION: "3.7"
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
+        py_3.9_64:
+          MB_PYTHON_VERSION: "3.9"
+
         py_3.8_universal2:
           MB_PYTHON_VERSION: "3.8"
           PLAT: universal2
         py_3.9_universal2:
           MB_PYTHON_VERSION: "3.9"
           PLAT: universal2
-        py_3.9_64:
-          MB_PYTHON_VERSION: "3.9"
+        py_3.10_universal2:
+          MB_PYTHON_VERSION: "3.10"
+          PLAT: universal2
