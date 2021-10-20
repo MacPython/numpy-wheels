@@ -19,64 +19,64 @@ os: linux
 git:
   depth: false
 
-#jobs:
-  #include:
-    #- os: linux
-      #arch: arm64
-      #env:
-        #- PLAT=aarch64
-        #- MB_ML_VER=2014
-        #- MB_PYTHON_VERSION=3.7
-        #- DEBUG_PRINT=1
-        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-    #- os: linux
-      #arch: arm64
-      #env:
-        #- PLAT=aarch64
-        #- MB_ML_VER=2014
-        #- MB_PYTHON_VERSION=3.8
-        #- DEBUG_PRINT=1
-        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-    #- os: linux
-      #arch: arm64
-      #env:
-        #- PLAT=aarch64
-        #- MB_ML_VER=2014
-        #- MB_PYTHON_VERSION=3.9
-        #- DEBUG_PRINT=1
-        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+jobs:
+  include:
+    - os: linux
+      arch: arm64
+      env:
+        - PLAT=aarch64
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.7
+        - DEBUG_PRINT=1
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    - os: linux
+      arch: arm64
+      env:
+        - PLAT=aarch64
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.8
+        - DEBUG_PRINT=1
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    - os: linux
+      arch: arm64
+      env:
+        - PLAT=aarch64
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.9
+        - DEBUG_PRINT=1
+        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
 
-    #- os: linux
-      #arch: arm64
-      #env:
-        #- AZURE_PYTHON_VERSION="3.9"
-        #- PLAT=aarch64
-        #- MB_ML_VER=2014
-        #- MB_PYTHON_VERSION=3.10
-        #- DEBUG_PRINT=1
-        #- DOCKER_TEST_IMAGE=multibuild/focal_{PLAT}
+    - os: linux
+      arch: arm64
+      env:
+        - AZURE_PYTHON_VERSION="3.9"
+        - PLAT=aarch64
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.10
+        - DEBUG_PRINT=1
+        - DOCKER_TEST_IMAGE=multibuild/focal_{PLAT}
 
 
-#before_install:
-    #- if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
-          #CONTAINER="pre-release";
-          #BUILD_COMMIT=${CRON_COMMIT};
-          #NPY_RELAXED_STRIDES_DEBUG=1;
-      #else
-          #CONTAINER=wheels;
-      #fi
-    ## Set DEBUG_PRINT environment variable in settings
-    #- if [ -n "${DEBUG_PRINT}" ]; then set -x; fi
-    #- source multibuild/common_utils.sh
-    #- source multibuild/travis_steps.sh
-    #- source extra_functions.sh
-    #- before_install
+before_install:
+    - if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
+          CONTAINER="pre-release";
+          BUILD_COMMIT=${CRON_COMMIT};
+          NPY_RELAXED_STRIDES_DEBUG=1;
+      else
+          CONTAINER=wheels;
+      fi
+    # Set DEBUG_PRINT environment variable in settings
+    - if [ -n "${DEBUG_PRINT}" ]; then set -x; fi
+    - source multibuild/common_utils.sh
+    - source multibuild/travis_steps.sh
+    - source extra_functions.sh
+    - before_install
 
-#install:
-    ## Maybe get and clean and patch source
-    #- clean_code $REPO_DIR $BUILD_COMMIT
-    #- ./patch_code.sh $REPO_DIR
-    #- build_wheel $REPO_DIR $PLAT
+install:
+    # Maybe get and clean and patch source
+    - clean_code $REPO_DIR $BUILD_COMMIT
+    - ./patch_code.sh $REPO_DIR
+    - build_wheel $REPO_DIR $PLAT
 
 script:
     - install_run $PLAT
