@@ -84,6 +84,9 @@ jobs:
         py_3.9_64:
           MB_PYTHON_VERSION: "3.9"
           CONFIG_PATH: "config_ilp64.sh"
+        py_3.10_64:
+          MB_PYTHON_VERSION: "3.10"
+          CONFIG_PATH: "config_ilp64.sh"
 
         py_3.8_universal2:
           MB_PYTHON_VERSION: "3.8"
