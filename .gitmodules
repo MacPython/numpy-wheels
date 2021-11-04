@@ -3,7 +3,7 @@
 	url = https://github.com/numpy/numpy.git
 [submodule "multibuild"]
 	path = multibuild
-	url = https://github.com/matthew-brett/multibuild
+	url = https://github.com/multi-build/multibuild
 [submodule "gfortran-install"]
 	path = gfortran-install
 	url = https://github.com/MacPython/gfortran-install.git
