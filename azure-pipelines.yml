@@ -15,7 +15,7 @@ variables:
 
 jobs:
   - template: azure/windows.yml
-    timoutInMinutes: 90
+    timeoutInMinutes: 90
     parameters:
       name: "windows2019"
       vmImage: "windows-latest"
@@ -45,7 +45,7 @@ jobs:
           BITS: 64
 
   - template: azure/posix.yml
-    timoutInMinutes: 90
+    timeoutInMinutes: 90
     parameters:
       name: linux
       vmImage: ubuntu-18.04
@@ -76,7 +76,7 @@ jobs:
           DOCKER_TEST_IMAGE: "multibuild/focal_{PLAT}"
 
   - template: azure/posix.yml
-    timoutInMinutes: 90
+    timeoutInMinutes: 90
     parameters:
       name: macOS
       vmImage: macOS-10.15
