@@ -14,7 +14,6 @@ variables:
   BUILD_COMMIT: cf2e656ca7ab91c829888aac77d43f4fc714afe1
 
 jobs:
-  timeoutInMinutes: 90
   - template: azure/windows.yml
     parameters:
       name: "windows2019"
