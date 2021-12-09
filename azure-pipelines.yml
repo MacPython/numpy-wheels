@@ -14,6 +14,7 @@ variables:
   BUILD_COMMIT: cf2e656ca7ab91c829888aac77d43f4fc714afe1
 
 jobs:
+  timeoutInMinutes: 90
   - template: azure/windows.yml
     parameters:
       name: "windows2019"
@@ -42,7 +43,6 @@ jobs:
           PYTHON_ARCH: 'x64'
           NPY_USE_BLAS_ILP64: 1
           BITS: 64
-    timeoutInMinutes: 90
 
   - template: azure/posix.yml
     parameters:
@@ -70,7 +70,6 @@ jobs:
           MB_ML_VER: "2014"
           CONFIG_PATH: "config_ilp64.sh"
           DOCKER_TEST_IMAGE: "multibuild/focal_{PLAT}"
-    timeoutInMinutes: 90
 
   - template: azure/posix.yml
     parameters:
@@ -99,4 +98,3 @@ jobs:
           MB_PYTHON_VERSION: "3.10"
           PLAT: universal2
           CONFIG_PATH: "config_ilp64.sh"
-    timeoutInMinutes: 90
