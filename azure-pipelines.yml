@@ -18,6 +18,7 @@ jobs:
     parameters:
       name: "windows2019"
       vmImage: "windows-latest"
+      timeoutInMinutes: 90
       matrix:
         py_3.8_32:
           PYTHON_VERSION: "3.8.x"
@@ -47,6 +48,7 @@ jobs:
     parameters:
       name: linux
       vmImage: ubuntu-18.04
+      timeoutInMinutes: 90
       matrix:
         pypy_3.8_64:
           MB_PYTHON_VERSION: "pypy3.8-7.3.7"
@@ -74,6 +76,7 @@ jobs:
     parameters:
       name: macOS
       vmImage: macOS-10.15
+      timeoutInMinutes: 90
       matrix:
         py_3.8_64:
           MB_PYTHON_VERSION: "3.8"
