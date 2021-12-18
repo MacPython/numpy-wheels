@@ -11,7 +11,7 @@ pr:
 - main
 
 variables:
-  BUILD_COMMIT: 0bbe78772c50db4fe3d1c5b8dbec439dc45c00ba
+  BUILD_COMMIT: 950f507d4c981a6a3292029936ac0277ab05840f
 
 jobs:
   - template: azure/windows.yml
