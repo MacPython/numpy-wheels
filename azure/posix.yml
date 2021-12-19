@@ -1,10 +1,12 @@
 parameters:
   name: ""
   vmImage: ""
+  timeoutInMinutes: 60
   matrix: []
 
 jobs:
   - job: ${{ parameters.name }}
+    timeoutInMinutes: ${{ parameters.timeoutInMinutes }}
     pool:
       vmImage: ${{ parameters.vmImage }}
     variables:
@@ -61,7 +63,7 @@ jobs:
       - bash: |
           set -ex
           echo $BUILD_COMMIT
-          
+
           pip install virtualenv wheel
           BUILD_DEPENDS="$CYTHON_BUILD_DEP"
 

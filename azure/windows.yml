@@ -1,10 +1,12 @@
 parameters:
   name: ""
   vmImage: ""
+  timeoutInMinutes: 60
   matrix: []
 
 jobs:
   - job: ${{ parameters.name }}
+    timeoutInMinutes: ${{ parameters.timeoutInMinutes }}
     pool:
       vmImage: ${{ parameters.vmImage }}
     variables:
@@ -46,7 +48,7 @@ jobs:
 
       - bash: |
           set -e
-          echo PYTHON $PYTHON_VERSION $PYTHON_ARCH
+          echo PYTHON $PYTHON_VERSION $PYTHON_ARCH $BITS $NPY_USE_BLAS_ILP64
           echo Build Reason: $BUILD_REASON
           python --version
           python -c "import struct; print(struct.calcsize('P') * 8)"
@@ -75,6 +77,7 @@ jobs:
 
       - powershell: |
           choco install -y mingw --forcex86 --force --version=7.3.0
+          refreshenv
         displayName: 'Install 32-bit mingw for 32-bit builds'
         condition: eq(variables['BITS'], 32)
 
@@ -85,8 +88,8 @@ jobs:
           # a bit overkill, all we really need is cython
           python -m pip install --timeout=60 -r test_requirements.txt
 
-          # handle license
-          cp ../LICENSE_win32.txt LICENSE.txt
+          # append to license
+          cat ../LICENSE_win32.txt >> LICENSE.txt
 
           # handle _distributor_init.py
           PYTHONPATH=tools python -c "import openblas_support; openblas_support.make_init('numpy')"
@@ -96,9 +99,8 @@ jobs:
           # mingw does not like. Instead copy it to a directory and set OPENBLAS
           target=$(python tools/openblas_support.py)
           mkdir -p openblas
-          echo Copying $target to openblas
           cp $target openblas
-          echo "##vso[task.setvariable variable=OPENBLAS]openblas"
+          popd
         displayName: Prepare the build
 
       - powershell: |
@@ -106,7 +108,11 @@ jobs:
               $env:CFLAGS = "-m32"
               $env:LDFLAGS = "-m32"
               $env:PATH = "C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw$(BITS)\\bin;" + $env:PATH
-              refreshenv
+          }
+          If ( Test-Path env:NPY_USE_BLAS_ILP64 ) {
+              $env:OPENBLAS64_ = "openblas"
+          } else {
+              $env:OPENBLAS = "openblas"
           }
           # Build the wheel
           pushd numpy

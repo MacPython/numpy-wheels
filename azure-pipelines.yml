@@ -12,13 +12,14 @@ pr:
 - v1.21.x
 
 variables:
-  BUILD_COMMIT: c0b003e9c787ccab27f6fe57c154d7b881da5795
+  BUILD_COMMIT: c3d0a09342c08c466984654bc4738af595fba896
 
 jobs:
   - template: azure/windows.yml
     parameters:
       name: windows2017
       vmImage: vs2017-win2016
+      timeoutInMinutes: 90
       matrix:
         py_3.7_32:
           PYTHON_VERSION: "3.7.x"
@@ -53,6 +54,7 @@ jobs:
     parameters:
       name: linux
       vmImage: ubuntu-18.04
+      timeoutInMinutes: 90
       matrix:
         py_3.7_32:
           MB_PYTHON_VERSION: "3.7"
@@ -117,6 +119,7 @@ jobs:
     parameters:
       name: macOS
       vmImage: macOS-10.15
+      timeoutInMinutes: 90
       matrix:
         py_3.7_64:
           MB_PYTHON_VERSION: "3.7"
