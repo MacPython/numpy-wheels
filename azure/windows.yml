@@ -20,6 +20,14 @@ jobs:
       - checkout: self
         submodules: true
 
+      - task: BatchScript@1
+        inputs:
+          filename: azure/set_141.cmd
+          modifyEnvironment: True
+
+      - powershell: |
+          get-command cl
+
       - task: UsePythonVersion@0
         inputs:
           versionSpec: $(PYTHON_VERSION)
