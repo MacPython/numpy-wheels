@@ -135,9 +135,6 @@ jobs:
           source extra_functions.sh
           source config.sh
           setup_test_venv
-          echo $PATH
-          echo "cl"
-          which cl
           python -m pip install -r numpy/test_requirements.txt
           python -m pip install numpy/dist/numpy-*.whl
           mkdir -p for_test
