@@ -62,6 +62,7 @@ jobs:
           python -c "import struct; print(struct.calcsize('P') * 8)"
           python -m pip --version
         displayName: Check that we have the expected version and architecture for Python
+
       - bash: |
           set -e
           if [ "$BUILD_REASON" == "Schedule" ]; then
@@ -134,6 +135,9 @@ jobs:
           source extra_functions.sh
           source config.sh
           setup_test_venv
+          echo $PATH
+          echo "cl"
+          which cl
           python -m pip install -r numpy/test_requirements.txt
           python -m pip install numpy/dist/numpy-*.whl
           mkdir -p for_test
