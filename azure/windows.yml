@@ -20,11 +20,17 @@ jobs:
       - checkout: self
         submodules: true
 
+      - powershell: |
+          echo "$env:PATH"
+
       - task: BatchScript@1
         inputs:
           filename: azure/set_141.cmd
           arguments: $(BITS) 2019
           modifyEnvironment: True
+
+      - powershell: |
+          echo "$env:PATH"
 
       - powershell: |
           get-command cl
@@ -127,6 +133,7 @@ jobs:
           # Build the wheel
           pushd numpy
           echo "SDK setting: $env:DISTUTILS_USE_SDK"
+          echo "$env:PATH"
           get-command cl
           python setup.py -v -v build
           python setup.py bdist_wheel
