@@ -128,7 +128,7 @@ jobs:
           pushd numpy
           echo "SDK setting: $env:DISTUTILS_USE_SDK"
           get-command cl
-          python setup.py build
+          python setup.py -v -v build
           python setup.py bdist_wheel
           twine check dist/*
           popd
