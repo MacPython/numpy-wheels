@@ -32,6 +32,7 @@ if errorlevel 1 (
 
 call "%VSINSTALLDIR%\VC\Auxiliary\Build\vcvars%1.bat" -vcvars_ver=14.16 %WindowsSDKVer%
 set DISTUTILS_USE_SDK=1
+set MSSdk=1
 goto:eof
 
 :GetWin10SdkDir
