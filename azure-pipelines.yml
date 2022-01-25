@@ -17,7 +17,7 @@ jobs:
   - template: azure/windows.yml
     parameters:
       name: "windows2019"
-      vmImage: "windows-latest"
+      vmImage: "windows-2019"
       timeoutInMinutes: 90
       matrix:
         py_3.8_32:
