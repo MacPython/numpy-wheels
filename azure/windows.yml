@@ -129,6 +129,8 @@ jobs:
           popd
         displayName: Build wheel
       - bash: |
+          # Undo use specify VS build tools.
+          unset DISTUTILS_USE_SDK MSSdk
           set -ex
           source extra_functions.sh
           source config.sh
