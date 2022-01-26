@@ -20,6 +20,13 @@ jobs:
       - checkout: self
         submodules: true
 
+      - task: BatchScript@1
+        inputs:
+          filename: azure/set_vs_toolchain.cmd
+          arguments: $(BITS) 2019 14.16
+          modifyEnvironment: True
+        displayName: Set VS toolchain version
+
       - task: UsePythonVersion@0
         inputs:
           versionSpec: $(PYTHON_VERSION)
@@ -122,6 +129,8 @@ jobs:
           popd
         displayName: Build wheel
       - bash: |
+          # Undo use specify VS build tools.
+          unset DISTUTILS_USE_SDK MSSdk
           set -ex
           source extra_functions.sh
           source config.sh
