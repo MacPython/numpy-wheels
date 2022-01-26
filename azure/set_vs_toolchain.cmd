@@ -1,12 +1,18 @@
 @@echo on
 REM set Visual Studio toolchain given bitness, VS year and toolchain number.
+
+REM Parts of this file copied from:
+REM https://github.com/conda-forge/vc-feedstock/blob/7c0aa76218f369227d6a7fc78f981b100d68d50a/recipe/activate.bat
+REM licensed as follows:
+REM BSD-3-Clause
+REM Copyright conda-forge contributors
+
 IF [%1] == [] GOTO NoArgErr
 set VS_BITS=%1
 IF [%2] == [] GOTO NoArgErr
 set VS_YEAR=%2
 IF [%3] == [] GOTO NoArgErr
 set VS_TOOLCHAIN=%3
-
 
 REM Tools can come from any of Professional, Community, BuildTools or Enterprise install.
 if not exist "%VSINSTALLDIR%" (
