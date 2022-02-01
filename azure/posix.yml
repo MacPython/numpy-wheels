@@ -121,7 +121,7 @@ jobs:
       - bash: |
           set -e
           echo uploading wheelhouse/*.whl
-          anaconda -t $TOKEN upload --force -u $ANACONDA_ORG wheelhouse/*.whl
+          anaconda -t $TOKEN upload --skip -u $ANACONDA_ORG wheelhouse/*.whl
           echo "PyPI-style index: https://pypi.anaconda.org/$ANACONDA_ORG/simple"
         displayName: Upload to anaconda.org (only if secret token is retrieved)
         condition: ne(variables['TOKEN'], '')

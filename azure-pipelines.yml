@@ -90,13 +90,16 @@ jobs:
 
         py_3.8_universal2:
           MB_PYTHON_VERSION: "3.8"
+          MB_PYTHON_OSX_VER: "10.14"
           PLAT: universal2
           CONFIG_PATH: "config_ilp64.sh"
         py_3.9_universal2:
           MB_PYTHON_VERSION: "3.9"
+          MB_PYTHON_OSX_VER: "10.14"
           PLAT: universal2
           CONFIG_PATH: "config_ilp64.sh"
         py_3.10_universal2:
           MB_PYTHON_VERSION: "3.10"
+          MB_PYTHON_OSX_VER: "10.14"
           PLAT: universal2
           CONFIG_PATH: "config_ilp64.sh"
