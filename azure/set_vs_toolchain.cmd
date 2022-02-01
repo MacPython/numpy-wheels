@@ -15,18 +15,18 @@ IF [%3] == [] GOTO NoArgErr
 set VS_TOOLCHAIN=%3
 
 REM Tools can come from any of Professional, Community, BuildTools or Enterprise install.
-if not exist "%VSINSTALLDIR%" (
-set "VSINSTALLDIR=%ProgramFiles(x86)%\Microsoft Visual Studio\%VS_YEAR%\Professional\"
+REM https://devblogs.microsoft.com/oldnewthing/20060823-00
+SETLOCAL ENABLEDELAYEDEXPANSION
+
+for %%a in (Professional Community BuildTools Enterprise) do (
+    set VS_INSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio\%VS_YEAR%\%%a%"
+    if exist !VS_INSTALLDIR! ( goto :continue )
 )
-if not exist "%VSINSTALLDIR%" (
-set "VSINSTALLDIR=%ProgramFiles(x86)%\Microsoft Visual Studio\%VS_YEAR%\Community\"
-)
-if not exist "%VSINSTALLDIR%" (
-set "VSINSTALLDIR=%ProgramFiles(x86)%\Microsoft Visual Studio\%VS_YEAR%\BuildTools\"
-)
-if not exist "%VSINSTALLDIR%" (
-set "VSINSTALLDIR=%ProgramFiles(x86)%\Microsoft Visual Studio\%VS_YEAR%\Enterprise\"
-)
+echo "Cannot find command line tools root directory"
+exit 2
+
+:continue
+echo "Found install directory %VS_INSTALLDIR%"
 
 REM Discover the latest Windows SDK available.
 call :GetWin10SdkDir
@@ -41,11 +41,12 @@ if errorlevel 1 (
 )
 
 REM Set bitness, toolchain version and SDK.
-call "%VSINSTALLDIR%\VC\Auxiliary\Build\vcvars%1.bat" -vcvars_ver=%VS_TOOLCHAIN% %WindowsSDKVer%
+call %VS_INSTALLDIR%\VC\Auxiliary\Build\vcvars%1.bat -vcvars_ver=%VS_TOOLCHAIN% %WindowsSDKVer%
+
+REM Force our SDK in distutils, rather than the one Python was built with.
 REM https://docs.python.org/3.9/distutils/apiref.html#module-distutils.msvccompiler
 REM or
 REM https://setuptools.pypa.io/en/latest/deprecated/distutils/apiref.html#module-distutils.msvccompiler
-REM Force our SDK, rather than the Python was built with.
 set DISTUTILS_USE_SDK=1
 set MSSdk=1
 
