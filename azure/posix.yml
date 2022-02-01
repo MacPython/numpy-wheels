@@ -49,7 +49,7 @@ jobs:
           # Platform variables used in multibuild scripts
           if [ `uname` == 'Darwin' ]; then
             echo "##vso[task.setvariable variable=TRAVIS_OS_NAME]osx"
-            echo "##vso[task.setvariable variable=MACOSX_DEPLOYMENT_TARGET]10.14"
+            echo "##vso[task.setvariable variable=MACOSX_DEPLOYMENT_TARGET]10.9"
           else
             echo "##vso[task.setvariable variable=TRAVIS_OS_NAME]linux"
           fi
