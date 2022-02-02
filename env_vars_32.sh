@@ -3,7 +3,7 @@
 # The important difference from the 64-bit build is `-msse2` to
 # compile sse loops for ufuncs.
 set -x
-MACOSX_DEPLOYMENT_TARGET=10.14
+#MACOSX_DEPLOYMENT_TARGET=10.14
 
 # Fails test_umath.TestAVXUfuncs with reciprocal on Azure
 # CFLAGS="-msse2 -std=c99 -fno-strict-aliasing"
