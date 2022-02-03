@@ -11,7 +11,7 @@ pr:
 - main
 
 variables:
-  BUILD_COMMIT: aa358cc4c7f847d4420d27eac864e86c46a622bc
+  BUILD_COMMIT: f6dddcb2e5ea5ed39675f14429af3585c585a666
 
 jobs:
   - template: azure/windows.yml
@@ -78,15 +78,15 @@ jobs:
       vmImage: macOS-10.15
       timeoutInMinutes: 90
       matrix:
-        py_3.8_64:
-          MB_PYTHON_VERSION: "3.8"
-          CONFIG_PATH: "config_ilp64.sh"
-        py_3.9_64:
-          MB_PYTHON_VERSION: "3.9"
-          CONFIG_PATH: "config_ilp64.sh"
-        py_3.10_64:
-          MB_PYTHON_VERSION: "3.10"
-          CONFIG_PATH: "config_ilp64.sh"
+        #py_3.8_64:
+          #MB_PYTHON_VERSION: "3.8"
+          #CONFIG_PATH: "config_ilp64.sh"
+        #py_3.9_64:
+          #MB_PYTHON_VERSION: "3.9"
+          #CONFIG_PATH: "config_ilp64.sh"
+        #py_3.10_64:
+          #MB_PYTHON_VERSION: "3.10"
+          #CONFIG_PATH: "config_ilp64.sh"
 
         py_3.8_universal2:
           MB_PYTHON_VERSION: "3.8"
