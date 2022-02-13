@@ -26,7 +26,7 @@ jobs:
       arch: arm64
       env:
         - PLAT=aarch64
-        - MB_PYTHON_VERSION=3.8
+        - MB_PYTHON_VERSION="3.8"
         - MB_ML_VER=2014
         - CONFIG_PATH: "config_ilp64.sh"
         - DEBUG_PRINT=1
@@ -37,7 +37,7 @@ jobs:
       arch: arm64
       env:
         - PLAT=aarch64
-        - MB_PYTHON_VERSION=3.9
+        - MB_PYTHON_VERSION="3.9"
         - MB_ML_VER=2014
         - CONFIG_PATH: "config_ilp64.sh"
         - DEBUG_PRINT=1
@@ -47,7 +47,6 @@ jobs:
     - os: linux
       arch: arm64
       env:
-        - AZURE_PYTHON_VERSION=3.9
         - PLAT=aarch64
         - MB_PYTHON_VERSION="3.10"
         - MB_ML_VER=2014
