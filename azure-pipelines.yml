@@ -51,7 +51,7 @@ jobs:
       timeoutInMinutes: 90
       matrix:
         pypy_3.8_64:
-          MB_PYTHON_VERSION: "pypy3.8-7.3.7"
+          MB_PYTHON_VERSION: "pypy3.8-7.3.8"
           AZURE_PYTHON_VERSION: "3.8"
           MB_ML_VER: "2014"
           CONFIG_PATH: "config_ilp64.sh"
