@@ -2,8 +2,8 @@ env:
     global:
         - REPO_DIR=numpy
         # Also see CRON_COMMIT below
-        - BUILD_COMMIT=f6dddcb2e5ea5ed39675f14429af3585c585a666
-        - BUILD_DEPENDS=cython==0.29.24
+        - BUILD_COMMIT=7d4349e332fcba2bc3f266267421531b3ec5d3e6
+        - BUILD_DEPENDS=cython==0.29.28
         - TEST_DEPENDS="pytest hypothesis cffi pytz"
         # Commit when running from cron job
         - CRON_COMMIT=main
@@ -26,7 +26,7 @@ jobs:
       arch: arm64
       env:
         - PLAT=aarch64
-        - MB_PYTHON_VERSION=3.8
+        - MB_PYTHON_VERSION="3.8"
         - MB_ML_VER=2014
         - CONFIG_PATH: "config_ilp64.sh"
         - DEBUG_PRINT=1
@@ -37,7 +37,7 @@ jobs:
       arch: arm64
       env:
         - PLAT=aarch64
-        - MB_PYTHON_VERSION=3.9
+        - MB_PYTHON_VERSION="3.9"
         - MB_ML_VER=2014
         - CONFIG_PATH: "config_ilp64.sh"
         - DEBUG_PRINT=1
@@ -47,7 +47,6 @@ jobs:
     - os: linux
       arch: arm64
       env:
-        - AZURE_PYTHON_VERSION=3.9
         - PLAT=aarch64
         - MB_PYTHON_VERSION="3.10"
         - MB_ML_VER=2014
