@@ -38,6 +38,10 @@ jobs:
           PYTHON_ARCH: 'x64'
           NPY_USE_BLAS_ILP64: 1
           BITS: 64
+        py_3.10_32:
+          PYTHON_VERSION: "3.10.x"
+          PYTHON_ARCH: "x86"
+          BITS: 32
         py_3.10_64:
           PYTHON_VERSION: "3.10.x"
           PYTHON_ARCH: 'x64'
