@@ -9,6 +9,7 @@ schedules:
 
 pr:
 - main
+- v1.22.x
 
 variables:
   BUILD_COMMIT: 7d4349e332fcba2bc3f266267421531b3ec5d3e6
