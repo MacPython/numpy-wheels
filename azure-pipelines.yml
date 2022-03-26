@@ -1,11 +1,11 @@
-schedules:
-- cron: "27 3 * * 0"
-  # 3:27am UTC every Sunday
-  displayName: Weekly build
-  branches:
-    include:
-    - main
-  always: true
+#schedules:
+#- cron: "27 3 * * 0"
+#  # 3:27am UTC every Sunday
+#  displayName: Weekly build
+#  branches:
+#    include:
+#    - main
+#  always: true
 
 pr:
 - main
