@@ -17,36 +17,34 @@ variables:
 jobs:
   - template: azure/windows.yml
     parameters:
-      #name: windows2017
-      #vmImage: vs2017-win2016
-      name: windows2019
+      name: "windows2019"
       vmImage: "windows-2019"
       timeoutInMinutes: 90
       matrix:
-        #py_3.7_32:
-          #PYTHON_VERSION: "3.7.x"
-          #PYTHON_ARCH: "x86"
-          #BITS: 32
-        #py_3.7_64:
-          #PYTHON_VERSION: "3.7.x"
-          #PYTHON_ARCH: 'x64'
-          #BITS: 64
-        #py_3.8_32:
-          #PYTHON_VERSION: "3.8.x"
-          #PYTHON_ARCH: "x86"
-          #BITS: 32
-        #py_3.8_64:
-          #PYTHON_VERSION: "3.8.x"
-          #PYTHON_ARCH: 'x64'
-          #BITS: 64
-        #py_3.9_32:
-          #PYTHON_VERSION: "3.9.x"
-          #PYTHON_ARCH: "x86"
-          #BITS: 32
-        #py_3.9_64:
-          #PYTHON_VERSION: "3.9.x"
-          #PYTHON_ARCH: 'x64'
-          #BITS: 64
+        py_3.7_32:
+          PYTHON_VERSION: "3.7.x"
+          PYTHON_ARCH: "x86"
+          BITS: 32
+        py_3.7_64:
+          PYTHON_VERSION: "3.7.x"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
+        py_3.8_32:
+          PYTHON_VERSION: "3.8.x"
+          PYTHON_ARCH: "x86"
+          BITS: 32
+        py_3.8_64:
+          PYTHON_VERSION: "3.8.x"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
+        py_3.9_32:
+          PYTHON_VERSION: "3.9.x"
+          PYTHON_ARCH: "x86"
+          BITS: 32
+        py_3.9_64:
+          PYTHON_VERSION: "3.9.x"
+          PYTHON_ARCH: 'x64'
+          BITS: 64
         py_3.10_32:
           PYTHON_VERSION: "3.10.x"
           PYTHON_ARCH: "x86"
