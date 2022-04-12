@@ -17,34 +17,36 @@ variables:
 jobs:
   - template: azure/windows.yml
     parameters:
-      name: windows2017
-      vmImage: vs2017-win2016
+      #name: windows2017
+      #vmImage: vs2017-win2016
+      name: windows2019
+      vmImage: "windows-2019"
       timeoutInMinutes: 90
       matrix:
-        py_3.7_32:
-          PYTHON_VERSION: "3.7.x"
-          PYTHON_ARCH: "x86"
-          BITS: 32
-        py_3.7_64:
-          PYTHON_VERSION: "3.7.x"
-          PYTHON_ARCH: 'x64'
-          BITS: 64
-        py_3.8_32:
-          PYTHON_VERSION: "3.8.x"
-          PYTHON_ARCH: "x86"
-          BITS: 32
-        py_3.8_64:
-          PYTHON_VERSION: "3.8.x"
-          PYTHON_ARCH: 'x64'
-          BITS: 64
-        py_3.9_32:
-          PYTHON_VERSION: "3.9.x"
-          PYTHON_ARCH: "x86"
-          BITS: 32
-        py_3.9_64:
-          PYTHON_VERSION: "3.9.x"
-          PYTHON_ARCH: 'x64'
-          BITS: 64
+        #py_3.7_32:
+          #PYTHON_VERSION: "3.7.x"
+          #PYTHON_ARCH: "x86"
+          #BITS: 32
+        #py_3.7_64:
+          #PYTHON_VERSION: "3.7.x"
+          #PYTHON_ARCH: 'x64'
+          #BITS: 64
+        #py_3.8_32:
+          #PYTHON_VERSION: "3.8.x"
+          #PYTHON_ARCH: "x86"
+          #BITS: 32
+        #py_3.8_64:
+          #PYTHON_VERSION: "3.8.x"
+          #PYTHON_ARCH: 'x64'
+          #BITS: 64
+        #py_3.9_32:
+          #PYTHON_VERSION: "3.9.x"
+          #PYTHON_ARCH: "x86"
+          #BITS: 32
+        #py_3.9_64:
+          #PYTHON_VERSION: "3.9.x"
+          #PYTHON_ARCH: 'x64'
+          #BITS: 64
         py_3.10_32:
           PYTHON_VERSION: "3.10.x"
           PYTHON_ARCH: "x86"
@@ -54,50 +56,50 @@ jobs:
           PYTHON_ARCH: 'x64'
           BITS: 64
 
-  - template: azure/posix.yml
-    parameters:
-      name: linux
-      vmImage: ubuntu-18.04
-      timeoutInMinutes: 90
-      matrix:
-        py_3.7_32:
-          MB_PYTHON_VERSION: "3.7"
-          PLAT: "i686"
-          MB_ML_VER: "2010"
-          ENV_VARS_PATH: "env_vars_32.sh"
-          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
-        pypy_3.7_64:
-          MB_PYTHON_VERSION: "pypy3.7-7.3.4"
-          AZURE_PYTHON_VERSION: "3.7"
-          MB_ML_VER: "2010"
-          DOCKER_TEST_IMAGE: multibuild/xenial_{PLAT}
-        py_3.7_64:
-          MB_PYTHON_VERSION: "3.7"
-          MB_ML_VER: "2010"
-        py_3.8_32:
-          MB_PYTHON_VERSION: "3.8"
-          PLAT: "i686"
-          MB_ML_VER: "2010"
-          ENV_VARS_PATH: "env_vars_32.sh"
-          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
-        py_3.8_64:
-          MB_PYTHON_VERSION: "3.8"
-          MB_ML_VER: "2010"
-        py_3.9_32manylinux2010:
-          MB_PYTHON_VERSION: "3.9"
-          PLAT: "i686"
-          MB_ML_VER: "2010"
-          ENV_VARS_PATH: "env_vars_32.sh"
-          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
-        py_3.9_64manylinux2010:
-          MB_PYTHON_VERSION: "3.9"
-          MB_ML_VER: "2010"
-          DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
-        py_3.10_64:
-          AZURE_PYTHON_VERSION: "3.9"
-          MB_PYTHON_VERSION: "3.10"
-          MB_ML_VER: "2014"
-          DOCKER_TEST_IMAGE: "multibuild/focal_{PLAT}"
+  #- template: azure/posix.yml
+    #parameters:
+      #name: linux
+      #vmImage: ubuntu-18.04
+      #timeoutInMinutes: 90
+      #matrix:
+        #py_3.7_32:
+          #MB_PYTHON_VERSION: "3.7"
+          #PLAT: "i686"
+          #MB_ML_VER: "2010"
+          #ENV_VARS_PATH: "env_vars_32.sh"
+          #DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
+        #pypy_3.7_64:
+          #MB_PYTHON_VERSION: "pypy3.7-7.3.4"
+          #AZURE_PYTHON_VERSION: "3.7"
+          #MB_ML_VER: "2010"
+          #DOCKER_TEST_IMAGE: multibuild/xenial_{PLAT}
+        #py_3.7_64:
+          #MB_PYTHON_VERSION: "3.7"
+          #MB_ML_VER: "2010"
+        #py_3.8_32:
+          #MB_PYTHON_VERSION: "3.8"
+          #PLAT: "i686"
+          #MB_ML_VER: "2010"
+          #ENV_VARS_PATH: "env_vars_32.sh"
+          #DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
+        #py_3.8_64:
+          #MB_PYTHON_VERSION: "3.8"
+          #MB_ML_VER: "2010"
+        #py_3.9_32manylinux2010:
+          #MB_PYTHON_VERSION: "3.9"
+          #PLAT: "i686"
+          #MB_ML_VER: "2010"
+          #ENV_VARS_PATH: "env_vars_32.sh"
+          #DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
+        #py_3.9_64manylinux2010:
+          #MB_PYTHON_VERSION: "3.9"
+          #MB_ML_VER: "2010"
+          #DOCKER_TEST_IMAGE: "multibuild/xenial_{PLAT}"
+        #py_3.10_64:
+          #AZURE_PYTHON_VERSION: "3.9"
+          #MB_PYTHON_VERSION: "3.10"
+          #MB_ML_VER: "2014"
+          #DOCKER_TEST_IMAGE: "multibuild/focal_{PLAT}"
 
         # manylinux1 wheels
         #py_3.7_32manylinux1:
@@ -119,27 +121,27 @@ jobs:
           #MB_PYTHON_VERSION: "3.8"
           #MB_ML_VER: "1"
 
-  - template: azure/posix.yml
-    parameters:
-      name: macOS
-      vmImage: 'macOS-1015'
-      timeoutInMinutes: 90
-      matrix:
-        py_3.7_64:
-          MB_PYTHON_VERSION: "3.7"
-        py_3.8_64:
-          MB_PYTHON_VERSION: "3.8"
-        py_3.9_64:
-          MB_PYTHON_VERSION: "3.9"
-        py_3.10_64:
-          MB_PYTHON_VERSION: "3.10"
+  #- template: azure/posix.yml
+    #parameters:
+      #name: macOS
+      #vmImage: 'macOS-1015'
+      #timeoutInMinutes: 90
+      #matrix:
+        #py_3.7_64:
+          #MB_PYTHON_VERSION: "3.7"
+        #py_3.8_64:
+          #MB_PYTHON_VERSION: "3.8"
+        #py_3.9_64:
+          #MB_PYTHON_VERSION: "3.9"
+        #py_3.10_64:
+          #MB_PYTHON_VERSION: "3.10"
 
-        py_3.8_universal2:
-          MB_PYTHON_VERSION: "3.8"
-          PLAT: universal2
-        py_3.9_universal2:
-          MB_PYTHON_VERSION: "3.9"
-          PLAT: universal2
-        py_3.10_universal2:
-          MB_PYTHON_VERSION: "3.10"
-          PLAT: universal2
+        #py_3.8_universal2:
+          #MB_PYTHON_VERSION: "3.8"
+          #PLAT: universal2
+        #py_3.9_universal2:
+          #MB_PYTHON_VERSION: "3.9"
+          #PLAT: universal2
+        #py_3.10_universal2:
+          #MB_PYTHON_VERSION: "3.10"
+          #PLAT: universal2

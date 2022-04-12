@@ -21,40 +21,40 @@ git:
 
 jobs:
   include:
-    - os: linux
-      arch: arm64
-      env:
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.7
-        - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-    - os: linux
-      arch: arm64
-      env:
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.8
-        - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
-    - os: linux
-      arch: arm64
-      env:
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.9
-        - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    #- os: linux
+      #arch: arm64
+      #env:
+        #- PLAT=aarch64
+        #- MB_ML_VER=2014
+        #- MB_PYTHON_VERSION=3.7
+        #- DEBUG_PRINT=1
+        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    #- os: linux
+      #arch: arm64
+      #env:
+        #- PLAT=aarch64
+        #- MB_ML_VER=2014
+        #- MB_PYTHON_VERSION=3.8
+        #- DEBUG_PRINT=1
+        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
+    #- os: linux
+      #arch: arm64
+      #env:
+        #- PLAT=aarch64
+        #- MB_ML_VER=2014
+        #- MB_PYTHON_VERSION=3.9
+        #- DEBUG_PRINT=1
+        #- DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
 
-    - os: linux
-      arch: arm64
-      env:
-        - AZURE_PYTHON_VERSION="3.9"
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.10
-        - DEBUG_PRINT=1
-        - DOCKER_TEST_IMAGE=multibuild/focal_{PLAT}
+    #- os: linux
+      #arch: arm64
+      #env:
+        #- AZURE_PYTHON_VERSION="3.9"
+        #- PLAT=aarch64
+        #- MB_ML_VER=2014
+        #- MB_PYTHON_VERSION=3.10
+        #- DEBUG_PRINT=1
+        #- DOCKER_TEST_IMAGE=multibuild/focal_{PLAT}
 
 
 before_install:
