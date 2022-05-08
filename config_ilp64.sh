@@ -1,7 +1,11 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
 # See env_vars.sh for extra environment variables
-if [ $(uname) == "Linux" ]; then IS_LINUX=1; fi
+if [ $(uname) == "Linux" ]; then
+    IS_LINUX=1;
+    ls;
+    git config --global --add safe.directory numpy;
+fi
 source gfortran-install/gfortran_utils.sh
 
 # Use 64 bit BLAS
