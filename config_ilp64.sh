@@ -4,7 +4,7 @@
 if [ $(uname) == "Linux" ]; then
     IS_LINUX=1;
     ls;
-    git config --global --add safe.directory numpy;
+    git config --global --add safe.directory /io/numpy;
 fi
 source gfortran-install/gfortran_utils.sh
 
