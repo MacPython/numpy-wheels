@@ -67,6 +67,7 @@ jobs:
           pip install virtualenv wheel
           BUILD_DEPENDS="$CYTHON_BUILD_DEP"
 
+          git config --global --add safe.directory numpy
           source multibuild/common_utils.sh
           source multibuild/travis_steps.sh
           source extra_functions.sh
