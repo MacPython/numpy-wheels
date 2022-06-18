@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Environment variables for build
-MACOSX_DEPLOYMENT_TARGET=10.14
+MACOSX_DEPLOYMENT_TARGET=10.15
 CFLAGS="-std=c99 -fno-strict-aliasing"
 # Macos's linker doesn't support stripping symbols
 if [ "$(uname)" != "Darwin" ]; then

@@ -12,7 +12,7 @@ jobs:
     variables:
       REPO_DIR: "numpy"
       PLAT: "x86_64"
-      CYTHON_BUILD_DEP: "cython==0.29.24"
+      CYTHON_BUILD_DEP: "cython==0.29.30"
       NIGHTLY_BUILD_COMMIT: "main"
       TEST_DEPENDS: "pytest hypothesis cffi pytz"
       JUNITXML: "test-data.xml"
