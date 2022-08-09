@@ -14,7 +14,12 @@ jobs:
       PLAT: "x86_64"
       CYTHON_BUILD_DEP: "cython==0.29.30"
       NIGHTLY_BUILD_COMMIT: "main"
-      TEST_DEPENDS: "pytest hypothesis cffi pytz"
+      TEST_DEPENDS: "\
+            pytest cffi pytz \
+            hypothesis==6.48.0 \
+            mypy==0.950 \
+            typing_extensions>=4.2.0"
+
       JUNITXML: "test-data.xml"
       TEST_DIR: "tmp_for_test"
     strategy:

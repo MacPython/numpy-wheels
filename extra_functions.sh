@@ -17,7 +17,7 @@ function setup_test_venv {
         PIP_CMD="$PYTHON_EXE -m pip"
         python -m pip install --upgrade pip wheel
         if [ "$TEST_DEPENDS" != "" ]; then
-            pip install $TEST_DEPENDS
+            python -m pip install $TEST_DEPENDS
         fi
     fi
 }
