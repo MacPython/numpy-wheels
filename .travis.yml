@@ -58,6 +58,17 @@ jobs:
         - DOCKER_TEST_IMAGE=multibuild/focal_{PLAT}
         - NPY_AVAILABLE_MEM=4GiB
 
+    - os: linux
+      arch: arm64
+      env:
+        - PLAT=aarch64
+        - MB_PYTHON_VERSION="3.11-dev"
+        - MB_ML_VER=2014
+        - CONFIG_PATH: "config_ilp64.sh"
+        - DEBUG_PRINT=1
+        - DOCKER_TEST_IMAGE=multibuild/focal_{PLAT}
+        - NPY_AVAILABLE_MEM=4GiB
+
 before_install:
     - if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
           CONTAINER="pre-release";
