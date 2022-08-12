@@ -13,7 +13,8 @@ env:
         - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
-dist: bionic
+#dist: bionic
+dist: focal
 services: docker
 os: linux
 
