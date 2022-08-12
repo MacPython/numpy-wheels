@@ -13,7 +13,8 @@ env:
         - EXTRA_ARGV="'--disable-pytest-warnings'"
 
 language: python
-dist: bionic
+#dist: bionic
+dist: focal
 services: docker
 os: linux
 
@@ -52,6 +53,18 @@ jobs:
       env:
         - PLAT=aarch64
         - MB_PYTHON_VERSION="3.10"
+        - MB_ML_VER=2014
+        - CONFIG_PATH: "config_ilp64.sh"
+        - DEBUG_PRINT=1
+        - DOCKER_TEST_IMAGE=multibuild/focal_{PLAT}
+        - NPY_AVAILABLE_MEM=4GiB
+
+    - os: linux
+      arch: arm64
+      env:
+        - AZURE_PYTHON_VERSION="3.10"
+        - PLAT=aarch64
+        - MB_PYTHON_VERSION="3.11"
         - MB_ML_VER=2014
         - CONFIG_PATH: "config_ilp64.sh"
         - DEBUG_PRINT=1
