@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=numpy
         # Also see CRON_COMMIT below
-        - BUILD_COMMIT=a5c9fb16cbd9e06f55f537e9d1666b877b581822
+        - BUILD_COMMIT=21cacafbeeff812cf49ca0102d1dd582b6d77e2b
         - BUILD_DEPENDS=cython==0.29.30
         - TEST_DEPENDS="\
               pytest hypothesis cffi pytz \
