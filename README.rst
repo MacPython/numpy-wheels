@@ -1,3 +1,7 @@
+**This repository is archived because NumPy is no longer building its wheels with multibuild. 
+Instead, it uses cibuildwheel and the build config for that is maintained in 
+https://github.com/numpy/numpy.**
+
 ###################################
 Building and uploading numpy wheels
 ###################################
